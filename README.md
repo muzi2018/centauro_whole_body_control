@@ -1,24 +1,5 @@
 # centauro_whole_body_control
 
-## Ref
-
-*I. Dadiotis, A. Laurenzi, N. Tsagarakis*
-**"Whole-body MPC for highly redundant legged manipulators: experimental evaluation with a 37 DoF dual-arm quadruped" in 2023 IEEE-RAS International Conference on Humanoid Robots (Humanoids)**
-
-```
-@misc{dadiotis2023wholebody,
-      title={Whole-body MPC for highly redundant legged manipulators: experimental evaluation with a 37 DoF dual-arm quadruped}, 
-      author={Ioannis Dadiotis and Arturo Laurenzi and Nikos Tsagarakis},
-      year={2023},
-      eprint={2310.02907},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO}
-}
-```
-
-paper: https://ieeexplore.ieee.org/document/10375215 (or open source https://arxiv.org/abs/2310.02907) `<br />`
-Video: https://youtu.be/8XIAtw4201o     `<br />`
-
 ## Introduction
 
 This repo implements Model Predictive Control (MPC) on CENTAURO, which is a dual-arm quadrupedal legged manipulator. The focus is on achieving:
@@ -87,6 +68,26 @@ Deployment on the Gazebo simulator as well as on the real robot has been achieve
 **No instantaneous WBC** is used at the low-level since the MPC optimizes whole-body motions.
 
 <img src="https://github.com/IoannisDadiotis/ocs2_hhcm/assets/75118133/5c07d1e4-dab8-49a3-852f-6334b7c6a0c9" alt="relax_example" width="650" height="150">
+
+
+## Reference
+
+*I. Dadiotis, A. Laurenzi, N. Tsagarakis*
+**"Whole-body MPC for highly redundant legged manipulators: experimental evaluation with a 37 DoF dual-arm quadruped" in 2023 IEEE-RAS International Conference on Humanoid Robots (Humanoids)**
+
+```
+@misc{dadiotis2023wholebody,
+      title={Whole-body MPC for highly redundant legged manipulators: experimental evaluation with a 37 DoF dual-arm quadruped}, 
+      author={Ioannis Dadiotis and Arturo Laurenzi and Nikos Tsagarakis},
+      year={2023},
+      eprint={2310.02907},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO}
+}
+```
+
+paper: https://ieeexplore.ieee.org/document/10375215 (or open source https://arxiv.org/abs/2310.02907) `<br />`
+Video: https://youtu.be/8XIAtw4201o     `<br />`
 
 ## LICENSE & ACKNOWLEDGEMENTS
 
