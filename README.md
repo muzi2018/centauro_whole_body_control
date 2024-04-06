@@ -22,7 +22,7 @@ The repository is based on the [ocs2](https://leggedrobotics.github.io/ocs2/inde
 
 ## Dependencies & System Requirements
 
-Using the repository requires installing:
+Using the repository requires installing: ocs2, xbot_msg+xbot2 (no visualization), urdf and meshes of the model, base_estimation(no visualization)
 
 - ocs2 library (e.g. ocs_*) and their dependencies, e.g. Eigen, pinocchio, hpp-fcl. This repo is based on [this fork](https://github.com/IoannisDadiotis/ocs2).
 - the package `xbot_msgs` and a xbot2 installation since this is the robotics middleware used for our robot (not necessary for visualization only in RViz).
