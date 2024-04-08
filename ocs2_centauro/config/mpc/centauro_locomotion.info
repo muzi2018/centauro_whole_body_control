@@ -40,10 +40,10 @@ swing_trajectory_config
 
 arm_swing_trajectory_config
 {
-  positionPlanner               false
+  positionPlanner               true
   orientationPlanner            false
-  addConstraints                false
-  meanEeVelocity                0.05
+  addConstraints                true
+  meanEeVelocity                1
 
   liftOffVelocity               0.0
   touchDownVelocity             -0.0
@@ -481,7 +481,7 @@ targetFramesNames
 {
    [0]       arm1_8
    [1]       dagana_2_tcp
-  ;[1]       arm2_8
+  ;[1]       arm2_8 [1]       dagana_2_tcp
 }
 
 ; #######################################

@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
   std::vector<std::string> targetFramesNames;
   loadData::loadStdVector(taskFile, "targetFramesNames", targetFramesNames);
   int targetFramesNumber = targetFramesNames.size();
-std::cout << "DummyNode.cpp-------------------1-" << std::endl;
+  std::cout << "DummyNode.cpp-------------------1-" << std::endl;
   // xbotcore config and initial state
   vector_t initialState = vector_t::Constant(interfacePtr->getCentroidalModelInfo().stateDim, 0);
   xbot_interface::XbotInterface::Config xbotConfig(false, false, "/xbotcore/link_state/pelvis", false, false, false);

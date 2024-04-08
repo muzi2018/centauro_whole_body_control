@@ -97,4 +97,5 @@
 
     <!-- publish world identical to odom since it is needed from interactive arm target -->
     <!--node pkg="tf2_ros" type="static_transform_publisher" name="world_broadcast" args="0.0 0.0 0.0 0 0 0 1 world odom" /-->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="world_broadcast" args="0.0 0.0 0.0 0 0 0 1 world odom" />
 </launch>
