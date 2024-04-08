@@ -49,12 +49,16 @@ int main(int argc, char** argv) {
 
   // Initialize ros node
   ros::init(argc, argv, robotName + "_mpc");
+  
   ros::NodeHandle nodeHandle;
   // Get node parameters
   std::string taskFile, urdfFile, referenceFile;
+  std::string aaa;
   nodeHandle.getParam("/taskFile", taskFile);
   nodeHandle.getParam("/referenceFile", referenceFile);
   nodeHandle.getParam("/urdfFile", urdfFile);
+
+  nodeHandle.getParam("/aaa", aaa);
 
   // Robot interface
   LeggedRobotInterface interface(taskFile, urdfFile, referenceFile);
