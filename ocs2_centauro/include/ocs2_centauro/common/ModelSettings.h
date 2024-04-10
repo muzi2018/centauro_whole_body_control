@@ -58,9 +58,9 @@ struct ModelSettings {
                                      };
 
   std::vector<std::string> contactNames6DoF{};
-  std::vector<std::string> contactNames3DoF{"contact_1", "contact_2", "contact_3", "contact_4", "arm1_8", "arm2_8"};
+  std::vector<std::string> contactNames3DoF{"contact_1", "contact_2", "contact_3", "contact_4", "arm1_8", "dagana_2_tcp"};
 
-  std::vector<std::string> armContactNames3DoF{"arm1_8", "arm2_8"};
+  std::vector<std::string> armContactNames3DoF{"arm1_8", "dagana_2_tcp"};
   std::vector<std::string> legContactNames3DoF{"contact_1", "contact_2", "contact_3", "contact_4"};
 
 

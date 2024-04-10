@@ -36,6 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ocs2_centauro/common/ModelSettings.h>
 #include <ocs2_core/misc/CommandLine.h>
 #include <typeinfo>
+#include <ros/console.h>
 
 using namespace interactive_markers;
 
@@ -56,6 +57,19 @@ GaitAndTargetTrajectoriesInteractiveMarker::GaitAndTargetTrajectoriesInteractive
   nodeHandle.getParam("/taskFile", taskFile);
   contactNames3DoF_ = loadModelSettings(taskFile, "model_settings", false).contactNames3DoF;
 
+
+  // Construct a string representation of the vector
+  std::stringstream ss;
+  ss << "Contact Names 3DoF: ";
+  for (const auto& name : contactNames3DoF_) {
+      ss << name << " ";
+  }
+  ss << std::endl;
+
+  // Use ROS_INFO_STREAM to print the constructed string
+  ROS_INFO_STREAM(ss.str());
+
+
   // receive global frame for visualization
   nodeHandle.getParam("/global_frame", globalFrame_);
 
@@ -69,6 +83,9 @@ GaitAndTargetTrajectoriesInteractiveMarker::GaitAndTargetTrajectoriesInteractive
 
   // Trajectories publisher
   targetTrajectoriesPublisherPtr_.reset(new TargetTrajectoriesRosPublisher(nodeHandle, topicPrefix, targetFrame_));
+
+  ROS_INFO("topicPrefix: %s", topicPrefix.c_str());
+  ROS_INFO("targetFrame_: %s", targetFrame_.c_str());
 
   // create an interactive marker for our server
   auto targetOnly = menuHandler_.insert("Send target pose only");
@@ -98,6 +115,7 @@ GaitAndTargetTrajectoriesInteractiveMarker::GaitAndTargetTrajectoriesInteractive
 /******************************************************************************************************/
 /******************************************************************************************************/
 visualization_msgs::InteractiveMarker GaitAndTargetTrajectoriesInteractiveMarker::createInteractiveMarker() const {
+  ROS_INFO("createInteractiveMarker");
   visualization_msgs::InteractiveMarker interactiveMarker;
   interactiveMarker.header.frame_id = globalFrame_;
   interactiveMarker.header.stamp = ros::Time::now();
@@ -105,9 +123,10 @@ visualization_msgs::InteractiveMarker GaitAndTargetTrajectoriesInteractiveMarker
   interactiveMarker.scale = 0.2;
   interactiveMarker.description = "Right click to send command";
   interactiveMarker.pose.position.z = 5.0;
-
+  ROS_INFO("targetFrame_ =  %s", targetFrame_.c_str());
   //TODO: modify to enter the appropriate initial pose of the corresponding targeFrame_
   if (targetFrame_ != "") {
+      ROS_INFO("targetFrame_ != ", targetFrame_.c_str());
       interactiveMarker.pose.position.x = 0.488;
       interactiveMarker.pose.position.y = 0.170;
       interactiveMarker.pose.position.z = 1.033;
@@ -118,7 +137,7 @@ visualization_msgs::InteractiveMarker GaitAndTargetTrajectoriesInteractiveMarker
   }
 
   // create a grey box marker
-  const auto boxMarker = []() {
+  const auto boxMarker = []() { 
     visualization_msgs::Marker marker;
     marker.type = visualization_msgs::Marker::CUBE;
     marker.scale.x = 0.1;

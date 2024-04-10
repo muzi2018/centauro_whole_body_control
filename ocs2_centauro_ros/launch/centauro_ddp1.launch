@@ -11,7 +11,7 @@
     <arg name="gdb"                default="false"/>
     <arg name="xbot_plugin"        default="false"/>
     <arg name="task"      	    default="task"/>		<!-- with arm EEs soft constrained -->
-    <arg name="base_estimation"    default="true"/>	
+    <arg name="base_estimation"    default="true"/>		
 
     <!-- dagana gripper argument -->
     <arg name="gripper"   default="dagana"/>
@@ -23,7 +23,7 @@
     <!-- The URDF model of the robot -->
     <arg if="$(eval arg('gripper') == 'ball')"   name="urdfFile"   default="$(find ocs2_robotic_assets)/resources/centauro/urdf/centauro_horizon.urdf"/>
     <arg if="$(eval arg('gripper') == 'dagana')" name="urdfFile"   default="$(find ocs2_robotic_assets)/resources/centauro/urdf/centauro_$(arg gripper).urdf"/>
-  
+    
     <!-- The file defining gait definition -->
     <arg name="gaitCommandFile"   default="$(find ocs2_centauro)/config/command/gait.info"/>
     
@@ -56,10 +56,24 @@
     	<arg name="launch-prefix" value="gnome-terminal --"/>
     </include>
 
-    <node pkg="ocs2_centauro_ros" type="legged_robot_dummy" name="legged_robot_dummy"
-          output="screen" launch-prefix="gnome-terminal -- gdb -e run --args"/>
+    <!-- run the dummy node if you don't want to run it as a xbot plugin -->
+    <group unless="$(arg xbot_plugin)">
+        <group if="$(arg gdb)">
+            <node pkg="ocs2_centauro_ros" type="legged_robot_dummy" name="legged_robot_dummy"
+                  output="screen" launch-prefix="gnome-terminal -- gdb -e run --args"/>
+            
+            <node pkg="ocs2_centauro_ros" type="centauro_ddp_mpc" name="legged_robot_ddp_mpc"
+                   output="screen" launch-prefix="gnome-terminal -- gdb -e run --args"/>
+        </group>
+        <group unless="$(arg gdb)">
+            <node pkg="ocs2_centauro_ros" type="legged_robot_dummy" name="legged_robot_dummy"
+                  output="screen" launch-prefix="gnome-terminal --"/>
+            <!-- <node pkg="ocs2_centauro_ros" type="centauro_ddp_mpc" name="legged_robot_ddp_mpc"
+                   output="screen" launch-prefix=""/> -->
+        </group>
+    </group>
+
+
     
-    <node pkg="ocs2_centauro_ros" type="centauro_ddp_mpc" name="legged_robot_ddp_mpc"
-            output="screen" launch-prefix="gnome-terminal -- gdb -e run --args"/>
 
 </launch>

@@ -947,13 +947,13 @@ Visualization Manager:
       Value: true
     - Class: rviz/InteractiveMarkers
       Enable Transparency: true
-      Enabled: false
+      Enabled: true
       Name: InteractiveMarkers
       Show Axes: false
       Show Descriptions: true
       Show Visual Aids: false
-      Update Topic: /simple_marker_arm2_8/update
-      Value: false
+      Update Topic: /simple_marker_dagana_2_tcp/update
+      Value: true
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /distance_markers

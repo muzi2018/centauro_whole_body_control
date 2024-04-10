@@ -49,7 +49,7 @@ TargetTrajectories goalPoseToTargetTrajectories(const Eigen::Vector3d& position,
   const vector_array_t stateTrajectory{target};   //(timeTrajectory.size(), target);  // just publish the same as many times as needed
   // input trajectory
   const vector_array_t inputTrajectory(1, vector_t::Zero(observation.input.size()));
-
+  // ROS_INFO("goalPoseToTargetTrajectories");
   return {timeTrajectory, stateTrajectory, inputTrajectory};
 }
 
@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
   ::ros::init(argc, argv, robotName + "_" + armTargetFrame + "target", ros::init_options::AnonymousName);
   ::ros::NodeHandle nodeHandle;
   ros::param::get("~frame_name", armTargetFrame);
-
+  ROS_INFO("Arm target frame: %s", armTargetFrame.c_str());
 GaitAndTargetTrajectoriesInteractiveMarker targetPoseCommand(nodeHandle, robotName, &goalPoseToTargetTrajectories, armTargetFrame);
 //  TargetTrajectoriesInteractiveMarker targetPoseCommand(nodeHandle, robotName, &goalPoseToTargetTrajectoriesDefault, armTargetFrame);
   targetPoseCommand.publishInteractiveMarker();
