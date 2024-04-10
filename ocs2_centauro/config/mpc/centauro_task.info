@@ -26,19 +26,19 @@ swing_trajectory_config
 {
   addPlanarConstraints          false   ; true for exact steps
 
-  liftOffVelocity               1
-  touchDownVelocity             -1
+  liftOffVelocity               0.2
+  touchDownVelocity             -0.4
   swingHeight                   0.1
 
   touchdownAfterHorizon         0.2
   swingTimeScale                0.15
 
   liftOffLongVelocity           10.0
-  touchDownLongVelocity         10.0
+  touchDownLongVelocity         -10.0
   longStepLength                10.0
 
   liftOffLateralVelocity           10.0
-  touchDownLateralVelocity         10.0
+  touchDownLateralVelocity         -10.0
   lateralStepLength                10.0
 }
 
