@@ -40,8 +40,8 @@ swing_trajectory_config
 
 arm_swing_trajectory_config
 {
-  positionPlanner               false
-  orientationPlanner            false
+  positionPlanner               true
+  orientationPlanner            true
   addConstraints                false
   meanEeVelocity                0.1
 
@@ -163,7 +163,7 @@ forceTorqueSensingInMpc         ; pass sensor measurements (estimated wrench or 
     estimatedWrenches               false
     jointStates                     false
 }
-publishJointImpedancePolicy         false
+publishJointImpedancePolicy         true
 
 initialState
 {
