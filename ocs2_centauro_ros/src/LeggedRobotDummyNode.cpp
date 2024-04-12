@@ -47,7 +47,6 @@ using namespace legged_robot;
 
 int main(int argc, char** argv) {
   const std::string robotName = "legged_robot";
-  std::cout << "DummyNode.cpp--------------------" << std::endl;
   // Initialize ros node
   ros::init(argc, argv, robotName + "_mrt");
   ros::NodeHandle nodeHandle;
@@ -70,14 +69,13 @@ int main(int argc, char** argv) {
     std::cout << "[Error] may not succeeded to save .info taskfile." << std::endl;
 
   // Robot interface
-//  LeggedRobotInterface interface(taskFile, urdfFile, referenceFile);
   std::shared_ptr<LeggedRobotInterface> interfacePtr(new LeggedRobotInterface(taskFile, urdfFile, referenceFile));
 
   // get target frame number and names
   std::vector<std::string> targetFramesNames;
   loadData::loadStdVector(taskFile, "targetFramesNames", targetFramesNames);
   int targetFramesNumber = targetFramesNames.size();
-  std::cout << "DummyNode.cpp-------------------1-" << std::endl;
+
   // xbotcore config and initial state
   vector_t initialState = vector_t::Constant(interfacePtr->getCentroidalModelInfo().stateDim, 0);
   xbot_interface::XbotInterface::Config xbotConfig(false, false, "/xbotcore/link_state/pelvis", false, false, false);
@@ -103,7 +101,7 @@ int main(int argc, char** argv) {
     initialState = xbotInterface.getCentroidalStateFromXbotInfo();       // correct
   }
   interfacePtr->setInitialState(initialState);
-  std::cout << "DummyNode.cpp-------------------2-" << std::endl;
+
   // publish joint impedance mapped policy
   bool publishJointImpedancePolicy;
   loadData::loadCppDataType(taskFile, "publishJointImpedancePolicy",  publishJointImpedancePolicy);
@@ -159,8 +157,6 @@ int main(int argc, char** argv) {
   TargetTrajectories initLeftEndEffectorTargetTrajectories({1.0}, {getArmEeFramePose(0)}, {initObservation.input});
   TargetTrajectories initRightEndEffectorTargetTrajectories({1.0}, {getArmEeFramePose(1)}, {initObservation.input});
 
-
-  std::cout << "DummyNode.cpp-------------------3-" << std::endl;
 
   // run dummy
   leggedRobotDummySimulator.run(initObservation, initTargetTrajectories,

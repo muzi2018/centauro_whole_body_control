@@ -46,10 +46,8 @@ using namespace legged_robot;
 
 int main(int argc, char** argv) {
   const std::string robotName = "legged_robot";
-
   // Initialize ros node
   ros::init(argc, argv, robotName + "_mpc");
-  
   ros::NodeHandle nodeHandle;
   // Get node parameters
   std::string taskFile, urdfFile, referenceFile;
@@ -57,8 +55,6 @@ int main(int argc, char** argv) {
   nodeHandle.getParam("/taskFile", taskFile);
   nodeHandle.getParam("/referenceFile", referenceFile);
   nodeHandle.getParam("/urdfFile", urdfFile);
-
-  nodeHandle.getParam("/aaa", aaa);
 
   // Robot interface
   LeggedRobotInterface interface(taskFile, urdfFile, referenceFile);
