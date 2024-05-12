@@ -29,7 +29,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ros/init.h>
 #include <ros/package.h>
-
 #include <ocs2_ddp/GaussNewtonDDP_MPC.h>
 #include <ocs2_centauro/LeggedRobotInterface.h>
 #include <gazebo_ocs2_ros_interfaces/mpc/MPC_ROS_Interface.h>

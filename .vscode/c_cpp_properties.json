@@ -6,13 +6,22 @@
         "limitSymbolsToIncludedHeaders": false
       },
       "includePath": [
-        "${workspaceFolder}/**"
+        "/home/wang/catkin_ws_1/devel/include/**",
+        "/home/wang/forest_ws/install/include/**",
+        "/opt/ros/noetic/include/**",
+        "/opt/xbot/include/**",
+        "/home/wang/catkin_ws_1/src/base_estimation/include/**",
+        "/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro/include/**",
+        "/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/include/**",
+        "/home/wang/catkin_ws_1/src/centauro_whole_body_control/gazebo_ocs2_ros_interfaces/include/**",
+        "/home/wang/forest_ws/install/share/realsense_gazebo_plugin/include/**",
+        "/usr/include/**"
       ],
-      "name": "linux-gcc-x64",
-      "intelliSenseMode": "linux-gcc-x64",
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
       "compilerPath": "/usr/bin/gcc",
-      "cStandard": "${default}",
-      "cppStandard": "${default}"
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
     }
   ],
   "version": 4

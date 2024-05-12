@@ -26,20 +26,20 @@ swing_trajectory_config
 {
   addPlanarConstraints          false   ; true for exact steps
 
-  liftOffVelocity               0.2
-  touchDownVelocity             -0.4
+  liftOffVelocity               0.0
+  touchDownVelocity             -0.0
   swingHeight                   0.1
 
   touchdownAfterHorizon         0.2
   swingTimeScale                0.15
 
-  liftOffLongVelocity           10.0
-  touchDownLongVelocity         -10.0
-  longStepLength                10.0
+  liftOffLongVelocity           0.0
+  touchDownLongVelocity         0.0
+  longStepLength                0.0
 
-  liftOffLateralVelocity           10.0
-  touchDownLateralVelocity         -10.0
-  lateralStepLength                10.0
+  liftOffLateralVelocity           0.0
+  touchDownLateralVelocity         0.0
+  lateralStepLength                0.0
 }
 
 arm_swing_trajectory_config
@@ -197,7 +197,7 @@ mpc
   solutionTimeWindow              -1        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
   coldStart                       false     ; Initialize the SLQ with the controller from previous call (warm start) or the given operating trajectories (cold start).
 
-  debugPrint                      false
+  debugPrint                      true
 
   mpcDesiredFrequency             -1 ;20 ; [Hz]
   mrtDesiredFrequency             500 ; [Hz]
