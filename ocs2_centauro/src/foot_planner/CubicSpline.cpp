@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 #include "ocs2_centauro/foot_planner/CubicSpline.h"
+#include <ros/console.h>
 
 namespace ocs2 {
 namespace legged_robot {
@@ -36,6 +37,8 @@ namespace legged_robot {
 /******************************************************************************************************/
 /******************************************************************************************************/
 CubicSpline::CubicSpline(Node start, Node end) {
+  // ROS_INFO("Start time: %f, End time: %f", start.time, end.time);
+
   assert(start.time < end.time);
   t0_ = start.time;
   t1_ = end.time;
