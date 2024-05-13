@@ -10,7 +10,7 @@
     <!-- further flags -->
     <arg name="gdb"                default="false"/>
     <arg name="xbot_plugin"        default="false"/>
-    <arg name="task"      	    default="task"/>		<!-- with arm EEs soft constrained -->
+    <arg name="task"      	       default="task"/>		<!-- with arm EEs soft constrained -->
     <arg name="base_estimation"    default="true"/>		
 
     <!-- dagana gripper argument -->
