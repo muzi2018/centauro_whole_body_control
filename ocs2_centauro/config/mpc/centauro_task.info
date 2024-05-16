@@ -197,7 +197,7 @@ mpc
   solutionTimeWindow              -1        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
   coldStart                       false     ; Initialize the SLQ with the controller from previous call (warm start) or the given operating trajectories (cold start).
 
-  debugPrint                      true
+  debugPrint                      false
 
   mpcDesiredFrequency             -1 ;20 ; [Hz]
   mrtDesiredFrequency             500 ; [Hz]
@@ -205,11 +205,11 @@ mpc
 
 xbotcore
 {
-  xbotCoreRunning                     false                ; true if xbotcore is running so that initialState is received from there
-  xbotCoreFeedback                    false                ; true if it is to receive feedback from xbotcore
+  xbotCoreRunning                     true                ; true if xbotcore is running so that initialState is received from there
+  xbotCoreFeedback                    true                ; true if it is to receive feedback from xbotcore
 
   ; topic prefix to receive base pose and twist ;
-  baseLinkTopicPrefix             /centauro_base_estimation/base_link     ;/xbotcore/link_state/pelvis
+  baseLinkTopicPrefix            /centauro_base_estimation/base_link      ;/xbotcore/link_state/pelvis
 
   ; flag to clamp the commands within the urdf limits at the xbotcore control level
   clampTorqueCmd                      true
@@ -461,7 +461,7 @@ armForceReferences              ; force references for arm EEs for quadratic sta
     {
         (0,0)  0.0
         (1,0)  0.0
-        (2,0) -120.05
+        (2,0)  0.0
     }
 }
 
@@ -503,7 +503,7 @@ frictionConeConstraint
 
 stabilityConstraint
 {
-  activate                      false
+  activate                      true
   config
   {
     scale                       1e-0               ; a penalty term \pho that acts as a scaling factor for the total penalty.
@@ -518,7 +518,7 @@ maximumNormalForce          1000
 ; #############################################
 JointVelocityLimits
 {
-  activateVelocityLimits      false
+  activateVelocityLimits      true
   config
   {
     scale                       1e3               ; a penalty term \pho that acts as a scaling factor for the total penalty.
@@ -528,7 +528,7 @@ JointVelocityLimits
 
 JointPositionLimits
 {
-  activatePositionLimits      false
+  activatePositionLimits      true
   config
   {
     scale                       1e1               ; a penalty term \pho that acts as a scaling factor for the total penalty.

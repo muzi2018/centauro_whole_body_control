@@ -222,15 +222,16 @@ dynamic_walk
 
 centauro_walk
 {
+  ;LF, RF, LH, RH
   modeSequence
   {
-    [0]     LF_RF_RH
+    [0]     LF_LH_RH;
     [1]     STANCE
-    [2]     RF_LH_RH
+    [2]     RF_LH_RH;
     [3]     STANCE
-    [4]     LF_RF_LH
+    [4]     LF_RF_RH;
     [5]     STANCE
-    [6]     LF_LH_RH
+    [6]     LF_RF_LH;
     [7]     STANCE
   }
   switchingTimes

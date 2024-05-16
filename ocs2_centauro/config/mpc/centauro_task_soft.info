@@ -42,7 +42,7 @@ arm_swing_trajectory_config
 {
   positionPlanner               true
   orientationPlanner            true
-  addConstraints                false
+  addConstraints                true
   meanEeVelocity                0.1
 
   liftOffVelocity               0.0
