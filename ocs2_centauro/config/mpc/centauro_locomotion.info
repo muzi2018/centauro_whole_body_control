@@ -22,20 +22,20 @@ swing_trajectory_config
 {
   addPlanarConstraints          false   ; true for exact steps
 
-  liftOffVelocity               1
-  touchDownVelocity             -1
+  liftOffVelocity               0
+  touchDownVelocity             -0
   swingHeight                   0.1
 
   touchdownAfterHorizon         0.2
   swingTimeScale                0.15
 
-  liftOffLongVelocity           10
-  touchDownLongVelocity         10
-  longStepLength                10
+  liftOffLongVelocity           0
+  touchDownLongVelocity         0
+  longStepLength                0
 
-  liftOffLateralVelocity           10
-  touchDownLateralVelocity         10
-  lateralStepLength                10
+  liftOffLateralVelocity           0
+  touchDownLateralVelocity         0
+  lateralStepLength                0
 }
 
 arm_swing_trajectory_config
@@ -146,8 +146,8 @@ mpc
 
 xbotcore
 {
-  xbotCoreRunning                     false                ; true if xbotcore is running so that initialState is received from there
-  xbotCoreFeedback                    false                ; true if it is to receive feedback from xbotcore
+  xbotCoreRunning                     true                ; true if xbotcore is running so that initialState is received from there
+  xbotCoreFeedback                    true                ; true if it is to receive feedback from xbotcore
 
   ; topic prefix to receive base pose and twist ;
   baseLinkTopicPrefix             /centauro_base_estimation/base_link     ;/xbotcore/link_state/pelvis        ;
@@ -458,7 +458,7 @@ maximumNormalForce          1000
 ; #############################################
 JointVelocityLimits
 {
-  activateVelocityLimits      false
+  activateVelocityLimits      true
   config
   {
     scale                       1e3               ; a penalty term \pho that acts as a scaling factor for the total penalty.
@@ -468,7 +468,7 @@ JointVelocityLimits
 
 JointPositionLimits
 {
-  activatePositionLimits      false
+  activatePositionLimits      true
   config
   {
     scale                       1e-0               ; a penalty term \pho that acts as a scaling factor for the total penalty.
