@@ -28,7 +28,7 @@ swing_trajectory_config
 
   liftOffVelocity               0.0
   touchDownVelocity             -0.0
-  swingHeight                   0.1
+  swingHeight                   0.05
 
   touchdownAfterHorizon         0.2
   swingTimeScale                0.15
@@ -44,8 +44,8 @@ swing_trajectory_config
 
 arm_swing_trajectory_config
 {
-  addConstraints                true
-  positionPlanner               true
+  addConstraints                false
+  positionPlanner               false
   orientationPlanner            false
   positionIndicesLeftArm
   {
@@ -194,7 +194,7 @@ rollout
 mpc
 {
   timeHorizon                     1.0       ; [s]
-  solutionTimeWindow              -1        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
+  solutionTimeWindow              0.02        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
   coldStart                       false     ; Initialize the SLQ with the controller from previous call (warm start) or the given operating trajectories (cold start).
 
   debugPrint                      false
@@ -219,8 +219,8 @@ xbotcore
 
 forceTorqueSensingInMpc         ; pass sensor measurements (estimated wrench or joint states to mpc through synchronized modules)
 {
-    estimatedWrenches               false
-    jointStates                     false
+    estimatedWrenches               true
+    jointStates                     true
 }
 publishJointImpedancePolicy         true
 
