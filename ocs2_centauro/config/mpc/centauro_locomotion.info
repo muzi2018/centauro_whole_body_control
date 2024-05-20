@@ -20,30 +20,30 @@ model_settings
 
 swing_trajectory_config
 {
-  addPlanarConstraints          false   ; true for exact steps
+  addPlanarConstraints          true   ; true for exact steps
 
-  liftOffVelocity               0
-  touchDownVelocity             -0
+  liftOffVelocity               0.0
+  touchDownVelocity             -0.0
   swingHeight                   0.1
 
   touchdownAfterHorizon         0.2
   swingTimeScale                0.15
 
-  liftOffLongVelocity           0
-  touchDownLongVelocity         0
-  longStepLength                0
+  liftOffLongVelocity           0.0
+  touchDownLongVelocity         0.0
+  longStepLength                0.0
 
-  liftOffLateralVelocity           0
-  touchDownLateralVelocity         0
-  lateralStepLength                0
+  liftOffLateralVelocity           0.0
+  touchDownLateralVelocity         0.0
+  lateralStepLength                0.0
 }
 
 arm_swing_trajectory_config
 {
-  positionPlanner               true
+  positionPlanner               false
   orientationPlanner            false
-  addConstraints                true
-  meanEeVelocity                1
+  addConstraints                false
+  meanEeVelocity                0.05
 
   liftOffVelocity               0.0
   touchDownVelocity             -0.0
@@ -135,12 +135,12 @@ rollout
 mpc
 {
   timeHorizon                     1.0       ; [s]
-  solutionTimeWindow              0.2        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
+  solutionTimeWindow              -1        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
   coldStart                       false     ; Initialize the SLQ with the controller from previous call (warm start) or the given operating trajectories (cold start).
 
-  debugPrint                      true
+  debugPrint                      false
 
-  mpcDesiredFrequency             20 ; [Hz]
+  mpcDesiredFrequency             -1 ;20 ; [Hz]
   mrtDesiredFrequency             500 ; [Hz]
 }
 
@@ -443,7 +443,7 @@ frictionConeConstraint
 
 stabilityConstraint
 {
-  activate                      false
+  activate                      true
   config
   {
     scale                       1e-0               ; a penalty term \pho that acts as a scaling factor for the total penalty.
@@ -481,7 +481,7 @@ targetFramesNames
 {
    [0]       arm1_8
    [1]       dagana_2_tcp
-  ;[1]       arm2_8 [1]       dagana_2_tcp
+  ;[1]       arm2_8
 }
 
 ; #######################################
@@ -638,4 +638,3 @@ armEeSoftConstraints
       muOrientation     0.0
     }
 }
-
