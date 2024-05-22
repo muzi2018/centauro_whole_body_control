@@ -48,6 +48,9 @@ class TargetTrajectoriesKeyboardPublisher final {
   using CommandLineToTargetTrajectories =
       std::function<TargetTrajectories(const vector_t& commadLineTarget, const SystemObservation& observation)>;
 
+  using jointRefToTargetTrajectories =
+    std::function<TargetTrajectories(const SystemObservation& observation_)>;
+
   /**
    * Constructor
    *
@@ -59,7 +62,11 @@ class TargetTrajectoriesKeyboardPublisher final {
    */
   TargetTrajectoriesKeyboardPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix,
                                       const scalar_array_t& targetCommandLimits,
-                                      CommandLineToTargetTrajectories commandLineToTargetTrajectoriesFun);
+                                      jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun);
+
+  // TargetTrajectoriesKeyboardPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix,
+                                      
+  //                                     jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun);
 
   /** Gets the command vector size. */
   size_t targetCommandSize() const { return targetCommandLimits_.size(); }
@@ -71,6 +78,7 @@ class TargetTrajectoriesKeyboardPublisher final {
    * @param [in] commadMsg: Message to be displayed on screen.
    */
   void publishKeyboardCommand(const std::string& commadMsg = "Enter command, separated by space");
+  void publishKeyboardCommand();
 
  private:
   /** Gets the target from command line. */
@@ -78,6 +86,7 @@ class TargetTrajectoriesKeyboardPublisher final {
 
   const vector_t targetCommandLimits_;
   CommandLineToTargetTrajectories commandLineToTargetTrajectoriesFun_;
+  jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun_;
 
   std::unique_ptr<TargetTrajectoriesRosPublisher> targetTrajectoriesPublisherPtr_;
 

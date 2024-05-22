@@ -105,12 +105,18 @@ TargetTrajectories commandLineToTargetTrajectories(const vector_t& commadLineTar
 */
 
 TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observation){
+      std::cout << "*********target1*********" << std::endl;
+      std::cout << "*********observation.state.size*********" << std::endl;
+      std::cout << observation.state.size() << std::endl;
+
   const vector_t currentPose = observation.state.segment<6>(6);
 
   // target reaching duration
-  const scalar_t targetReachingTime = observation.time + 10;
+  const scalar_t targetReachingTime = observation.time + 1;
+
   // desired time trajectory
   const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
+
   // desired state trajectory
   vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
   stateTrajectory[0] << vector_t::Zero(6), currentPose, defaultJointState;
@@ -141,12 +147,21 @@ int main(int argc, char* argv[]) {
   nodeHandle.getParam("/taskFile", taskFile);
   legged_robot::ModelSettings modelSettings = legged_robot::loadModelSettings(taskFile, "model_settings", false);
   defaultJointState.resize(modelSettings.jointNames.size());    // resize defaultJointState vector
+  desireJointState.resize(modelSettings.jointNames.size());    // resize desireJointState vector
+  
+
 
   loadData::loadCppDataType(referenceFile, "comHeight", comHeight);
   loadData::loadEigenMatrix(referenceFile, "defaultJointState", defaultJointState);
   loadData::loadCppDataType(referenceFile, "targetRotationVelocity", targetRotationVelocity);
   loadData::loadCppDataType(referenceFile, "targetDisplacementVelocity", targetDisplacementVelocity);
 
+  desireJointState = defaultJointState;
+  desireJointState[25] = 0.5; desireJointState[26] = 0.4; desireJointState[27] = 0.4; 
+  desireJointState[28] = -2.2; desireJointState[29] = 0.1; desireJointState[30] = -0.8;
+
+  desireJointState[31] = 0.6; desireJointState[32] = -0.6; desireJointState[33] = -0.7; 
+  desireJointState[34] = -1.3; desireJointState[35] = -0.3; desireJointState[36] = -0.2;
   // get wheels current position and set this as reference of the mpc state cost
   bool xbotCoreRunning;
   loadData::loadCppDataType(taskFile, "xbotcore.xbotCoreRunning", xbotCoreRunning);
@@ -160,17 +175,17 @@ int main(int argc, char* argv[]) {
       }
   }
 
+
   // goalPose: [deltaX, deltaY, deltaZ, deltaYaw]
   const scalar_array_t relativeBaseLimit{10.0, 10.0, 1.0, 360.0};
-  TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &commandLineToTargetTrajectories);
+  TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &jointRefToTargetTrajectories);
 
   const std::string commandMsg = "Enter XYZ and Yaw (deg) displacements for the TORSO, separated by spaces";
   targetPoseCommand.publishKeyboardCommand(commandMsg);
 
   // // goalJoints
-  // TargetTrajectoriesRosPublisher targetJointCommand(nodeHandle, robotName);
-  // const auto targetTrajectories = jointRefToTargetTrajectories(observation);
-  // targetJointCommand->publishTargetTrajectories(targetTrajectories);
+  // TargetTrajectoriesRosPublisher targetJointCommand(nodeHandle, robotName, true, &jointRefToTargetTrajectories);
+  // targetJointCommand.publishTargetTrajectories(true);
 
   // Successful exit
   return 0;

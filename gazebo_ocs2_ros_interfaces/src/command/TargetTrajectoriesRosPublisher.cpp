@@ -77,7 +77,11 @@ void TargetTrajectoriesRosPublisher::publishTargetTrajectories(const TargetTraje
   targetTrajectoriesPublisher_.publish(mpcTargetTrajectoriesMsg);
 }
 
-void TargetTrajectoriesRosPublisher::publishTargetTrajectories(const TargetTrajectories& targetTrajectories, bool arm_rl_Ref) {
+void TargetTrajectoriesRosPublisher::publishTargetTrajectories(bool arm_rl_Ref) {
+
+   while (ros::ok() && ros::master::check()) {
+    std::cout << "The arm joint reference is published" << "]\n\n";
+
     // get the latest observation
     ::ros::spinOnce();
     SystemObservation observation;
@@ -86,11 +90,13 @@ void TargetTrajectoriesRosPublisher::publishTargetTrajectories(const TargetTraje
       observation = latestObservation_;
     }
 
+    std::cout << "observation.size = " << observation.state.size() << std::endl;
     // get TargetTrajectories
     const auto targetTrajectories_ = jointRefToTargetTrajectoriesFun_(observation);
 
     // publish TargetTrajectories
     this->publishTargetTrajectories(targetTrajectories_);
+   }
 }
 
 

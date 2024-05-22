@@ -66,7 +66,7 @@ class TargetTrajectoriesRosPublisher final {
 
   /** Publishes the target trajectories. */
   void publishTargetTrajectories(const TargetTrajectories& targetTrajectories);
-  void publishTargetTrajectories(const TargetTrajectories& targetTrajectories, bool arm_rl_Ref);
+  void publishTargetTrajectories(bool arm_rl_Ref);
 
  private:
   ::ros::Publisher targetTrajectoriesPublisher_;
