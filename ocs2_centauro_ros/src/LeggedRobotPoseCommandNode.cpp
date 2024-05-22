@@ -90,9 +90,23 @@ TargetTrajectories commandLineToTargetTrajectories(const vector_t& commadLineTar
   // desired time trajectory
   const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
   // desired state trajectory
+
+  vector_t joint_state;
+  joint_state.resize(37);
+    for (size_t i = 0; i < joint_state.size(); i++)
+  {
+    joint_state[i] = defaultJointState[i];
+  }
+  joint_state[25] = 0.4; joint_state[26] = 0.35; joint_state[27] = 0.25; 
+  joint_state[28] = -2.2; joint_state[29] = 0.0; joint_state[30] = -0.7;
+
+  joint_state[31] = 0.36; joint_state[32] = -0.73; joint_state[33] = -0.75; 
+  joint_state[34] = -1.4; joint_state[35] = -0.24; joint_state[36] = -0.14;
+
+
   vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
   stateTrajectory[0] << vector_t::Zero(6), currentPose, defaultJointState;
-  stateTrajectory[1] << vector_t::Zero(6), targetPose, defaultJointState;
+  stateTrajectory[1] << vector_t::Zero(6), currentPose, joint_state;
 
   // desired input trajectory (just right dimensions, they are not used)
   const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
@@ -112,7 +126,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   const vector_t currentPose = observation.state.segment<6>(6);
 
   // target reaching duration
-  const scalar_t targetReachingTime = observation.time + 1;
+  const scalar_t targetReachingTime = observation.time + 20;
 
   // desired time trajectory
   const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
@@ -121,6 +135,13 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
   stateTrajectory[0] << vector_t::Zero(6), currentPose, defaultJointState;
   stateTrajectory[1] << vector_t::Zero(6), currentPose, desireJointState;
+
+  std::cout << "desireJointState" << std::endl;
+  for (size_t i = 0; i < desireJointState.size(); i++)
+  {
+    std::cout <<"[" << i << "] = " << desireJointState[i] << std::endl;
+  }
+  
 
   // desired input trajectory (just right dimensions, they are not used)
   const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
@@ -178,7 +199,8 @@ int main(int argc, char* argv[]) {
 
   // goalPose: [deltaX, deltaY, deltaZ, deltaYaw]
   const scalar_array_t relativeBaseLimit{10.0, 10.0, 1.0, 360.0};
-  TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &jointRefToTargetTrajectories);
+  // TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &jointRefToTargetTrajectories);
+  TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &commandLineToTargetTrajectories);
 
   const std::string commandMsg = "Enter XYZ and Yaw (deg) displacements for the TORSO, separated by spaces";
   targetPoseCommand.publishKeyboardCommand(commandMsg);

@@ -41,9 +41,9 @@ namespace ocs2 {
 /******************************************************************************************************/
 TargetTrajectoriesKeyboardPublisher::TargetTrajectoriesKeyboardPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix,
                                                                          const scalar_array_t& targetCommandLimits,
-                                                                         jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun)
+                                                                         CommandLineToTargetTrajectories commandLineToTargetTrajectoriesFun)
     : targetCommandLimits_(Eigen::Map<const vector_t>(targetCommandLimits.data(), targetCommandLimits.size())),
-      jointRefToTargetTrajectoriesFun_(std::move(jointRefToTargetTrajectoriesFun)) {
+      commandLineToTargetTrajectoriesFun_(std::move(commandLineToTargetTrajectoriesFun)) {
   // observation subscriber
   auto observationCallback = [this](const ocs2_msgs::mpc_observation::ConstPtr& msg) {
     std::lock_guard<std::mutex> lock(latestObservationMutex_);
@@ -55,54 +55,10 @@ TargetTrajectoriesKeyboardPublisher::TargetTrajectoriesKeyboardPublisher(::ros::
   targetTrajectoriesPublisherPtr_.reset(new TargetTrajectoriesRosPublisher(nodeHandle, topicPrefix, ""));
 } 
 
-// TargetTrajectoriesKeyboardPublisher::TargetTrajectoriesKeyboardPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix,
-
-//                                                                          jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun)
-//     : 
-//       jointRefToTargetTrajectoriesFun_(std::move(jointRefToTargetTrajectoriesFun)) {
-//   // observation subscriber
-//   auto observationCallback = [this](const ocs2_msgs::mpc_observation::ConstPtr& msg) {
-//     std::lock_guard<std::mutex> lock(latestObservationMutex_);
-//     latestObservation_ = ros_msg_conversions::readObservationMsg(*msg);
-//   };
-//   observationSubscriber_ = nodeHandle.subscribe<ocs2_msgs::mpc_observation>(topicPrefix + "_mpc_observation", 1, observationCallback);
-
-//   // Trajectories publisher
-//   targetTrajectoriesPublisherPtr_.reset(new TargetTrajectoriesRosPublisher(nodeHandle, topicPrefix, ""));
-// }
-
 
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-// void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::string& commadMsg) {
-//   while (ros::ok() && ros::master::check()) {
-//     // get command line
-//     std::cout << commadMsg << ": ";
-//     const vector_t commandLineInput = getCommandLine().cwiseMin(targetCommandLimits_).cwiseMax(-targetCommandLimits_);
-
-//     // display
-//     std::cout << "The following command is published: [" << toDelimitedString(commandLineInput) << "]\n\n";
-
-//     // get the latest observation
-//     ::ros::spinOnce();
-//     SystemObservation observation;
-//     {
-//       std::lock_guard<std::mutex> lock(latestObservationMutex_);
-//       observation = latestObservation_;
-//     }
-
-//     std::cout << "observation.size = " << observation.state.size() << std::endl; 
-
-//     // get TargetTrajectories
-//     const auto targetTrajectories = commandLineToTargetTrajectoriesFun_(commandLineInput, observation);
-
-//     // publish TargetTrajectories
-//     targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
-//   }  // end of while loop
-// }
-
-
 void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::string& commadMsg) {
   while (ros::ok() && ros::master::check()) {
     // get command line
@@ -110,7 +66,7 @@ void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::stri
     const vector_t commandLineInput = getCommandLine().cwiseMin(targetCommandLimits_).cwiseMax(-targetCommandLimits_);
 
     // display
-    std::cout << "The following command is published: [" << "]\n\n";
+    std::cout << "The following command is published: [" << toDelimitedString(commandLineInput) << "]\n\n";
 
     // get the latest observation
     ::ros::spinOnce();
@@ -123,12 +79,40 @@ void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::stri
     std::cout << "observation.size = " << observation.state.size() << std::endl; 
 
     // get TargetTrajectories
-    const auto targetTrajectories = jointRefToTargetTrajectoriesFun_(observation);
+    const auto targetTrajectories = commandLineToTargetTrajectoriesFun_(commandLineInput, observation);
 
     // publish TargetTrajectories
     targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
   }  // end of while loop
 }
+
+
+// void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::string& commadMsg) {
+//   while (ros::ok() && ros::master::check()) {
+//     // get command line
+//     std::cout << commadMsg << ": ";
+//     const vector_t commandLineInput = getCommandLine().cwiseMin(targetCommandLimits_).cwiseMax(-targetCommandLimits_);
+
+//     // display
+//     std::cout << "The following command is published: [" << "]\n\n";
+
+//     // get the latest observation
+//     ::ros::spinOnce();
+//     SystemObservation observation;
+//     {
+//       std::lock_guard<std::mutex> lock(latestObservationMutex_);
+//       observation = latestObservation_;
+//     }
+
+//     std::cout << "observation.size = " << observation.state.size() << std::endl; 
+
+//     // get TargetTrajectories
+//     const auto targetTrajectories = jointRefToTargetTrajectoriesFun_(observation);
+
+//     // publish TargetTrajectories
+//     targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
+//   }  // end of while loop
+// }
 
 
 /******************************************************************************************************/

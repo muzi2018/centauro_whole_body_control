@@ -62,7 +62,7 @@ class TargetTrajectoriesKeyboardPublisher final {
    */
   TargetTrajectoriesKeyboardPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix,
                                       const scalar_array_t& targetCommandLimits,
-                                      jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun);
+                                      CommandLineToTargetTrajectories commandLineToTargetTrajectoriesFun);
 
   // TargetTrajectoriesKeyboardPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix,
                                       
