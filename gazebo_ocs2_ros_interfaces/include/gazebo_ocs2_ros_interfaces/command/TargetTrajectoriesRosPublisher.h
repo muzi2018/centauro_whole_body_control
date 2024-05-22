@@ -36,6 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ocs2_core/Types.h>
 #include <ocs2_core/reference/TargetTrajectories.h>
+#include <ocs2_mpc/SystemObservation.h>
 
 #include "gazebo_ocs2_ros_interfaces/common/RosMsgConversions.h"
 
@@ -46,6 +47,8 @@ namespace ocs2 {
  */
 class TargetTrajectoriesRosPublisher final {
  public:
+   using jointRefToTargetTrajectories =
+      std::function<TargetTrajectories(const SystemObservation& observation_)>;
   /**
    * Constructor.
    * @param [in] nodeHandle: ROS node handle.
@@ -55,14 +58,25 @@ class TargetTrajectoriesRosPublisher final {
   TargetTrajectoriesRosPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix = "anonymousRobot",
                                  const std::string& targetFrame = "");
 
+  TargetTrajectoriesRosPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix = "anonymousRobot",
+                                 bool arm_rl_Ref=false, jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun= nullptr);
+
   /** Destructor. */
   ~TargetTrajectoriesRosPublisher();
 
   /** Publishes the target trajectories. */
   void publishTargetTrajectories(const TargetTrajectories& targetTrajectories);
+  void publishTargetTrajectories(const TargetTrajectories& targetTrajectories, bool arm_rl_Ref);
 
  private:
   ::ros::Publisher targetTrajectoriesPublisher_;
+  jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun_;
+  bool arm_rl_Ref=false;
+  ::ros::Subscriber observationSubscriber_;
+  mutable std::mutex latestObservationMutex_;
+  SystemObservation latestObservation_;
+
+
 };
 
 }  // namespace ocs2

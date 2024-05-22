@@ -101,11 +101,16 @@ int main(int argc, char** argv) {
   auto rosReferenceManagerPtr = std::make_shared<RosReferenceManager>(robotName, interface.getReferenceManagerPtr());
   rosReferenceManagerPtr->subscribe(nodeHandle, targetFramesNames);
 
+
   // MPC
   GaussNewtonDDP_MPC mpc(interface.mpcSettings(), interface.ddpSettings(), interface.getRollout(), interface.getOptimalControlProblem(),
                          interface.getInitializer());
   mpc.getSolverPtr()->setReferenceManager(rosReferenceManagerPtr);
   mpc.getSolverPtr()->addSynchronizedModule(gaitReceiverPtr);
+
+
+
+
   if (eeWrenchSensing) {      // Wrench receiver
       auto wrenchesReceiverPtr =
           std::make_shared<EstimatedWrenchReceiver>(nodeHandle, interface.getSwitchedModelReferenceManagerPtr()->getForceTorqueSensingPtr());

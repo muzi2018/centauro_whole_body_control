@@ -50,6 +50,7 @@ scalar_t targetDisplacementVelocity;
 scalar_t targetRotationVelocity;
 scalar_t comHeight;
 vector_t defaultJointState;
+vector_t desireJointState;
 }  // namespace
 
 scalar_t estimateTimeToTarget(const vector_t& desiredBaseDisplacement) {
@@ -99,6 +100,32 @@ TargetTrajectories commandLineToTargetTrajectories(const vector_t& commadLineTar
   return {timeTrajectory, stateTrajectory, inputTrajectory};
 }
 
+/**
+ * Send joints reference to TargetTrajectories
+*/
+
+TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observation){
+  const vector_t currentPose = observation.state.segment<6>(6);
+
+  // target reaching duration
+  const scalar_t targetReachingTime = observation.time + 10;
+  // desired time trajectory
+  const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
+  // desired state trajectory
+  vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
+  stateTrajectory[0] << vector_t::Zero(6), currentPose, defaultJointState;
+  stateTrajectory[1] << vector_t::Zero(6), currentPose, desireJointState;
+
+  // desired input trajectory (just right dimensions, they are not used)
+  const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
+
+  return {timeTrajectory, stateTrajectory, inputTrajectory};
+
+
+
+}
+
+
 int main(int argc, char* argv[]) {
   const std::string robotName = "legged_robot";
 
@@ -108,6 +135,9 @@ int main(int argc, char* argv[]) {
   // Get node parameters
   std::string referenceFile, taskFile;
   nodeHandle.getParam("/referenceFile", referenceFile);
+
+  std::cout << "referenceFile is " << referenceFile << std::endl;
+
   nodeHandle.getParam("/taskFile", taskFile);
   legged_robot::ModelSettings modelSettings = legged_robot::loadModelSettings(taskFile, "model_settings", false);
   defaultJointState.resize(modelSettings.jointNames.size());    // resize defaultJointState vector
@@ -136,6 +166,11 @@ int main(int argc, char* argv[]) {
 
   const std::string commandMsg = "Enter XYZ and Yaw (deg) displacements for the TORSO, separated by spaces";
   targetPoseCommand.publishKeyboardCommand(commandMsg);
+
+  // // goalJoints
+  // TargetTrajectoriesRosPublisher targetJointCommand(nodeHandle, robotName);
+  // const auto targetTrajectories = jointRefToTargetTrajectories(observation);
+  // targetJointCommand->publishTargetTrajectories(targetTrajectories);
 
   // Successful exit
   return 0;
