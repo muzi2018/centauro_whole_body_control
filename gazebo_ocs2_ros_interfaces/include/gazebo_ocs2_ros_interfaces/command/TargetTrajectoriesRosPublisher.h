@@ -58,8 +58,8 @@ class TargetTrajectoriesRosPublisher final {
   TargetTrajectoriesRosPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix = "anonymousRobot",
                                  const std::string& targetFrame = "");
 
-  TargetTrajectoriesRosPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix = "anonymousRobot",
-                                 bool arm_rl_Ref=false, jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun= nullptr);
+  // TargetTrajectoriesRosPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix = "anonymousRobot",
+  //                                bool arm_rl_Ref=false, jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun= nullptr);
 
   /** Destructor. */
   ~TargetTrajectoriesRosPublisher();

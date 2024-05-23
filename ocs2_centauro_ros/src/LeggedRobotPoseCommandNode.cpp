@@ -39,8 +39,9 @@ Additional modifications and contributions by Ioannis Dadiotis:
 #include <ocs2_core/Types.h>
 #include <ocs2_core/misc/LoadData.h>
 #include <gazebo_ocs2_ros_interfaces/command/TargetTrajectoriesKeyboardPublisher.h>
-#include  <ocs2_centauro/common/ModelSettings.h>
-
+#include <ocs2_centauro/common/ModelSettings.h>
+#include <ros/service.h>
+#include <std_srvs/Empty.h>
 #include <xbot_msgs/JointState.h>
 
 using namespace ocs2;
@@ -53,7 +54,13 @@ vector_t defaultJointState;
 vector_t desireJointState;
 bool iii = true;
 
+bool arm_rl_bool = false;
 
+bool arm_rl_tracking(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res)
+{
+    arm_rl_bool = !arm_rl_bool;
+    return true;
+};
 
 /**
  * Send joints reference to TargetTrajectories
@@ -64,7 +71,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   // std::cout << "*********observation.state.size*********" << std::endl;
   const vector_t currentPose = observation.state.segment<6>(6);
   // target reaching duration
-  const scalar_t targetReachingTime = observation.time + 1 ;
+  const scalar_t targetReachingTime = observation.time + 10 ;
   // desired time trajectory
   const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
   // desired state trajectory
@@ -75,6 +82,9 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
 
   // desired input trajectory (just right dimensions, they are not used)
   const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
+
+
+  
   if ( iii )
   {
     for (size_t i = 0; i < desireJointState.size(); i++)
@@ -83,11 +93,6 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
     }
     iii = false;
   }
-  
-
-  
-
-
   return {timeTrajectory, stateTrajectory, inputTrajectory};
 }
 
@@ -143,30 +148,47 @@ int main(int argc, char* argv[]) {
 
   observationSubscriber_ = nodeHandle.subscribe<ocs2_msgs::mpc_observation>(robotName + "_mpc_observation", 1, observationCallback);
 
+  //----------------------------------------------------------------
+  // Publish the target trajectories
+  //----------------------------------------------------------------
+  std::unique_ptr<TargetTrajectoriesRosPublisher> targetTrajectoriesPublisherPtr_;
+  targetTrajectoriesPublisherPtr_.reset(new TargetTrajectoriesRosPublisher(nodeHandle, robotName));  
+  ros::ServiceServer service = nodeHandle.advertiseService("arm_rl", arm_rl_tracking);
+
+  desireJointState = defaultJointState;
   desireJointState[25] = 0.4; desireJointState[26] = 0.35; desireJointState[27] = 0.25; 
   desireJointState[28] = -2.2; desireJointState[29] = 0.0; desireJointState[30] = -0.7;
 
   desireJointState[31] = 0.36; desireJointState[32] = -0.73; desireJointState[33] = -0.75; 
   desireJointState[34] = -1.4; desireJointState[35] = -0.24; desireJointState[36] = -0.14;
-  while (ros::ok() && ros::master::check()) {
-    {
-    /* code */
 
-      ::ros::spinOnce();
-      
-      SystemObservation observation;
+  ros::Rate r(100);
+  while (ros::ok() && ros::master::check()) {
       {
-        std::lock_guard<std::mutex> lock(latestObservationMutex_);
-        observation = latestObservation_;
-      }
+        while (!arm_rl_bool)
+        {
+            ros::spinOnce();
+            r.sleep();
+        }
+
+
+        ::ros::spinOnce();
+      
+        SystemObservation observation;
+        {
+          std::lock_guard<std::mutex> lock(latestObservationMutex_);
+          observation = latestObservation_;
+        }
       // std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
 
-      if (observation.state.size()) {
-      {
-        jointRefToTargetTrajectories(observation);
+        if (observation.state.size()) {
+        {
+          const auto targetTrajectories = jointRefToTargetTrajectories(observation);
+          targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
+          arm_rl_bool = !arm_rl_bool;
+        }
       }
     }
-  }
   }
 
 /**

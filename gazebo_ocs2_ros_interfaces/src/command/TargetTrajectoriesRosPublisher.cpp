@@ -44,22 +44,22 @@ TargetTrajectoriesRosPublisher::TargetTrajectoriesRosPublisher(::ros::NodeHandle
   ROS_INFO_STREAM("The TargetTrajectories is publishing on " + topicPrefix + "_mpc_" + targetFrame + "_target topic.");
 }
 
-TargetTrajectoriesRosPublisher::TargetTrajectoriesRosPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix,
-                                                                bool arm_rl_Ref_ ,jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun )
-                                                               :
-                                                               arm_rl_Ref(arm_rl_Ref_), 
-                                                               jointRefToTargetTrajectoriesFun_(std::move(jointRefToTargetTrajectoriesFun)){
-  targetTrajectoriesPublisher_ = nodeHandle.advertise<ocs2_msgs::mpc_target_trajectories>(topicPrefix + "_mpc_" + "target", 1, false);
-  // observation subscriber
-  auto observationCallback = [this](const ocs2_msgs::mpc_observation::ConstPtr& msg) {
-    std::lock_guard<std::mutex> lock(latestObservationMutex_);
-    latestObservation_ = ros_msg_conversions::readObservationMsg(*msg);
-  };
-  observationSubscriber_ = nodeHandle.subscribe<ocs2_msgs::mpc_observation>(topicPrefix + "_mpc_observation", 1, observationCallback);
+// TargetTrajectoriesRosPublisher::TargetTrajectoriesRosPublisher(::ros::NodeHandle& nodeHandle, const std::string& topicPrefix,
+//                                                                 bool arm_rl_Ref_ ,jointRefToTargetTrajectories jointRefToTargetTrajectoriesFun )
+//                                                                :
+//                                                                arm_rl_Ref(arm_rl_Ref_), 
+//                                                                jointRefToTargetTrajectoriesFun_(std::move(jointRefToTargetTrajectoriesFun)){
+//   targetTrajectoriesPublisher_ = nodeHandle.advertise<ocs2_msgs::mpc_target_trajectories>(topicPrefix + "_mpc_" + "target", 1, false);
+//   // observation subscriber
+//   auto observationCallback = [this](const ocs2_msgs::mpc_observation::ConstPtr& msg) {
+//     std::lock_guard<std::mutex> lock(latestObservationMutex_);
+//     latestObservation_ = ros_msg_conversions::readObservationMsg(*msg);
+//   };
+//   observationSubscriber_ = nodeHandle.subscribe<ocs2_msgs::mpc_observation>(topicPrefix + "_mpc_observation", 1, observationCallback);
 
-  ros::spinOnce();
-  // ROS_INFO_STREAM("The TargetTrajectories is publishing on " + topicPrefix + "_mpc_" + targetFrame + "_target topic.");
-}
+//   ros::spinOnce();
+//   // ROS_INFO_STREAM("The TargetTrajectories is publishing on " + topicPrefix + "_mpc_" + targetFrame + "_target topic.");
+// }
 
 
 /******************************************************************************************************/
