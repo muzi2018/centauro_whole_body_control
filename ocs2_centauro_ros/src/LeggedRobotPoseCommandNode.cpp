@@ -45,111 +45,50 @@ Additional modifications and contributions by Ioannis Dadiotis:
 
 using namespace ocs2;
 
-namespace {
+
 scalar_t targetDisplacementVelocity;
 scalar_t targetRotationVelocity;
 scalar_t comHeight;
 vector_t defaultJointState;
 vector_t desireJointState;
-}  // namespace
-
-scalar_t estimateTimeToTarget(const vector_t& desiredBaseDisplacement) {
-  const scalar_t& dx = desiredBaseDisplacement(0);
-  const scalar_t& dy = desiredBaseDisplacement(1);
-  const scalar_t& dyaw = desiredBaseDisplacement(3);
-  const scalar_t rotationTime = std::abs(dyaw) / targetRotationVelocity;
-  const scalar_t displacement = std::sqrt(dx * dx + dy * dy);
-  const scalar_t displacementTime = displacement / targetDisplacementVelocity;
-  return std::max(rotationTime, displacementTime);
-}
-
-/**
- * Converts command line to TargetTrajectories.
- * @param [in] commadLineTarget : [deltaX, deltaY, deltaZ, deltaYaw]
- * @param [in] observation : the current observation
- */
-TargetTrajectories commandLineToTargetTrajectories(const vector_t& commadLineTarget, const SystemObservation& observation) {
-  const vector_t currentPose = observation.state.segment<6>(6);
-  const vector_t targetPose = [&]() {
-    vector_t target(6);
-    // base p_x, p_y are relative to current state
-    target(0) = currentPose(0) + commadLineTarget(0);
-    target(1) = currentPose(1) + commadLineTarget(1);
-    // base z relative to the default height
-    target(2) = comHeight + commadLineTarget(2);
-    // theta_z relative to current
-    target(3) = currentPose(3) + commadLineTarget(3) * M_PI / 180.0;
-    // theta_y, theta_x
-    target(4) = currentPose(4);
-    target(5) = currentPose(5);
-    return target;
-  }();
-
-  // target reaching duration
-  const scalar_t targetReachingTime = observation.time + estimateTimeToTarget(targetPose - currentPose);
-  // desired time trajectory
-  const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
-  // desired state trajectory
-
-  vector_t joint_state;
-  joint_state.resize(37);
-    for (size_t i = 0; i < joint_state.size(); i++)
-  {
-    joint_state[i] = defaultJointState[i];
-  }
-  joint_state[25] = 0.4; joint_state[26] = 0.35; joint_state[27] = 0.25; 
-  joint_state[28] = -2.2; joint_state[29] = 0.0; joint_state[30] = -0.7;
-
-  joint_state[31] = 0.36; joint_state[32] = -0.73; joint_state[33] = -0.75; 
-  joint_state[34] = -1.4; joint_state[35] = -0.24; joint_state[36] = -0.14;
+bool iii = true;
 
 
-  vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
-  stateTrajectory[0] << vector_t::Zero(6), currentPose, defaultJointState;
-  stateTrajectory[1] << vector_t::Zero(6), currentPose, joint_state;
-
-  // desired input trajectory (just right dimensions, they are not used)
-  const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
-
-  return {timeTrajectory, stateTrajectory, inputTrajectory};
-}
 
 /**
  * Send joints reference to TargetTrajectories
 */
 
 TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observation){
-      std::cout << "*********target1*********" << std::endl;
-      std::cout << "*********observation.state.size*********" << std::endl;
-      std::cout << observation.state.size() << std::endl;
-
+  // std::cout << "*********target1*********" << std::endl;
+  // std::cout << "*********observation.state.size*********" << std::endl;
   const vector_t currentPose = observation.state.segment<6>(6);
-
   // target reaching duration
-  const scalar_t targetReachingTime = observation.time + 20;
-
+  const scalar_t targetReachingTime = observation.time + 1 ;
   // desired time trajectory
   const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
-
   // desired state trajectory
+  // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
   vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
   stateTrajectory[0] << vector_t::Zero(6), currentPose, defaultJointState;
   stateTrajectory[1] << vector_t::Zero(6), currentPose, desireJointState;
 
-  std::cout << "desireJointState" << std::endl;
-  for (size_t i = 0; i < desireJointState.size(); i++)
+  // desired input trajectory (just right dimensions, they are not used)
+  const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
+  if ( iii )
   {
-    std::cout <<"[" << i << "] = " << desireJointState[i] << std::endl;
+    for (size_t i = 0; i < desireJointState.size(); i++)
+    {
+      std::cout << "desireJointState[" << i << "] = " << desireJointState[i] << std::endl;
+    }
+    iii = false;
   }
   
 
-  // desired input trajectory (just right dimensions, they are not used)
-  const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
+  
+
 
   return {timeTrajectory, stateTrajectory, inputTrajectory};
-
-
-
 }
 
 
@@ -177,12 +116,6 @@ int main(int argc, char* argv[]) {
   loadData::loadCppDataType(referenceFile, "targetRotationVelocity", targetRotationVelocity);
   loadData::loadCppDataType(referenceFile, "targetDisplacementVelocity", targetDisplacementVelocity);
 
-  desireJointState = defaultJointState;
-  desireJointState[25] = 0.5; desireJointState[26] = 0.4; desireJointState[27] = 0.4; 
-  desireJointState[28] = -2.2; desireJointState[29] = 0.1; desireJointState[30] = -0.8;
-
-  desireJointState[31] = 0.6; desireJointState[32] = -0.6; desireJointState[33] = -0.7; 
-  desireJointState[34] = -1.3; desireJointState[35] = -0.3; desireJointState[36] = -0.2;
   // get wheels current position and set this as reference of the mpc state cost
   bool xbotCoreRunning;
   loadData::loadCppDataType(taskFile, "xbotcore.xbotCoreRunning", xbotCoreRunning);
@@ -196,7 +129,47 @@ int main(int argc, char* argv[]) {
       }
   }
 
+  ::ros::Subscriber observationSubscriber_;
+  std::mutex latestObservationMutex_;
+  SystemObservation latestObservation_;
 
+  //----------------------------------------------------------------
+  // Get the observation topic
+  //----------------------------------------------------------------
+  auto observationCallback = [&](const ocs2_msgs::mpc_observation::ConstPtr& msg) {
+    std::lock_guard<std::mutex> lock(latestObservationMutex_);
+    latestObservation_ = ros_msg_conversions::readObservationMsg(*msg);
+  };
+
+  observationSubscriber_ = nodeHandle.subscribe<ocs2_msgs::mpc_observation>(robotName + "_mpc_observation", 1, observationCallback);
+
+  desireJointState[25] = 0.4; desireJointState[26] = 0.35; desireJointState[27] = 0.25; 
+  desireJointState[28] = -2.2; desireJointState[29] = 0.0; desireJointState[30] = -0.7;
+
+  desireJointState[31] = 0.36; desireJointState[32] = -0.73; desireJointState[33] = -0.75; 
+  desireJointState[34] = -1.4; desireJointState[35] = -0.24; desireJointState[36] = -0.14;
+  while (ros::ok() && ros::master::check()) {
+    {
+    /* code */
+
+      ::ros::spinOnce();
+      
+      SystemObservation observation;
+      {
+        std::lock_guard<std::mutex> lock(latestObservationMutex_);
+        observation = latestObservation_;
+      }
+      // std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
+
+      if (observation.state.size()) {
+      {
+        jointRefToTargetTrajectories(observation);
+      }
+    }
+  }
+  }
+
+/**
   // goalPose: [deltaX, deltaY, deltaZ, deltaYaw]
   const scalar_array_t relativeBaseLimit{10.0, 10.0, 1.0, 360.0};
   // TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &jointRefToTargetTrajectories);
@@ -210,5 +183,7 @@ int main(int argc, char* argv[]) {
   // targetJointCommand.publishTargetTrajectories(true);
 
   // Successful exit
+********************************/
+
   return 0;
 }
