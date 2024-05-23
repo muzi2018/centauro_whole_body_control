@@ -48,6 +48,8 @@ Additional modifications and contributions by Ioannis Dadiotis:
 #include <string>
 using namespace ocs2;
 using namespace std;
+std::vector<std::vector<double>> doubleData;
+int n_segments = 0;
 
 scalar_t targetDisplacementVelocity;
 scalar_t targetRotationVelocity;
@@ -83,24 +85,59 @@ bool arm_rl_tracking(std_srvs::Empty::Request& req, std_srvs::Empty::Response& r
 */
 
 TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observation){
+
+  {
+// // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
+//   desirepose.resize(6);
+//   desirepose[0] = doubleData[n_segments][0]; desirepose[1] = doubleData[n_segments][1]; desirepose[2] = doubleData[n_segments][2]+0.8;
+//   desirepose[3] = doubleData[n_segments][3]; desirepose[4] = doubleData[n_segments][4]; desirepose[5] = doubleData[n_segments][5];
+
+
+//   desireJointState = defaultJointState;
+//     //left arm
+//   desireJointState[25] = doubleData[n_segments][6]; desireJointState[26] = doubleData[n_segments][7]; desireJointState[27] = doubleData[n_segments][8]; 
+//   desireJointState[28] = doubleData[n_segments][9]; desireJointState[29] = doubleData[n_segments][10]; desireJointState[30] = doubleData[n_segments][11];
+//   //right arm
+//   desireJointState[31] = doubleData[n_segments][12]; desireJointState[32] = doubleData[n_segments][13]; desireJointState[33] = doubleData[n_segments][14]; 
+//   desireJointState[34] = doubleData[n_segments][15]; desireJointState[35] = doubleData[n_segments][16]; desireJointState[36] = doubleData[n_segments][17];
+  }
+
+
   // std::cout << "*********target1*********" << std::endl;
   // std::cout << "*********observation.state.size*********" << std::endl;
   const vector_t currentPose = observation.state.segment<6>(6);
   // target reaching duration
-  const scalar_t targetReachingTime = observation.time + 1 ;
+  const scalar_t targetReachingTime = observation.time + 0.1 ;
+
   // desired time trajectory
-  const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
+  scalar_array_t timeTrajectory;
+  timeTrajectory.resize(doubleData.size());
+  int i = 0;
+  for (double& timePoint : timeTrajectory) {
+      timePoint = observation.time + 0.1 * i;
+      i++;
+  }
+
   // desired state trajectory
   // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
-  vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
-  stateTrajectory[0] << vector_t::Zero(6), currentPose, defaultJointState;
-  stateTrajectory[1] << vector_t::Zero(6), desirepose, desireJointState;
-
-  // desired input trajectory (just right dimensions, they are not used)
-  const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
-
-
+  vector_array_t stateTrajectory(doubleData.size(), vector_t::Zero(observation.state.size()));
+  int j = 0;
+  for (size_t i = 0; i < doubleData.size(); i++)
+  {
+    desireJointState = defaultJointState;
+      //left arm
+    desireJointState[25] = doubleData[j][6]; desireJointState[26] = doubleData[j][7]; desireJointState[27] = doubleData[j][8]; 
+    desireJointState[28] = doubleData[j][9]; desireJointState[29] = doubleData[j][10]; desireJointState[30] = doubleData[j][11];
+    //right arm
+    desireJointState[31] = doubleData[j][12]; desireJointState[32] = doubleData[j][13]; desireJointState[33] = doubleData[j][14]; 
+    desireJointState[34] = doubleData[j][15]; desireJointState[35] = doubleData[j][16]; desireJointState[36] = doubleData[j][17];
+    /* code */
+    stateTrajectory[i] << vector_t::Zero(6), currentPose, desireJointState;
+    j++;
+  }
   
+  // desired input trajectory (just right dimensions, they are not used)
+  const vector_array_t inputTrajectory(doubleData.size(), vector_t::Zero(observation.state.size()));
   if ( iii )
   {
     for (size_t i = 0; i < desireJointState.size(); i++)
@@ -113,6 +150,13 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
     }
     iii = false;
   }
+
+  std::cout << "timeTrajectory.size() = " << timeTrajectory.size() << std::endl;
+  std::cout << "stateTrajectory.size() = " << stateTrajectory.size() << std::endl;
+  std::cout << "inputTrajectory.size() = " << inputTrajectory.size() << std::endl;
+  std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
+  std::cout << "desireJointState.size() = " << desireJointState.size() << std::endl;
+
   return {timeTrajectory, stateTrajectory, inputTrajectory};
 }
 
@@ -194,29 +238,13 @@ int main(int argc, char* argv[]) {
     std::cout << "lines.size() = " << lines.size() << std::endl; 
 
 
-  std::vector<std::vector<double>> doubleData;
+  
   for (const auto& line : lines) {
       doubleData.push_back(parseDoubles(line));
   }
 
 
-    std::cout << "doubleData.size() = " << doubleData.size() << std::endl; 
-    // std::cout << "doubleData[0].size() = " << doubleData[0].size() << std::endl;
 
-
-
-// 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
-  desirepose.resize(6);
-  desirepose[0] = 0.07032587379217148; desirepose[1] = 0.5; desirepose[2] = 0.806497;
-  desirepose[3] = 0.19085979461669922; desirepose[4] = -0.20000000298023224; desirepose[5] = -0.5;
-
-  desireJointState = defaultJointState;
-    //left arm
-  desireJointState[25] = 0.5590618252754211; desireJointState[26] = 0.2764955163002014; desireJointState[27] = 0.30472493171691895; 
-  desireJointState[28] = -2.2533223628997803; desireJointState[29] = -0.06460489332675934; desireJointState[30] = -0.6942902207374573;
-  //right arm
-  desireJointState[31] = -0.19925080239772797; desireJointState[32] = -0.013799999840557575; desireJointState[33] = 0.009923404082655907; 
-  desireJointState[34] = -2.4793999195098877; desireJointState[35] = 0.09538839012384415; desireJointState[36] = 1.5155999660491943;
   {
   // //left arm
   // desireJointState[25] = 0.4; desireJointState[26] = 0.35; desireJointState[27] = 0.25; 
@@ -227,7 +255,7 @@ int main(int argc, char* argv[]) {
   }
 
 
-  ros::Rate r(100);
+  ros::Rate r(10);
   while (ros::ok() && ros::master::check()) {
       {
         while (!arm_rl_bool)
@@ -242,7 +270,6 @@ int main(int argc, char* argv[]) {
           observation = latestObservation_;
         }
       // std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
-
         if (observation.state.size()) {
         {
           const auto targetTrajectories = jointRefToTargetTrajectories(observation);
@@ -253,21 +280,7 @@ int main(int argc, char* argv[]) {
     }
   }
 
-/**
-  // goalPose: [deltaX, deltaY, deltaZ, deltaYaw]
-  const scalar_array_t relativeBaseLimit{10.0, 10.0, 1.0, 360.0};
-  // TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &jointRefToTargetTrajectories);
-  TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &commandLineToTargetTrajectories);
-
-  const std::string commandMsg = "Enter XYZ and Yaw (deg) displacements for the TORSO, separated by spaces";
-  targetPoseCommand.publishKeyboardCommand(commandMsg);
-
-  // // goalJoints
-  // TargetTrajectoriesRosPublisher targetJointCommand(nodeHandle, robotName, true, &jointRefToTargetTrajectories);
-  // targetJointCommand.publishTargetTrajectories(true);
-
-  // Successful exit
-********************************/
+  r.sleep();
 
   return 0;
 }
