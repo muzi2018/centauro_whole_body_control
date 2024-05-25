@@ -27,8 +27,15 @@
     <!-- The file defining gait definition -->
     <arg name="gaitCommandFile"   default="$(find ocs2_centauro)/config/command/gait.info"/>
     
+    <!-- <include file="$(find cartesian_walk)/launch/centauro_world.launch"/> -->
+    <param name="robot_description" textfile="/home/wang/forest_ws/ros_src/iit-centauro-ros-pkg/centauro_urdf/urdf/centauro.urdf"/>
+    <param name="robot_description_semantic" textfile="/home/wang/forest_ws/ros_src/iit-centauro-ros-pkg/centauro_srdf/srdf/centauro.srdf"/>
+
     <!-- Load impedance gains for joints to be used for controlling the robot -->
     <rosparam param="mrt_joint_impedance_gains" command="load" file="$(find ocs2_centauro)/config/control/impedance_gains_control.yaml"/>
+
+    <param name="problem_description"
+            textfile="$(find ocs2_centauro_ros)/config/cartesio_stack.yaml"/> 
 
     <!-- rviz -->
     <group if="$(arg rviz)">
@@ -52,7 +59,7 @@
     <param name="gaitCommandFile"   value="$(arg gaitCommandFile)"/>
 
     <!-- base estimation -->
-    <include file="$(find base_estimation)/launch/centauro_base_estimation.launch" if="$(arg base_estimation)">
+    <include file="/home/wang/catkin_ws_1/src/base_estimation/launch/centauro_base_estimation.launch" if="$(arg base_estimation)">
     	<arg name="launch-prefix" value="gnome-terminal --"/>
     </include>
 

@@ -33,7 +33,13 @@ set(CATKIN_PACKAGE_DEPENDENCIES
 
 find_package(catkin REQUIRED COMPONENTS
   ${CATKIN_PACKAGE_DEPENDENCIES}
+  message_generation
+  apriltag_ros
 )
+find_package(cartesian_interface REQUIRED)
+find_package(XBotInterface REQUIRED)
+find_package(apriltag REQUIRED)
+
 
 find_package(eigen_conversions REQUIRED)
 
@@ -101,6 +107,7 @@ target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${eigen_conversions_LIBRARIES}
+  ${catkin_LIBRARIES} ${cartesian_interface_LIBRARIES}
 )
 target_compile_options(${PROJECT_NAME} PUBLIC ${OCS2_CXX_FLAGS})
 
