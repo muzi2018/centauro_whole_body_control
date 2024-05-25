@@ -63,7 +63,7 @@ scalar_t comHeight;
 vector_t defaultJointState;
 vector_t desireJointState;
 vector_t desirepose;
-bool iii = false;
+bool iii = true;
 
 bool arm_rl_bool = false;
 
@@ -132,8 +132,8 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   {
     desirepose = currentPose;
     desireJointState = defaultJointState;
-    
-
+    //wheel position j_wheel_1 j_wheel_3 j_wheel_2 j_wheel_4
+    desireJointState[5] = 20; desireJointState[11] = 20; desireJointState[17] = -20; desireJointState[23] = -20; 
       //left arm
     desireJointState[25] = doubleData[traj_index][6]; desireJointState[26] = doubleData[traj_index][7]; desireJointState[27] = doubleData[traj_index][8]; 
     desireJointState[28] = doubleData[traj_index][9]; desireJointState[29] = doubleData[traj_index][10]; desireJointState[30] = doubleData[traj_index][11];
@@ -147,18 +147,18 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   
   // desired input trajectory (just right dimensions, they are not used)
   const vector_array_t inputTrajectory(2, vector_t::Zero(observation.state.size()));
-  // if ( iii )
-  // {
-  //   for (size_t i = 0; i < desireJointState.size(); i++)
-  //   {
-  //     std::cout << "desireJointState[" << i << "] = " << desireJointState[i] << std::endl;
-  //   }
-  //   for (size_t i = 0; i < observation.state.size(); i++)
-  //   {
-  //     std::cout << "state[" << i << "] = " << observation.state[i] << std::endl;
-  //   }
-  //   iii = false;
-  // }
+  if ( iii )
+  {
+    for (size_t i = 0; i < desireJointState.size(); i++)
+    {
+      std::cout << "desireJointState[" << i << "] = " << desireJointState[i] << std::endl;
+    }
+    for (size_t i = 0; i < observation.state.size(); i++)
+    {
+      std::cout << "state[" << i << "] = " << observation.state[i] << std::endl;
+    }
+    iii = false;
+  }
 
   // std::cout << "timeTrajectory.size() = " << timeTrajectory.size() << std::endl;
   // std::cout << "stateTrajectory.size() = " << stateTrajectory.size() << std::endl;
@@ -306,7 +306,7 @@ int main(int argc, char* argv[]) {
       }
       ::ros::spinOnce();
       r.sleep();
-      std::cout << "ros::ok() = " << ros::ok() << std::endl;
+      // std::cout << "ros::ok() = " << ros::ok() << std::endl;
   }
 
 
