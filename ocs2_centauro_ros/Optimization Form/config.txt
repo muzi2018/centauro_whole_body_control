@@ -1,0 +1,22 @@
+Opt
+
+state:
+    vcom_x, vcom_y, vcom_z; 3
+    L_x / robotMass, L_y / robotMass, L_z / robotMass; 3
+    p_base_x, p_base_y, p_base_z; 3 
+    theta_base_x, theta_base_y, theta_base_z; 3
+
+    hip_yaw_1, hip_pitch_1, knee_pitch_1, ankle_pitch_1, ankle_yaw_1, j_wheel_1; 6
+
+    hip_yaw_3, hip_pitch_3, knee_pitch_3, ankle_pitch_3, ankle_yaw_3, j_wheel_3; 6
+
+    hip_yaw_2, hip_pitch_2, knee_pitch_2, ankle_pitch_2, ankle_yaw_2, j_wheel_2; 6
+
+    hip_yaw_4, hip_pitch_4, knee_pitch_4, ankle_pitch_4, ankle_yaw_4, j_wheel_4; 6
+
+    torso_yaw
+
+    j_arm1_1, j_arm1_2, j_arm1_3, j_arm1_4, j_arm1_5, j_arm1_6; 6
+    j_arm1_1, j_arm1_2, j_arm1_3, j_arm1_4, j_arm1_5, j_arm1_6; 6
+
+    

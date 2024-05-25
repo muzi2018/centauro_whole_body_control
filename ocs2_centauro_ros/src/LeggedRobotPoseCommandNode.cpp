@@ -46,7 +46,12 @@ Additional modifications and contributions by Ioannis Dadiotis:
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <gazebo_ocs2_ros_interfaces/synchronized_module/RosReferenceManager.h>
+
+#include "ocs2_centauro/reference_manager/SwitchedStateReferenceManager.h"
+
 using namespace ocs2;
+using namespace ocs2::legged_robot;
 using namespace std;
 std::vector<std::vector<double>> doubleData;
 int n_segments = 0;
@@ -253,6 +258,21 @@ int main(int argc, char* argv[]) {
   // desireJointState[31] = 0.36; desireJointState[32] = -0.73; desireJointState[33] = -0.75; 
   // desireJointState[34] = -1.4; desireJointState[35] = -0.24; desireJointState[36] = -0.14;
   }
+
+
+  // std::shared_ptr<SwitchedStateReferenceManager> referenceManagerPtr_;
+  // // ReferenceManagerInterface
+  // auto rosReferenceManagerPtr = std::make_shared<RosReferenceManager>(robotName, referenceManagerPtr_);
+  // rosReferenceManagerPtr->subscribe(nodeHandle, targetFramesNames);
+
+  // // Subscribe TargetTrajectories
+  // auto targetTrajectoriesCallback = [this](const ocs2_msgs::mpc_target_trajectories::ConstPtr& msg) {
+  //   auto targetTrajectories = ros_msg_conversions::readTargetTrajectoriesMsg(*msg);
+  //   referenceManagerPtr_->setTargetTrajectories(std::move(targetTrajectories));
+  // };
+  // targetTrajectoriesSubscriber_ =
+  //     nodeHandle.subscribe<ocs2_msgs::mpc_target_trajectories>(topicPrefix_ + "_mpc_target", 1, targetTrajectoriesCallback);
+
 
 
   ros::Rate r(10);

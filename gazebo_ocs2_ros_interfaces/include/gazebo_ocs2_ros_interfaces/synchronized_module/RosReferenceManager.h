@@ -86,6 +86,7 @@ class RosReferenceManager final : public ReferenceManagerDecorator {
   ::ros::Subscriber targetTrajectoriesSubscriber_;
   std::vector<::ros::Subscriber> framesTargetTrajectoriesSubscriber_;   // vector so that they multiple can be created
   std::unique_ptr<force_control::AdmittanceReferenceGenerator> referenceGeneratorPtr_;
+  
 
 };
 
