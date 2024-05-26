@@ -133,7 +133,8 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
     desirepose = currentPose;
     desireJointState = defaultJointState;
     
-
+    //wheel position j_wheel_1 j_wheel_3 j_wheel_2 j_wheel_4
+    // desireJointState[5] = 20; desireJointState[11] = 20; desireJointState[17] = -20; desireJointState[23] = -20; 
       //left arm
     desireJointState[25] = doubleData[traj_index][6]; desireJointState[26] = doubleData[traj_index][7]; desireJointState[27] = doubleData[traj_index][8]; 
     desireJointState[28] = doubleData[traj_index][9]; desireJointState[29] = doubleData[traj_index][10]; desireJointState[30] = doubleData[traj_index][11];
