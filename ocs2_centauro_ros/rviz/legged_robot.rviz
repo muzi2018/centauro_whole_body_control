@@ -11,8 +11,9 @@ Panels:
         - /InteractiveMarkers1
         - /InteractiveMarkers2
         - /MarkerArray1
+        - /Image1
       Splitter Ratio: 0.5
-    Tree Height: 500
+    Tree Height: 478
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -30,7 +31,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Image
   - Class: rviz/Displays
     Help Height: 138
     Name: Displays
@@ -687,6 +688,8 @@ Visualization Manager:
           Value: false
         pelvis:
           Value: true
+        tag_0:
+          Value: true
         torso_2:
           Value: false
         velodyne_calib:
@@ -822,7 +825,8 @@ Visualization Manager:
                       D435_head_camera_depth_frame:
                         D435_head_camera_color_frame:
                           D435_head_camera_color_optical_frame:
-                            {}
+                            tag_0:
+                              {}
                         D435_head_camera_depth_optical_frame:
                           {}
                         D435_head_camera_left_ir_frame:
@@ -848,8 +852,7 @@ Visualization Manager:
       Marker Topic: /legged_robot/optimizedStateTrajectory
       Name: Optimized State Trajectory
       Namespaces:
-        CoM Trajectory: true
-        EE Trajectories: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -857,10 +860,7 @@ Visualization Manager:
       Marker Topic: /legged_robot/currentState
       Name: Current State
       Namespaces:
-        Center of Pressure: true
-        EE Forces: true
-        EE Positions: true
-        Support Polygon: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/Group
@@ -934,52 +934,20 @@ Visualization Manager:
       Marker Topic: /distance_markers
       Name: MarkerArray
       Namespaces:
-        27 - 32: true
-        27 - 33: true
-        27 - 34: true
-        27 - 39: true
-        27 - 40: true
-        30 - 0: true
-        30 - 4: true
-        30 - 5: true
-        31 - 0: true
-        31 - 4: true
-        31 - 5: true
-        32 - 0: true
-        32 - 3: true
-        32 - 4: true
-        32 - 5: true
-        33 - 0: true
-        33 - 3: true
-        33 - 4: true
-        33 - 5: true
-        34 - 0: true
-        34 - 3: true
-        34 - 4: true
-        34 - 5: true
-        34 - 6: true
-        37 - 0: true
-        37 - 10: true
-        37 - 11: true
-        38 - 0: true
-        38 - 10: true
-        38 - 11: true
-        39 - 0: true
-        39 - 10: true
-        39 - 11: true
-        39 - 9: true
-        40 - 0: true
-        40 - 10: true
-        40 - 11: true
-        40 - 9: true
-        41 - 0: true
-        41 - 10: true
-        41 - 11: true
-        41 - 12: true
-        41 - 27: true
-        41 - 34: true
-        41 - 9: true
+        {}
       Queue Size: 100
+      Value: true
+    - Class: rviz/Image
+      Enabled: true
+      Image Topic: /tag_detections_image
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
@@ -1007,7 +975,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.0507941246032715
+      Distance: 4.28614616394043
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -1023,17 +991,19 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.1103985458612442
+      Pitch: 0.2603985071182251
       Target Frame: <Fixed Frame>
-      Yaw: 6.151778697967529
+      Yaw: 5.85677433013916
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 789
+  Height: 1027
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001ed000002bbfc020000000afb0000001200530065006c0065006300740069006f006e000000006e000000b00000005c00fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073000000006e000004770000005c00fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d000002bb000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00430061006d00650072006101000001be000001900000000000000000fb000000100044006900730070006c006100790073000000006e00000247000000c900ffffff000000010000010f000002e2fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000028000002e2000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000006400000003efc0100000002fb0000000800540069006d00650000000000000006400000041800fffffffb0000000800540069006d0065010000000000000450000000000000000000000235000002bb00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Image:
+    collapsed: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000001ed000003a9fc020000000bfb0000001200530065006c0065006300740069006f006e000000006e000000b00000005c00fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073000000006e000004770000005c00fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d000002a5000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00430061006d00650072006101000001be000001900000000000000000fb000000100044006900730070006c006100790073000000006e00000247000000c900fffffffb0000000a0049006d00610067006501000002e8000000fe0000001600ffffff000000010000010f000002e2fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000028000002e2000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000006400000003efc0100000002fb0000000800540069006d00650000000000000006400000041800fffffffb0000000800540069006d006501000000000000045000000000000000000000036c000003a900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -1042,6 +1012,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1064
+  Width: 1375
   X: 192
-  Y: 98
+  Y: 61
