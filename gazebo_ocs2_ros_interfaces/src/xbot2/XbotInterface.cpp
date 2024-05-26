@@ -316,6 +316,8 @@ void XbotInterface::sendCommandToXbot(const std::shared_ptr<legged_robot::Legged
                                       const vector_t& optimalState, const vector_t& optimalInput) {
     xbot_msgs::JointCommand cmd;
 
+    // std::cout << "---------- sendCommandToXbot -------------" << std::endl;
+
     // fill and publish xbotcore msg after getting optimal state
     int numberJoints = leggedRobotInterfacePtr->getCentroidalModelInfo().actuatedDofNum;
     cmd.name = leggedRobotInterfacePtr->modelSettings().jointNames;
@@ -348,15 +350,15 @@ void XbotInterface::sendCommandToXbot(const std::shared_ptr<legged_robot::Legged
     cmd.ctrl_mode.assign(numberJoints, 1 +2 +4 +8 +16);  // 1 position, 2 velocity, 4 effort, 8 stiffness, 16 damping
 
     // keep default control for the wheels
-    std::vector<int> wheelIndices(4);
-    for (int wheel_i = 1; wheel_i < 5; wheel_i++)
-        wheelIndices[wheel_i - 1] = std::distance(cmd.name.begin(), std::find(cmd.name.begin(), cmd.name.end(), "j_wheel_" + std::to_string(wheel_i)));
-    for (auto index: wheelIndices) {
-        cmd.position.at(index) = 0.0;
-        cmd.effort.at(index) = 0.0;
-        cmd.stiffness.at(index) = 0.0;
-        cmd.damping.at(index) = 10.0;
-    }
+    // std::vector<int> wheelIndices(4);
+    // for (int wheel_i = 1; wheel_i < 5; wheel_i++)
+    //     wheelIndices[wheel_i - 1] = std::distance(cmd.name.begin(), std::find(cmd.name.begin(), cmd.name.end(), "j_wheel_" + std::to_string(wheel_i)));
+    // for (auto index: wheelIndices) {
+    //     cmd.position.at(index) = 0.0;
+    //     cmd.effort.at(index) = 0.0;
+    //     cmd.stiffness.at(index) = 0.0;
+    //     cmd.damping.at(index) = 10.0;
+    // }
 
     // just a try for extreme high poses
 //    std::vector<int> arm1Indices(6);

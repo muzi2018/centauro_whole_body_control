@@ -91,26 +91,8 @@ bool arm_rl_tracking(std_srvs::Empty::Request& req, std_srvs::Empty::Response& r
 */
 
 TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observation){
+  
 
-  {
-// // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
-//   desirepose.resize(6);
-//   desirepose[0] = doubleData[n_segments][0]; desirepose[1] = doubleData[n_segments][1]; desirepose[2] = doubleData[n_segments][2]+0.8;
-//   desirepose[3] = doubleData[n_segments][3]; desirepose[4] = doubleData[n_segments][4]; desirepose[5] = doubleData[n_segments][5];
-
-
-//   desireJointState = defaultJointState;
-//     //left arm
-//   desireJointState[25] = doubleData[n_segments][6]; desireJointState[26] = doubleData[n_segments][7]; desireJointState[27] = doubleData[n_segments][8]; 
-//   desireJointState[28] = doubleData[n_segments][9]; desireJointState[29] = doubleData[n_segments][10]; desireJointState[30] = doubleData[n_segments][11];
-//   //right arm
-//   desireJointState[31] = doubleData[n_segments][12]; desireJointState[32] = doubleData[n_segments][13]; desireJointState[33] = doubleData[n_segments][14]; 
-//   desireJointState[34] = doubleData[n_segments][15]; desireJointState[35] = doubleData[n_segments][16]; desireJointState[36] = doubleData[n_segments][17];
-  }
-
-
-  // std::cout << "*********target1*********" << std::endl;
-  // std::cout << "*********observation.state.size*********" << std::endl;
   const vector_t currentPose = observation.state.segment<6>(6);
   // target reaching duration
   const scalar_t targetReachingTime = observation.time + 0.1 ;
@@ -128,23 +110,25 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
   vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
   
-  for (size_t i = 0; i < 2; i++)
-  {
+
     desirepose = currentPose;
     desireJointState = defaultJointState;
     
-    //wheel position j_wheel_1 j_wheel_3 j_wheel_2 j_wheel_4
-    // desireJointState[5] = 20; desireJointState[11] = 20; desireJointState[17] = -20; desireJointState[23] = -20; 
-      //left arm
-    desireJointState[25] = doubleData[traj_index][6]; desireJointState[26] = doubleData[traj_index][7]; desireJointState[27] = doubleData[traj_index][8]; 
-    desireJointState[28] = doubleData[traj_index][9]; desireJointState[29] = doubleData[traj_index][10]; desireJointState[30] = doubleData[traj_index][11];
-    //right arm
-    desireJointState[31] = doubleData[traj_index][12]; desireJointState[32] = doubleData[traj_index][13]; desireJointState[33] = doubleData[traj_index][14]; 
-    desireJointState[34] = doubleData[traj_index][15]; desireJointState[35] = doubleData[traj_index][16]; desireJointState[36] = doubleData[traj_index][17];
+    // wheel position j_wheel_1 j_wheel_3 j_wheel_2 j_wheel_4
+    desireJointState[5] = traj_index * 0.1; 
+    // desireJointState[11] = traj_index * 0.1; 
+    // desireJointState[17] = -traj_index * 0.1; 
+    // desireJointState[23] = -traj_index * 0.1; 
+    //   //left arm
+    // desireJointState[25] = doubleData[traj_index][6]; desireJointState[26] = doubleData[traj_index][7]; desireJointState[27] = doubleData[traj_index][8]; 
+    // desireJointState[28] = doubleData[traj_index][9]; desireJointState[29] = doubleData[traj_index][10]; desireJointState[30] = doubleData[traj_index][11];
+    // //right arm
+    // desireJointState[31] = doubleData[traj_index][12]; desireJointState[32] = doubleData[traj_index][13]; desireJointState[33] = doubleData[traj_index][14]; 
+    // desireJointState[34] = doubleData[traj_index][15]; desireJointState[35] = doubleData[traj_index][16]; desireJointState[36] = doubleData[traj_index][17];
     /* code */
-    stateTrajectory[i] << 0,0,0,0,0,0, desirepose, desireJointState;
-    
-  }
+    stateTrajectory[0] << 0,0,0,0,0,0, currentPose, desireJointState;
+    stateTrajectory[1] << 0,0,0,0,0,0, desirepose, desireJointState;
+
   
   // desired input trajectory (just right dimensions, they are not used)
   const vector_array_t inputTrajectory(2, vector_t::Zero(observation.state.size()));
@@ -252,32 +236,6 @@ int main(int argc, char* argv[]) {
   for (const auto& line : lines) {
       doubleData.push_back(parseDoubles(line));
   }
-
-
-
-  {
-  // //left arm
-  // desireJointState[25] = 0.4; desireJointState[26] = 0.35; desireJointState[27] = 0.25; 
-  // desireJointState[28] = -2.2; desireJointState[29] = 0.0; desireJointState[30] = -0.7;
-  // //right arm
-  // desireJointState[31] = 0.36; desireJointState[32] = -0.73; desireJointState[33] = -0.75; 
-  // desireJointState[34] = -1.4; desireJointState[35] = -0.24; desireJointState[36] = -0.14;
-  }
-
-
-  // std::shared_ptr<SwitchedStateReferenceManager> referenceManagerPtr_;
-  // // ReferenceManagerInterface
-  // auto rosReferenceManagerPtr = std::make_shared<RosReferenceManager>(robotName, referenceManagerPtr_);
-  // rosReferenceManagerPtr->subscribe(nodeHandle, targetFramesNames);
-
-  // // Subscribe TargetTrajectories
-  // auto targetTrajectoriesCallback = [this](const ocs2_msgs::mpc_target_trajectories::ConstPtr& msg) {
-  //   auto targetTrajectories = ros_msg_conversions::readTargetTrajectoriesMsg(*msg);
-  //   referenceManagerPtr_->setTargetTrajectories(std::move(targetTrajectories));
-  // };
-  // targetTrajectoriesSubscriber_ =
-  //     nodeHandle.subscribe<ocs2_msgs::mpc_target_trajectories>(topicPrefix_ + "_mpc_target", 1, targetTrajectoriesCallback);
-
 
 
   ros::Rate r(10);
