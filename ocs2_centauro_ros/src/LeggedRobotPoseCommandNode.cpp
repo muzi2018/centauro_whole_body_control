@@ -76,6 +76,7 @@ using namespace std;
 std::vector<std::vector<double>> doubleData;
 int n_segments = 0;
 int traj_index = 0;
+Eigen::VectorXd q, qdot, qddot;
 
 scalar_t targetDisplacementVelocity;
 scalar_t targetRotationVelocity;
@@ -139,25 +140,7 @@ bool arm_rl_tracking(std_srvs::Empty::Request& req, std_srvs::Empty::Response& r
 
 TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observation){
 
-  {
-// // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
-//   desirepose.resize(6);
-//   desirepose[0] = doubleData[n_segments][0]; desirepose[1] = doubleData[n_segments][1]; desirepose[2] = doubleData[n_segments][2]+0.8;
-//   desirepose[3] = doubleData[n_segments][3]; desirepose[4] = doubleData[n_segments][4]; desirepose[5] = doubleData[n_segments][5];
 
-
-//   desireJointState = defaultJointState;
-//     //left arm
-//   desireJointState[25] = doubleData[n_segments][6]; desireJointState[26] = doubleData[n_segments][7]; desireJointState[27] = doubleData[n_segments][8]; 
-//   desireJointState[28] = doubleData[n_segments][9]; desireJointState[29] = doubleData[n_segments][10]; desireJointState[30] = doubleData[n_segments][11];
-//   //right arm
-//   desireJointState[31] = doubleData[n_segments][12]; desireJointState[32] = doubleData[n_segments][13]; desireJointState[33] = doubleData[n_segments][14]; 
-//   desireJointState[34] = doubleData[n_segments][15]; desireJointState[35] = doubleData[n_segments][16]; desireJointState[36] = doubleData[n_segments][17];
-  }
-
-
-  // std::cout << "*********target1*********" << std::endl;
-  // std::cout << "*********observation.state.size*********" << std::endl;
   const vector_t currentPose = observation.state.segment<6>(6);
   // target reaching duration
   const scalar_t targetReachingTime = observation.time + 0.1 ;
@@ -167,7 +150,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   timeTrajectory.resize(2);
   int i = 0;
   for (double& timePoint : timeTrajectory) {
-      timePoint = observation.time + 0.1 * i;
+      timePoint = observation.time + 0.01 * i;
       i++;
   }
 
@@ -181,6 +164,8 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
     desireJointState = defaultJointState;
     
 
+    //wheel position j_wheel_1 j_wheel_3 j_wheel_2 j_wheel_4
+    desireJointState[5] = q[11]; desireJointState[11] = q[23]; desireJointState[17] = q[17]; desireJointState[23] = q[29]; 
       //left arm
     desireJointState[25] = doubleData[traj_index][6]; desireJointState[26] = doubleData[traj_index][7]; desireJointState[27] = doubleData[traj_index][8]; 
     desireJointState[28] = doubleData[traj_index][9]; desireJointState[29] = doubleData[traj_index][10]; desireJointState[30] = doubleData[traj_index][11];
@@ -231,6 +216,15 @@ int main(int argc, char* argv[]) {
 
     // and we can make the model class
     auto model = XBot::ModelInterface::getModel(cfg);
+    std::cout << "model joint names111: " << std::endl;
+    auto joint_name = model->getEnabledJointNames();
+    for (size_t i = 0; i < joint_name.size(); i++)
+    {
+      std::cout << "joint_name[" << i << "] = " << joint_name[i] << std::endl;
+    }
+    
+
+
     auto robot = XBot::RobotInterface::getRobot(cfg);
     // initialize to a homing configuration
     Eigen::VectorXd qhome;
@@ -256,7 +250,7 @@ int main(int argc, char* argv[]) {
                                                        ik_pb, ctx
                                                        );
     ros::Subscriber sub = nodeHandle.subscribe("/tag_detections", 1000, tagDetectionsCallback);
-    Eigen::VectorXd q, qdot, qddot;
+    
     auto car_task = solver->getTask("base_link");
     auto car_cartesian = std::dynamic_pointer_cast<XBot::Cartesian::CartesianTask>(car_task);
     ros::ServiceServer service_ = nodeHandle.advertiseService("start_walking", start_walking);
@@ -373,7 +367,7 @@ int main(int argc, char* argv[]) {
 
 
 
-  ros::Rate r(10);
+  ros::Rate r(100);
   while (ros::ok() && ros::master::check()) {
       
       //   while (!arm_rl_bool)
@@ -490,9 +484,26 @@ int main(int argc, char* argv[]) {
         model->setJointVelocity(qdot);
         model->update();
 
-        robot->setPositionReference(q.tail(robot->getJointNum()));
-        robot->setVelocityReference(qdot.tail(robot->getJointNum()));
-        robot->move();
+        // robot->setPositionReference(q.tail(robot->getJointNum()));
+        // robot->setVelocityReference(qdot.tail(robot->getJointNum()));
+        // robot->move();
+
+        SystemObservation observation;
+        {
+          std::lock_guard<std::mutex> lock(latestObservationMutex_);
+          observation = latestObservation_;
+        }
+      // std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
+        if (observation.state.size()) {
+        {
+          const auto targetTrajectories = jointRefToTargetTrajectories(observation);
+          targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
+          traj_index++;
+          // arm_rl_bool = !arm_rl_bool;
+        }
+      }  
+
+
 
         time += dt;
         rspub.publishTransforms(ros::Time::now(), "");
