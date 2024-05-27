@@ -358,7 +358,7 @@ Q
   (46,46)  3.0e-1    ; j_arm2_4
   (47,47)  3.0e-1    ; j_arm2_5
   (48,48)  3.0e-1    ; j_arm2_6
-  (49,49)  0.0       ; dagana_2_claw_joint
+  (49,49)  3.0e-1       ; dagana_2_claw_joint
 }
 
 ; custom control weight matrix
