@@ -54,7 +54,7 @@ struct ModelSettings {
                                       "hip_yaw_4", "hip_pitch_4", "knee_pitch_4", "ankle_pitch_4", "ankle_yaw_4", "j_wheel_4",
                                       "torso_yaw",
                                       "j_arm1_1", "j_arm1_2", "j_arm1_3", "j_arm1_4", "j_arm1_5", "j_arm1_6",
-                                      "j_arm2_1", "j_arm2_2", "j_arm2_3", "j_arm2_4", "j_arm2_5", "j_arm2_6"
+                                      "j_arm2_1", "j_arm2_2", "j_arm2_3", "j_arm2_4", "j_arm2_5", "j_arm2_6", "dagana_2_claw_joint"
                                      };
 
   std::vector<std::string> contactNames6DoF{};

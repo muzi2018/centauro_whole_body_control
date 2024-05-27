@@ -48,6 +48,7 @@ defaultJointState
     (34,0)  -2.23604 ; j_arm2_4
     (35,0)  -0.0500815 ; j_arm2_5
     (36,0)  -0.781461 ; j_arm2_6
+    (37,0)  0.0       ; dagana_2_claw_joint
 }
 
 initialModeSchedule

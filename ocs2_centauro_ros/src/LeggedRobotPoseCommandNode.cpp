@@ -105,15 +105,14 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
       timePoint = observation.time + 0.1 * i;
       i++;
   }
-
   // desired state trajectory
   // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
   vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
-  
+
 
     desirepose = currentPose;
     desireJointState = defaultJointState;
-    
+
     // wheel position j_wheel_1 j_wheel_3 j_wheel_2 j_wheel_4
     // desireJointState[5] = traj_index * 0.1; 
     // desireJointState[11] = traj_index * 0.1; 
@@ -129,9 +128,10 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
     stateTrajectory[0] << 0,0,0,0,0,0, currentPose, desireJointState;
     stateTrajectory[1] << 0,0,0,0,0,0, desirepose, desireJointState;
 
-  
+    std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
   // desired input trajectory (just right dimensions, they are not used)
-  const vector_array_t inputTrajectory(2, vector_t::Zero(observation.state.size()));
+    const vector_array_t inputTrajectory(2, vector_t::Zero(observation.state.size()));
+  
   // if ( iii )
   // {
   //   for (size_t i = 0; i < desireJointState.size(); i++)
@@ -150,6 +150,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   // std::cout << "inputTrajectory.size() = " << inputTrajectory.size() << std::endl;
   // std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
   // std::cout << "desireJointState.size() = " << desireJointState.size() << std::endl;
+  std::cout << "--------Debug---------" << std::endl;
 
   return {timeTrajectory, stateTrajectory, inputTrajectory};
 }
@@ -169,8 +170,17 @@ int main(int argc, char* argv[]) {
   nodeHandle.getParam("/taskFile", taskFile);
   legged_robot::ModelSettings modelSettings = legged_robot::loadModelSettings(taskFile, "model_settings", false);
   defaultJointState.resize(modelSettings.jointNames.size());    // resize defaultJointState vector
+  for (size_t i = 0; i < modelSettings.jointNames.size(); i++)
+  {
+    /* code */
+    std::cout << "modelSettings.jointNames[" << i << "] = " << modelSettings.jointNames[i] << std::endl;
+  }
+  std::cout << "modelSettings.jointNames.size() = " << modelSettings.jointNames.size()<< std::endl;
+
+
   desireJointState.resize(modelSettings.jointNames.size());    // resize desireJointState vector
-  
+  std::cout << "defaultJointState->size() = " << desireJointState.size()<< std::endl;
+
 
 
   loadData::loadCppDataType(referenceFile, "comHeight", comHeight);
@@ -252,7 +262,6 @@ int main(int argc, char* argv[]) {
           std::lock_guard<std::mutex> lock(latestObservationMutex_);
           observation = latestObservation_;
         }
-      // std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
         if (observation.state.size()) {
         {
           const auto targetTrajectories = jointRefToTargetTrajectories(observation);
@@ -267,10 +276,6 @@ int main(int argc, char* argv[]) {
       r.sleep();
       std::cout << "ros::ok() = " << ros::ok() << std::endl;
   }
-
-
-  
-
   return 0;
 }
 

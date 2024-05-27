@@ -119,6 +119,7 @@ LeggedRobotInterface::LeggedRobotInterface(const std::string& taskFile, const st
 
   // initial state
   initialState_.setZero(centroidalModelInfo_.stateDim);       // initial version
+  // std::cout << "centroidalModelInfo_.stateDim = " << centroidalModelInfo_.stateDim << std::endl;
 //  loadData::loadEigenMatrix(taskFile, "initialState", initialState_);
 }
 
@@ -134,12 +135,21 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
   // PinocchioInterface
   pinocchioInterfacePtr_.reset(new PinocchioInterface(centroidal_model::createPinocchioInterface(urdfFile, modelSettings_.jointNames)));
 
+  // for (size_t i = 0; i < modelSettings_.jointNames.size(); i++)
+  // {
+  //   /* code */
+  //   std::cout << "modelSettings_.jointNames[" << i << "] = " << modelSettings_.jointNames[i] << std::endl;
+  // }
+  
+
   // CentroidalModelInfo
   centroidalModelInfo_ = centroidal_model::createCentroidalModelInfo(
       *pinocchioInterfacePtr_, centroidal_model::loadCentroidalType(taskFile),
       centroidal_model::loadDefaultJointState(pinocchioInterfacePtr_->getModel().nq - 6, referenceFile), modelSettings_.contactNames3DoF,
       modelSettings_.contactNames6DoF);
 
+
+  std::cout << "centroidalModelInfo_.stateDim = " << centroidalModelInfo_.stateDim << std::endl;
   // Swing trajectory planner
   std::unique_ptr<SwingTrajectoryPlanner> swingTrajectoryPlanner(
       new SwingTrajectoryPlanner(loadSwingTrajectorySettings(taskFile, "swing_trajectory_config", verbose), 4));

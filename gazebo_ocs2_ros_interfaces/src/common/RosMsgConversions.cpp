@@ -65,9 +65,11 @@ SystemObservation readObservationMsg(const ocs2_msgs::mpc_observation& observati
 
   const auto& state = observationMsg.state.value;
   observation.state = Eigen::Map<const Eigen::VectorXf>(state.data(), state.size()).cast<scalar_t>();
+  // std::cout << "state.size(): " << state.size() << std::endl;
 
   const auto& input = observationMsg.input.value;
   observation.input = Eigen::Map<const Eigen::VectorXf>(input.data(), input.size()).cast<scalar_t>();
+  // std::cout << "input.size(): " << input.size() << std::endl;
 
   observation.mode = observationMsg.mode;
 

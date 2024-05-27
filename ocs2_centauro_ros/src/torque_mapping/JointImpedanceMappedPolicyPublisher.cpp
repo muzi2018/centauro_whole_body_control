@@ -63,7 +63,7 @@ std::map<std::string, int> mapJointNameToMotorSizeIndex = {
 
     {"j_arm1_1", 1}, {"j_arm1_2", 1}, {"j_arm1_3", 1}, {"j_arm1_4", 1}, {"j_arm1_5", 0}, {"j_arm1_6", 0}, {"j_arm1_7", 0},
     {"j_arm2_1", 1}, {"j_arm2_2", 1}, {"j_arm2_3", 1}, {"j_arm2_4", 1}, {"j_arm2_5", 0}, {"j_arm2_6", 0}, {"j_arm2_7", 0},
-
+    {"dagana_2_claw_joint", 0},
     {"neck_yaw", 0}, {"neck_pitch", 0}, {"neck_velodyne", 0}, {"d435_head_joint", 0}, {"velodyne_joint", 0}
 };
 
@@ -84,7 +84,7 @@ JointImpedanceMappedPolicyPublisher::JointImpedanceMappedPolicyPublisher(Pinocch
                   "hip_yaw_4", "hip_pitch_4", "knee_pitch_4", "ankle_pitch_4", "ankle_yaw_4", "j_wheel_4",
                   "torso_yaw",
                   "j_arm1_1", "j_arm1_2", "j_arm1_3", "j_arm1_4", "j_arm1_5", "j_arm1_6",
-                  "j_arm2_1", "j_arm2_2", "j_arm2_3", "j_arm2_4", "j_arm2_5", "j_arm2_6"
+                  "j_arm2_1", "j_arm2_2", "j_arm2_3", "j_arm2_4", "j_arm2_5", "j_arm2_6", "dagana_2_claw_joint"
                  },
       centroidalModelRbdConversions_(pinocchioInterface, centroidalModelInfo),
       wheelIndices_(4, 0)
