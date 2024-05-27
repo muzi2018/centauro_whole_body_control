@@ -50,6 +50,7 @@ simulation
 
 		;; Torso Joint Positions: [torso] ;;
 		   [38]	8000.0 ; torso_yaw
+	           [39] 1000 ; dagana_2_claw_joint
 		}
 
 		dGains
@@ -100,6 +101,8 @@ simulation
 
 		;; Torso Joint Positions: [torso] ;;
 		   [38]	50.0 ; torso_yaw
+
+	           [39] 10 ; dagana_2_claw_joint
 		}
 	}
 }

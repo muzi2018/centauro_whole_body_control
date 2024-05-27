@@ -209,7 +209,7 @@ xbotcore
   xbotCoreFeedback                    true                ; true if it is to receive feedback from xbotcore
 
   ; topic prefix to receive base pose and twist ;
-  baseLinkTopicPrefix            /xbotcore/link_state/pelvis      ;/centauro_base_estimation/base_link
+  baseLinkTopicPrefix           /centauro_base_estimation/base_link       ;/xbotcore/link_state/pelvis
 
   ; flag to clamp the commands within the urdf limits at the xbotcore control level
   clampTorqueCmd                      true
@@ -290,7 +290,7 @@ initialState
    (46,0)  -2.23604 ; j_arm2_4
    (47,0)  -0.0500815 ; j_arm2_5
    (48,0)  -0.781461 ; j_arm2_6
-    (49,0)  0.0       ; dagana_2_claw_joint
+   (49,0)  0.0       ; dagana_2_claw_joint
 
 }
 

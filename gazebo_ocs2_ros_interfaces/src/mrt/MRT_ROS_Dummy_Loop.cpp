@@ -199,7 +199,7 @@ void MRT_ROS_Dummy_Loop::synchronizedXbotCoreLoop(const SystemObservation& initO
 
   ros::Rate simRate(mrtDesiredFrequency_);
   while (ros::ok() && ros::master::check()) {
-    std::cout << "### Current time " << currentObservation.time << "\n";
+    // std::cout << "### Current time " << currentObservation.time << "\n";
 
     // Trigger MRT callbacks
     mrt_.spinMRT();
@@ -210,7 +210,7 @@ void MRT_ROS_Dummy_Loop::synchronizedXbotCoreLoop(const SystemObservation& initO
       while (!policyUpdatedForTime(currentObservation.time) && ros::ok() && ros::master::check()) {
         mrt_.spinMRT();
       }
-      std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
+      // std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
     }
 
     // get observation from xbotCore
@@ -223,7 +223,7 @@ void MRT_ROS_Dummy_Loop::synchronizedXbotCoreLoop(const SystemObservation& initO
     // Publish observation if at the next step we want a new policy
     if ((loopCounter + 1) % mpcUpdateRatio == 0) {
       mrt_.setCurrentObservation(currentObservation);
-      std::cout << ">>> Observation is published at " << currentObservation.time << "\n";
+      // std::cout << ">>> Observation is published at " << currentObservation.time << "\n";
     }
 
     // evaluate policy at current time
@@ -326,6 +326,7 @@ void MRT_ROS_Dummy_Loop::realtimeXbotCoreLoop(const SystemObservation& initObser
         // get observation from xbotCore
         currentObservation = xbotInterface_.getObservationFromXbot(currentObservation, mrtDesiredFrequency_,
                                                                    leggedRobotInterfacePtr_, mrt_);
+        
         // Publish observation
         mrt_.setCurrentObservation(currentObservation);
 
@@ -334,6 +335,7 @@ void MRT_ROS_Dummy_Loop::realtimeXbotCoreLoop(const SystemObservation& initObser
         vector_t optimalInput;
         size_t mode;
         mrt_.evaluatePolicy(currentObservation.time, currentObservation.state, optimalState, optimalInput, mode);
+
         currentObservation.input = optimalInput;        // set input equal to optimal plan (since otherwise has to be zero and is not visualized)
 
         // send command to xbotcore

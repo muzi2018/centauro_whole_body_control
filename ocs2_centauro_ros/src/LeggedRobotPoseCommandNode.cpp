@@ -95,19 +95,19 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
 
   const vector_t currentPose = observation.state.segment<6>(6);
   // target reaching duration
-  const scalar_t targetReachingTime = observation.time + 0.1 ;
-
+  std::cout << "current dagana = " << observation.state[49] << std::endl;
+  std::cout << "desired dagana = " << doubleData[traj_index][18] << std::endl;
   // desired time trajectory
   scalar_array_t timeTrajectory;
   timeTrajectory.resize(2);
   int i = 0;
   for (double& timePoint : timeTrajectory) {
-      timePoint = observation.time + 0.1 * i;
+      timePoint = observation.time + (1/60) * i;
       i++;
   }
   // desired state trajectory
   // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
-  vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
+    vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
 
 
     desirepose = currentPose;
@@ -118,12 +118,16 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
     // desireJointState[11] = traj_index * 0.1; 
     // desireJointState[17] = -traj_index * 0.1; 
     // desireJointState[23] = -traj_index * 0.1; 
-      //left arm
+
+    // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
+
+    //left arm
     desireJointState[25] = doubleData[traj_index][6]; desireJointState[26] = doubleData[traj_index][7]; desireJointState[27] = doubleData[traj_index][8]; 
     desireJointState[28] = doubleData[traj_index][9]; desireJointState[29] = doubleData[traj_index][10]; desireJointState[30] = doubleData[traj_index][11];
     //right arm
     desireJointState[31] = doubleData[traj_index][12]; desireJointState[32] = doubleData[traj_index][13]; desireJointState[33] = doubleData[traj_index][14]; 
     desireJointState[34] = doubleData[traj_index][15]; desireJointState[35] = doubleData[traj_index][16]; desireJointState[36] = doubleData[traj_index][17];
+    desireJointState[37] = doubleData[traj_index][18];
     /* code */
     stateTrajectory[0] << 0,0,0,0,0,0, currentPose, desireJointState;
     stateTrajectory[1] << 0,0,0,0,0,0, desirepose, desireJointState;
@@ -248,7 +252,7 @@ int main(int argc, char* argv[]) {
   }
 
 
-  ros::Rate r(10);
+  ros::Rate r(60);
   while (ros::ok() && ros::master::check()) {
       
         while (!arm_rl_bool)

@@ -316,14 +316,24 @@ void XbotInterface::sendCommandToXbot(const std::shared_ptr<legged_robot::Legged
                                       const vector_t& optimalState, const vector_t& optimalInput) {
     xbot_msgs::JointCommand cmd;
 
-    // std::cout << "---------- sendCommandToXbot -------------" << std::endl;
+    std::cout << "---------- sendCommandToXbot -------------" << std::endl;
 
     // fill and publish xbotcore msg after getting optimal state
     int numberJoints = leggedRobotInterfacePtr->getCentroidalModelInfo().actuatedDofNum;
+    std::cout << "numberJoints = " << numberJoints << std::endl;
     cmd.name = leggedRobotInterfacePtr->modelSettings().jointNames;
+    // for (size_t i = 0; i < cmd.name.size(); i++)
+    // {
+    //     std::cout << "cmd.name[" << i << "] = " << cmd.name[i] << std::endl;
+    // }
+    
     // position & velocity
     vector_t qJoints = centroidal_model::getJointAngles(optimalState, leggedRobotInterfacePtr->getCentroidalModelInfo());
+    
     vector_t dqJoints = centroidal_model::getJointVelocities(optimalInput, leggedRobotInterfacePtr->getCentroidalModelInfo());
+
+    // std::cout << "qJoints = " << qJoints.size() << std::endl;
+    // std::cout << "dqJoints = " << dqJoints.size() << std::endl;
 
 //        std::cout << "[MRT_ROS_Dummy_Loop] observated state = " << currentObservation.state.transpose() << std::endl;
 //        std::cout << "[MRT_ROS_Dummy_Loop] optimal state = " << optimalState.transpose() << std::endl;
@@ -332,6 +342,8 @@ void XbotInterface::sendCommandToXbot(const std::shared_ptr<legged_robot::Legged
     // compute torques with inverse dynamics
     vector_t ffModelTorque = centroidalModelRbdConversions_.computeRbdTorqueFromCentroidalModel(optimalState, optimalInput, vector_t::Zero(numberJoints));
     vector_t ffJointTorque = ffModelTorque.tail(numberJoints);      // ignore base wrench
+    // std::cout << "ffJointTorque = " << ffJointTorque.size() << std::endl;
+
 
     // clamp joint commands if true from task.info file
     clampReferences(ffJointTorque, qJoints, dqJoints);

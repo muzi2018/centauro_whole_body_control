@@ -97,6 +97,7 @@ int main(int argc, char** argv) {
     xbot_interface::XbotInterface xbotInterface(nodeHandle, interfacePtr->getPinocchioInterface(),
                                                 interfacePtr->getCentroidalModelInfo(),
                                                 interfacePtr->modelSettings().jointNames, xbotConfig);
+    std::cout << "XbotInterface :: jointNames.size" << interfacePtr->modelSettings().jointNames.size() << std::endl;
     xbotInterface.getInitialMsg();
     initialState = xbotInterface.getCentroidalStateFromXbotInfo();       // correct
   }
