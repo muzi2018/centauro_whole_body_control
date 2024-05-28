@@ -193,8 +193,8 @@ rollout
 
 mpc
 {
-  timeHorizon                     1.0       ; [s]
-  solutionTimeWindow              0.2        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
+  timeHorizon                     1       ; [s]
+  solutionTimeWindow              1        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
   coldStart                       false     ; Initialize the SLQ with the controller from previous call (warm start) or the given operating trajectories (cold start).
 
   debugPrint                      false
@@ -205,11 +205,11 @@ mpc
 
 xbotcore
 {
-  xbotCoreRunning                     true                ; true if xbotcore is running so that initialState is received from there
+  xbotCoreRunning                     true               ; true if xbotcore is running so that initialState is received from there
   xbotCoreFeedback                    true                ; true if it is to receive feedback from xbotcore
 
   ; topic prefix to receive base pose and twist ;
-  baseLinkTopicPrefix            /xbotcore/link_state/pelvis      ;/centauro_base_estimation/base_link
+  baseLinkTopicPrefix          /xbotcore/link_state/pelvis  ;   /centauro_base_estimation/base_link  
 
   ; flag to clamp the commands within the urdf limits at the xbotcore control level
   clampTorqueCmd                      true
