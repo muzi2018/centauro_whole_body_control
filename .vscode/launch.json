@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro/src/foot_planner",
-      "program": "/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro/src/foot_planner/build/Debug/outDebug",
+      "cwd": "/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/src",
+      "program": "/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/src/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
