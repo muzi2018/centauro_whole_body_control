@@ -32,7 +32,7 @@ if srdf == '':
     raise print('urdf semantic not set')
 
 T = 5.
-ns = 53
+ns = 57
 dt = T / ns
 
 prb = Problem(ns, receding=True, casadi_type=cs.SX)
@@ -168,35 +168,18 @@ matrix_np_[:, 8:] = matrix_np[:, 7:]
 
 print("matrix_np.shape = ", matrix_np.shape)
 print("matrix_np_.shape = ", matrix_np_.shape)
-# print("r.shape = ", r.shape)
-
-# print("matrix_np: ", matrix_np[0, :] )
-# print("ori_vector: ", ori_vector)
-
-
-exit()
-
-
-# identity_rotation = R.from_dcm(np.eye(3))
-# initial_quaternion = identity_rotation.as_quat()
-# final_quaternion = R.from_rotvec(translation_vector).as_quat()
-# quaternion_reshaped = final_quaternion.reshape(-1, 1)
-# inserted_matrix = np.hstack((matrix_np[:, :2], quaternion_reshaped, matrix_np[:, 6:]))
 
 
 
-reference = prb.createParameter('upper_body_reference', 21, nodes=range(ns+1))
 
+reference = prb.createParameter('upper_body_reference', 23, nodes=range(ns+1))
 # for i in range(21):
 #     reference[i] = matrix[i][0]
-prb.createResidual('upper_body_trajectory', cs.vertcat(model.q[:7], model.q[-14:]) - reference)
+prb.createResidual('upper_body_trajectory', cs.vertcat(model.q[:7], model.q[-16:]) - reference)
+# exit()
 
-reference.assign(matrix_np.T)
+reference.assign(matrix_np_.T)
 print (reference.shape)
-# reference.
-print(f"Dim size", reference.getDim(), "\n")
-print(f"Nodes", reference.getNodes(), "\n")
-
 
 #
 # reference.assign(matrix 21 x 100)
