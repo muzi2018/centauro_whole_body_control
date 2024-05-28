@@ -14,7 +14,7 @@ model_settings
   phaseTransitionStanceTime     1.0
 
   verboseCppAd                  true
-  recompileLibrariesCppAd       true
+  recompileLibrariesCppAd       false
   ; modelFolderCppAd                ../../../auto_generated/locoma/hard/centroidal
   modelFolderCppAd              /tmp/ocs2/locoma/hard
 }
