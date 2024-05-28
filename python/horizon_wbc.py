@@ -27,7 +27,7 @@ if urdf == '':
 
 srdf = rospy.get_param('robot_description_semantic', default='')
 if srdf == '':
-    raise print('urdf not set')
+    raise print('urdf semantic not set')
 
 T = 5.
 ns = 100
@@ -93,7 +93,7 @@ base_init = np.array([0, 0, 0, 0, 0, 0, 1])
 urdf = urdf.replace('continuous', 'revolute')
 
 fixed_joints_map = dict()
-fixed_joints_map.update({'j_wheel_1': 0., 'j_wheel_2': 0., 'j_wheel_3': 0., 'j_wheel_4': 0.})
+# fixed_joints_map.update({'j_wheel_1': 0., 'j_wheel_2': 0., 'j_wheel_3': 0., 'j_wheel_4': 0.})
 
 kin_dyn  = casadi_kin_dyn.CasadiKinDyn(urdf, fixed_joints=fixed_joints_map)
 
@@ -130,9 +130,39 @@ for c in model.getContactMap():
     while c_phases[c].getEmptyNodes() > 0:
         c_phases[c].addPhase(stance)
 
-q0 = np.hstack((base_init, list(q_init.values())))
-model.q.setBounds(q0, q0, nodes=0)
-model.q.setBounds(q0, q0, nodes=ns)
+#    6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
+print(kin_dyn.joint_names())
+
+# reference = prb.createVariable('upper_body_reference', 21)
+# prb.createResidual('upper_body_trajectory', np.hstack((model.q[:7], model.q[-14:])) - reference)
+
+
+# # Open the file
+# with open('/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/output.txt', 'r') as file:
+#     # Read the file line by line
+#     lines = file.readlines()
+
+# # Create an empty matrix to store the values
+# matrix = []
+
+# # Iterate through each line
+# for line in lines:
+#     # Strip the newline character and split the line into values
+#     values = [float(x) for x in line.strip().split()]
+    
+#     # Add the row to the matrix
+#     matrix.append(values)
+
+# # Print the matrix
+# print(matrix)
+
+# exit()
+
+#
+# reference.assign(matrix 21 x 100)
+
+model.q.setBounds(model.q0, model.q0, nodes=0)
+model.q.setBounds(model.q0, model.q0, nodes=ns)
 model.v.setBounds(np.zeros(model.nv), np.zeros(model.nv), nodes=0)
 model.v.setBounds(np.zeros(model.nv), np.zeros(model.nv), nodes=ns)
 
@@ -146,3 +176,8 @@ ti.finalize()
 ti.bootstrap()
 
 solution = ti.solution
+
+repl = replay_trajectory.replay_trajectory(prb.getDt(), kin_dyn.joint_names(), solution['q'], kindyn=kin_dyn, trajectory_markers=model.getContactMap().keys())
+repl.replay(is_floating_base=True)
+
+
