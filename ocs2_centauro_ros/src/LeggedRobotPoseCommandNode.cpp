@@ -63,7 +63,7 @@ scalar_t comHeight;
 vector_t defaultJointState;
 vector_t desireJointState;
 vector_t desirepose;
-bool iii = true;
+bool iii = false;
 
 bool arm_rl_bool = false;
 
@@ -120,7 +120,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   timeTrajectory.resize(2);
   int i = 0;
   for (double& timePoint : timeTrajectory) {
-      timePoint = observation.time + 0.1 * i;
+      timePoint = observation.time + 0.01 * i;
       i++;
   }
 
@@ -134,7 +134,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
     desireJointState = defaultJointState;
     
 
-      //left arm
+    //left arm
     desireJointState[25] = doubleData[traj_index][6]; desireJointState[26] = doubleData[traj_index][7]; desireJointState[27] = doubleData[traj_index][8]; 
     desireJointState[28] = doubleData[traj_index][9]; desireJointState[29] = doubleData[traj_index][10]; desireJointState[30] = doubleData[traj_index][11];
     //right arm
@@ -147,24 +147,24 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   
   // desired input trajectory (just right dimensions, they are not used)
   const vector_array_t inputTrajectory(2, vector_t::Zero(observation.state.size()));
-  if ( iii )
-  {
-    for (size_t i = 0; i < desireJointState.size(); i++)
-    {
-      std::cout << "desireJointState[" << i << "] = " << desireJointState[i] << std::endl;
-    }
-    for (size_t i = 0; i < observation.state.size(); i++)
-    {
-      std::cout << "state[" << i << "] = " << observation.state[i] << std::endl;
-    }
-    iii = false;
-  }
+  // if ( iii )
+  // {
+  //   for (size_t i = 0; i < desireJointState.size(); i++)
+  //   {
+  //     std::cout << "desireJointState[" << i << "] = " << desireJointState[i] << std::endl;
+  //   }
+  //   for (size_t i = 0; i < observation.state.size(); i++)
+  //   {
+  //     std::cout << "state[" << i << "] = " << observation.state[i] << std::endl;
+  //   }
+  //   iii = false;
+  // }
 
-  std::cout << "timeTrajectory.size() = " << timeTrajectory.size() << std::endl;
-  std::cout << "stateTrajectory.size() = " << stateTrajectory.size() << std::endl;
-  std::cout << "inputTrajectory.size() = " << inputTrajectory.size() << std::endl;
-  std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
-  std::cout << "desireJointState.size() = " << desireJointState.size() << std::endl;
+  // std::cout << "timeTrajectory.size() = " << timeTrajectory.size() << std::endl;
+  // std::cout << "stateTrajectory.size() = " << stateTrajectory.size() << std::endl;
+  // std::cout << "inputTrajectory.size() = " << inputTrajectory.size() << std::endl;
+  // std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
+  // std::cout << "desireJointState.size() = " << desireJointState.size() << std::endl;
 
   return {timeTrajectory, stateTrajectory, inputTrajectory};
 }
@@ -281,13 +281,13 @@ int main(int argc, char* argv[]) {
 
   ros::Rate r(10);
   while (ros::ok() && ros::master::check()) {
-      {
+      
         while (!arm_rl_bool)
         {
             ros::spinOnce();
             r.sleep();
         }
-        ::ros::spinOnce();
+        
         SystemObservation observation;
         {
           std::lock_guard<std::mutex> lock(latestObservationMutex_);
@@ -299,12 +299,16 @@ int main(int argc, char* argv[]) {
           const auto targetTrajectories = jointRefToTargetTrajectories(observation);
           targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
           traj_index++;
-          r.sleep();
+          if (traj_index >= lines.size()-1)
+            traj_index = lines.size()-1;
           // arm_rl_bool = !arm_rl_bool;
         }
       }
-    }
+      ::ros::spinOnce();
+      r.sleep();
+      std::cout << "ros::ok() = " << ros::ok() << std::endl;
   }
+
 
   
 
