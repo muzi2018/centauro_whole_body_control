@@ -5,6 +5,7 @@ project(ocs2_centauro)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CATKIN_PACKAGE_DEPENDENCIES
+  roslib
   ocs2_core
   ocs2_oc
   ocs2_ddp
