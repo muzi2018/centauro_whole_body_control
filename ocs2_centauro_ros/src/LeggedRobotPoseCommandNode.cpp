@@ -91,15 +91,11 @@ bool arm_rl_tracking(std_srvs::Empty::Request& req, std_srvs::Empty::Response& r
 */
 
 TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observation){
-  
-
   const vector_t currentPose = observation.state.segment<6>(6);
-  // target reaching duration
-  const scalar_t targetReachingTime = observation.time + 0.1 ;
 
   // desired time trajectory
   scalar_array_t timeTrajectory;
-  timeTrajectory.resize(2);
+  timeTrajectory.resize(doubleData.size());
   int i = 0;
   for (double& timePoint : timeTrajectory) {
       timePoint = observation.time + 0.1 * i;
@@ -108,30 +104,23 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
 
   // desired state trajectory
   // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
-  vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
+    vector_array_t stateTrajectory(doubleData.size(), vector_t::Zero(observation.state.size()));
+    int j = 0;
+    for (size_t i = 0; i < doubleData.size(); i++)
+    {
+      desireJointState = defaultJointState;
+        //left arm
+      desireJointState[25] = doubleData[j][6]; desireJointState[26] = doubleData[j][7]; desireJointState[27] = doubleData[j][8]; 
+      desireJointState[28] = doubleData[j][9]; desireJointState[29] = doubleData[j][10]; desireJointState[30] = doubleData[j][11];
+      //right arm
+      desireJointState[31] = doubleData[j][12]; desireJointState[32] = doubleData[j][13]; desireJointState[33] = doubleData[j][14]; 
+      desireJointState[34] = doubleData[j][15]; desireJointState[35] = doubleData[j][16]; desireJointState[36] = doubleData[j][17];
+      /* code */
+      stateTrajectory[i] << vector_t::Zero(6), currentPose, desireJointState;
+      j++;
+    }
   
-
-    desirepose = currentPose;
-    desireJointState = defaultJointState;
-    
-    // wheel position j_wheel_1 j_wheel_3 j_wheel_2 j_wheel_4
-    // desireJointState[5] = traj_index * 0.1; 
-    // desireJointState[11] = traj_index * 0.1; 
-    // desireJointState[17] = -traj_index * 0.1; 
-    // desireJointState[23] = -traj_index * 0.1; 
-      //left arm
-    desireJointState[25] = doubleData[traj_index][6]; desireJointState[26] = doubleData[traj_index][7]; desireJointState[27] = doubleData[traj_index][8]; 
-    desireJointState[28] = doubleData[traj_index][9]; desireJointState[29] = doubleData[traj_index][10]; desireJointState[30] = doubleData[traj_index][11];
-    //right arm
-    desireJointState[31] = doubleData[traj_index][12]; desireJointState[32] = doubleData[traj_index][13]; desireJointState[33] = doubleData[traj_index][14]; 
-    desireJointState[34] = doubleData[traj_index][15]; desireJointState[35] = doubleData[traj_index][16]; desireJointState[36] = doubleData[traj_index][17];
-    /* code */
-    stateTrajectory[0] << 0,0,0,0,0,0, currentPose, desireJointState;
-    stateTrajectory[1] << 0,0,0,0,0,0, desirepose, desireJointState;
-
-  
-  // desired input trajectory (just right dimensions, they are not used)
-  const vector_array_t inputTrajectory(2, vector_t::Zero(observation.state.size()));
+  const vector_array_t inputTrajectory(doubleData.size(), vector_t::Zero(observation.state.size()));
   // if ( iii )
   // {
   //   for (size_t i = 0; i < desireJointState.size(); i++)
@@ -257,15 +246,17 @@ int main(int argc, char* argv[]) {
         {
           const auto targetTrajectories = jointRefToTargetTrajectories(observation);
           targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
-          traj_index++;
-          if (traj_index >= lines.size()-1)
-            traj_index = lines.size()-1;
-          // arm_rl_bool = !arm_rl_bool;
+          arm_rl_bool = !arm_rl_bool;
+          // const auto targetTrajectories = jointRefToTargetTrajectories(observation);
+          // targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
+          // traj_index++;
+          // if (traj_index >= lines.size()-1)
+          //   traj_index = lines.size()-1;
         }
       }
       ::ros::spinOnce();
       r.sleep();
-      std::cout << "ros::ok() = " << ros::ok() << std::endl;
+      // std::cout << "ros::ok() = " << ros::ok() << std::endl;
   }
 
 
