@@ -30,7 +30,7 @@ if srdf == '':
     raise print('urdf semantic not set')
 
 T = 5.
-ns = 100
+ns = 53
 dt = T / ns
 
 prb = Problem(ns, receding=True, casadi_type=cs.SX)
@@ -130,39 +130,53 @@ for c in model.getContactMap():
     while c_phases[c].getEmptyNodes() > 0:
         c_phases[c].addPhase(stance)
 
-#    6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
+#    x y z;r p; yaw_joint , 6 left arm, 6 right arm, 1 grippers + 2 headjoints = 6 + 15
 print(kin_dyn.joint_names())
 
-# reference = prb.createVariable('upper_body_reference', 21)
-# prb.createResidual('upper_body_trajectory', np.hstack((model.q[:7], model.q[-14:])) - reference)
+# Open the file
+with open('/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/output.txt', 'r') as file:
+    # Read the file line by line
+    lines = file.readlines()
 
+# Create an empty matrix to store the values
+matrix = []
 
-# # Open the file
-# with open('/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/output.txt', 'r') as file:
-#     # Read the file line by line
-#     lines = file.readlines()
-
-# # Create an empty matrix to store the values
-# matrix = []
-
-# # Iterate through each line
-# for line in lines:
-#     # Strip the newline character and split the line into values
-#     values = [float(x) for x in line.strip().split()]
+# Iterate through each line
+for line in lines:
+    # Strip the newline character and split the line into values
+    values = [float(x) for x in line.strip().split()]
     
-#     # Add the row to the matrix
-#     matrix.append(values)
+    # Add the row to the matrix
+    matrix.append(values)
+# Print the matrix
+print(matrix)
+# Print the row size
+print("Row size: ", len(matrix))
 
-# # Print the matrix
-# print(matrix)
+# Print the column size
+print("Column size: ", len(matrix[0]))
 
-# exit()
+matrix_np = np.array(matrix)
+print(matrix_np.T.shape)
+
+reference = prb.createParameter('upper_body_reference', 21, nodes=range(ns+1))
+
+# for i in range(21):
+#     reference[i] = matrix[i][0]
+prb.createResidual('upper_body_trajectory', cs.vertcat(model.q[:7], model.q[-14:]) - reference)
+
+reference.assign(np.array(matrix).T)
+print (reference.shape)
+# reference.
+print(f"Dim size", reference.getDim(), "\n")
+print(f"Nodes", reference.getNodes(), "\n")
+
 
 #
 # reference.assign(matrix 21 x 100)
 
 model.q.setBounds(model.q0, model.q0, nodes=0)
-model.q.setBounds(model.q0, model.q0, nodes=ns)
+# model.q.setBounds(model.q0, model.q0, nodes=ns)
 model.v.setBounds(np.zeros(model.nv), np.zeros(model.nv), nodes=0)
 model.v.setBounds(np.zeros(model.nv), np.zeros(model.nv), nodes=ns)
 
