@@ -10,6 +10,8 @@ from xbot_interface import config_options as co
 from xbot_interface import xbot_interface as xbot
 
 import casadi_kin_dyn.py3casadi_kin_dyn as casadi_kin_dyn
+from scipy.spatial.transform import Rotation as R
+from pyquaternion import Quaternion
 
 import casadi as cs
 import numpy as np
@@ -148,16 +150,40 @@ for line in lines:
     
     # Add the row to the matrix
     matrix.append(values)
-# Print the matrix
-print(matrix)
-# Print the row size
-print("Row size: ", len(matrix))
 
-# Print the column size
-print("Column size: ", len(matrix[0]))
-
+# matrix_np.shape =  (58, 22)
 matrix_np = np.array(matrix)
-print(matrix_np.T.shape)
+matrix_np_ = np.zeros((matrix_np.shape[0], matrix_np.shape[1] + 1))
+matrix_np_[:, 0:3] = matrix_np[:, 0:3]
+print("matrix_np: ", matrix_np[0,:])
+print("matrix_np[0, 3:7]: ", matrix_np[0, 3:7])
+
+for i in range(matrix_np.shape[0]):
+    ori_vector = matrix_np[i, 3:6].flatten()
+    r = R.from_rotvec(ori_vector)
+    quat = r.as_quat()
+    matrix_np_[i, 3:7] = quat
+matrix_np_[:, 8:] = matrix_np[:, 7:]
+
+
+print("matrix_np.shape = ", matrix_np.shape)
+print("matrix_np_.shape = ", matrix_np_.shape)
+# print("r.shape = ", r.shape)
+
+# print("matrix_np: ", matrix_np[0, :] )
+# print("ori_vector: ", ori_vector)
+
+
+exit()
+
+
+# identity_rotation = R.from_dcm(np.eye(3))
+# initial_quaternion = identity_rotation.as_quat()
+# final_quaternion = R.from_rotvec(translation_vector).as_quat()
+# quaternion_reshaped = final_quaternion.reshape(-1, 1)
+# inserted_matrix = np.hstack((matrix_np[:, :2], quaternion_reshaped, matrix_np[:, 6:]))
+
+
 
 reference = prb.createParameter('upper_body_reference', 21, nodes=range(ns+1))
 
@@ -165,7 +191,7 @@ reference = prb.createParameter('upper_body_reference', 21, nodes=range(ns+1))
 #     reference[i] = matrix[i][0]
 prb.createResidual('upper_body_trajectory', cs.vertcat(model.q[:7], model.q[-14:]) - reference)
 
-reference.assign(np.array(matrix).T)
+reference.assign(matrix_np.T)
 print (reference.shape)
 # reference.
 print(f"Dim size", reference.getDim(), "\n")
