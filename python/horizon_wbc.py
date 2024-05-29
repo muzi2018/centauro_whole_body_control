@@ -132,8 +132,7 @@ for c in model.getContactMap():
     while c_phases[c].getEmptyNodes() > 0:
         c_phases[c].addPhase(stance)
 
-#    x y z;r p; yaw_joint , 6 left arm, 6 right arm, 1 grippers + 2 headjoints = 6 + 15
-print(kin_dyn.joint_names())
+print("joint:::::name = ", kin_dyn.joint_names())
 
 # Open the file
 with open('/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/output.txt', 'r') as file:
@@ -175,6 +174,8 @@ print("matrix_np_.shape = ", matrix_np_.shape)
 reference = prb.createParameter('upper_body_reference', 23, nodes=range(ns+1))
 # for i in range(21):
 #     reference[i] = matrix[i][0]
+#    x y z;r p; yaw_joint , 6 left arm, 6 right arm, 1 grippers + 2 headjoints = 6 + 15
+
 prb.createResidual('upper_body_trajectory', cs.vertcat(model.q[:7], model.q[-16:]) - reference)
 # exit()
 
@@ -199,8 +200,22 @@ ti.finalize()
 ti.bootstrap()
 
 solution = ti.solution
+print("solution['q'].shape[1] = ", solution['q'].shape[1])
 
-repl = replay_trajectory.replay_trajectory(prb.getDt(), kin_dyn.joint_names(), solution['q'], kindyn=kin_dyn, trajectory_markers=model.getContactMap().keys())
-repl.replay(is_floating_base=True)
+time = 0
+i = 0
+rate = rospy.Rate(1./dt)
+robot = xbot.RobotInterface(cfg)
+
+while time <= T:
+    robot.setPositionReference(solution['q'][7:,i])
+    robot.move()
+    time += dt
+    i += 1
+    rate.sleep()
+
+
+# repl = replay_trajectory.replay_trajectory(prb.getDt(), kin_dyn.joint_names(), solution['q'], kindyn=kin_dyn, trajectory_markers=model.getContactMap().keys())
+# repl.replay(is_floating_base=True)
 
 
