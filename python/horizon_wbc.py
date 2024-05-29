@@ -22,41 +22,7 @@ import os
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Path
 
-# class TrajectoryPlotter:
-#     def __init__(self):
-#         self.pose_sub = rospy.Subscriber('pose_topic', PoseStamped, self.pose_callback)
-#         self.path_pub = rospy.Publisher('path_topic', Path, queue_size=10)
-#         self.x = []
-#         self.y = []
-#         self.z = []
-
-#     def pose_callback(self, pose):
-#         self.x.append(pose.pose.position.x)
-#         self.y.append(pose.pose.position.y)
-#         self.z.append(pose.pose.position.z)
-#         self.publish_path()
-
-#     def publish_path(self):
-#         path = Path()
-#         path.header.frame_id = 'map'
-#         for i in range(len(self.x)):
-#             pose = PoseStamped()
-#             pose.pose.position.x = self.x[i]
-#             pose.pose.position.y = self.y[i]
-#             pose.pose.position.z = self.z[i]
-#             path.poses.append(pose)
-#         self.path_pub.publish(path)
-
-# if __name__ == '__main__':
-#     rospy.init_node('trajectory_plotter')
-#     plotter = TrajectoryPlotter()
-#     rospy.spin()
-
-
-
-
 rospy.init_node('horizon_wbc_node')
-
 # load urdf and srdf to create model
 urdf = rospy.get_param('robot_description', default='')
 if urdf == '':
