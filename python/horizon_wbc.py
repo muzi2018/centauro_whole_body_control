@@ -2,6 +2,7 @@ from horizon.problem import Problem
 from horizon.rhc.model_description import FullModelInverseDynamics
 from horizon.rhc.taskInterface import TaskInterface
 from horizon.ros import replay_trajectory
+from horizon.utils import utils
 
 import phase_manager.pymanager as pymanager
 import phase_manager.pyphase as pyphase
@@ -18,6 +19,40 @@ import numpy as np
 import rospy
 import subprocess
 import os
+from geometry_msgs.msg import PoseStamped
+from nav_msgs.msg import Path
+
+# class TrajectoryPlotter:
+#     def __init__(self):
+#         self.pose_sub = rospy.Subscriber('pose_topic', PoseStamped, self.pose_callback)
+#         self.path_pub = rospy.Publisher('path_topic', Path, queue_size=10)
+#         self.x = []
+#         self.y = []
+#         self.z = []
+
+#     def pose_callback(self, pose):
+#         self.x.append(pose.pose.position.x)
+#         self.y.append(pose.pose.position.y)
+#         self.z.append(pose.pose.position.z)
+#         self.publish_path()
+
+#     def publish_path(self):
+#         path = Path()
+#         path.header.frame_id = 'map'
+#         for i in range(len(self.x)):
+#             pose = PoseStamped()
+#             pose.pose.position.x = self.x[i]
+#             pose.pose.position.y = self.y[i]
+#             pose.pose.position.z = self.z[i]
+#             path.poses.append(pose)
+#         self.path_pub.publish(path)
+
+# if __name__ == '__main__':
+#     rospy.init_node('trajectory_plotter')
+#     plotter = TrajectoryPlotter()
+#     rospy.spin()
+
+
 
 
 rospy.init_node('horizon_wbc_node')
@@ -31,9 +66,19 @@ srdf = rospy.get_param('robot_description_semantic', default='')
 if srdf == '':
     raise print('urdf semantic not set')
 
+
+ns = 0
+with open('/home/wang/catkin_wbc/src/centauro_whole_body_control/ocs2_centauro_ros/data/output.txt', 'r') as file:
+    lines = file.readlines()
+matrix = []
+for line in lines:
+    values = [float(x) for x in line.strip().split()]
+    matrix.append(values)
+    ns = ns + 1
+ns = ns - 1
 T = 5.
-ns = 57
 dt = T / ns
+
 
 prb = Problem(ns, receding=True, casadi_type=cs.SX)
 prb.setDt(dt)
@@ -50,7 +95,7 @@ cfg.set_bool_parameter('is_model_floating_base', True)
 # robot = xbot.RobotInterface(cfg)
 # robot.sense()
 
-# q_init = robot.getJointPosition()
+# q_init = robot.getJointPositionMap()
 q_init = {
     "ankle_pitch_1": -0.301666,
     "ankle_pitch_2": 0.301666,
@@ -90,7 +135,7 @@ q_init = {
     "dagana_2_claw_joint": 0.
 }
 
-base_init = np.array([0, 0, 0, 0, 0, 0, 1])
+base_init = np.array([0, 0, 0.8, 0, 0, 0, -1])
 
 urdf = urdf.replace('continuous', 'revolute')
 
@@ -116,7 +161,7 @@ pm = pymanager.PhaseManager(ns+1)
 c_phases = dict()
 for c in model.getContactMap():
     c_phases[c] = pm.addTimeline(f'{c}_timeline')
-
+    print("c = ", c)
 stance_duration = 10
 for c in model.getContactMap():
     stance_phase = pyphase.Phase(stance_duration, f'stance_{c}')
@@ -132,37 +177,21 @@ for c in model.getContactMap():
     while c_phases[c].getEmptyNodes() > 0:
         c_phases[c].addPhase(stance)
 
-print("joint:::::name = ", kin_dyn.joint_names())
 
-# Open the file
-with open('/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/output.txt', 'r') as file:
-    # Read the file line by line
-    lines = file.readlines()
 
-# Create an empty matrix to store the values
-matrix = []
 
-# Iterate through each line
-for line in lines:
-    # Strip the newline character and split the line into values
-    values = [float(x) for x in line.strip().split()]
-    
-    # Add the row to the matrix
-    matrix.append(values)
-
-# matrix_np.shape =  (58, 22)
 matrix_np = np.array(matrix)
-matrix_np_ = np.zeros((matrix_np.shape[0], matrix_np.shape[1] + 1))
-matrix_np_[:, 0:3] = matrix_np[:, 0:3]
-print("matrix_np: ", matrix_np[0,:])
-print("matrix_np[0, 3:7]: ", matrix_np[0, 3:7])
+matrix_np_ = matrix_np
+# matrix_np_ = np.zeros((matrix_np.shape[0], matrix_np.shape[1] + 1))
+# matrix_np_[:, 0:3] = matrix_np[:, 0:3]
 
-for i in range(matrix_np.shape[0]):
-    ori_vector = matrix_np[i, 3:6].flatten()
-    r = R.from_rotvec(ori_vector)
-    quat = r.as_quat()
-    matrix_np_[i, 3:7] = quat
-matrix_np_[:, 8:] = matrix_np[:, 7:]
+
+# for i in range(matrix_np.shape[0]):
+#     ori_vector = matrix_np[i, 3:6].flatten()
+#     r = R.from_rotvec(ori_vector)
+#     quat = r.as_quat()
+#     matrix_np_[i, 3:7] = quat
+# matrix_np_[:, 8:] = matrix_np[:, 7:]
 
 
 print("matrix_np.shape = ", matrix_np.shape)
@@ -174,9 +203,9 @@ print("matrix_np_.shape = ", matrix_np_.shape)
 reference = prb.createParameter('upper_body_reference', 23, nodes=range(ns+1))
 # for i in range(21):
 #     reference[i] = matrix[i][0]
-#    x y z;r p; yaw_joint , 6 left arm, 6 right arm, 1 grippers + 2 headjoints = 6 + 15
+#    x y z;4 quan; yaw_joint , 6 left arm, 6 right arm, 1 grippers + 2 headjoints = 7 + 15
 
-prb.createResidual('upper_body_trajectory', cs.vertcat(model.q[:7], model.q[-16:]) - reference)
+prb.createResidual('upper_body_trajectory', 10 * (cs.vertcat(model.q[:7], model.q[-16:]) - reference))
 # exit()
 
 reference.assign(matrix_np_.T)
@@ -190,6 +219,15 @@ model.q.setBounds(model.q0, model.q0, nodes=0)
 model.v.setBounds(np.zeros(model.nv), np.zeros(model.nv), nodes=0)
 model.v.setBounds(np.zeros(model.nv), np.zeros(model.nv), nodes=ns)
 
+q_min = kin_dyn.q_min()
+q_max = kin_dyn.q_max()
+print(kin_dyn.joint_names())
+print(q_min)
+print(q_max)
+prb.createResidual('lower_limits', 20 * utils.barrier(model.q - q_min))
+prb.createResidual('upper_limits', 20 * utils.barrier1(model.q - q_max))
+
+# prb.createResidual('support_polygon', wheel1 - whheel2 = fixed_disanace)
 f0 = [0, 0, kin_dyn.mass() / 4 * 9.81]
 for cname, cforces in model.getContactMap().items():
     for c in cforces:
@@ -202,10 +240,14 @@ ti.bootstrap()
 solution = ti.solution
 print("solution['q'].shape[1] = ", solution['q'].shape[1])
 
+repl = replay_trajectory.replay_trajectory(prb.getDt(), kin_dyn.joint_names(), solution['q'], kindyn=kin_dyn, trajectory_markers=model.getContactMap().keys())
+repl.replay(is_floating_base=True)
+exit()
+
 time = 0
 i = 0
 rate = rospy.Rate(1./dt)
-robot = xbot.RobotInterface(cfg)
+# robot = xbot.RobotInterface(cfg)
 
 while time <= T:
     robot.setPositionReference(solution['q'][7:,i])
@@ -215,7 +257,6 @@ while time <= T:
     rate.sleep()
 
 
-# repl = replay_trajectory.replay_trajectory(prb.getDt(), kin_dyn.joint_names(), solution['q'], kindyn=kin_dyn, trajectory_markers=model.getContactMap().keys())
-# repl.replay(is_floating_base=True)
+
 
 

@@ -72,25 +72,25 @@ base_orientation:
 zero_velocity_1:
   type: Cartesian
   distal_link: contact_1
-  indices: [0, 1, 2]
+  indices: [2]
   cartesian_type: velocity
 
 zero_velocity_2:
   type: Cartesian
   distal_link: contact_2
-  indices: [0, 1, 2]
+  indices: [2]
   cartesian_type: velocity
 
 zero_velocity_3:
   type: Cartesian
   distal_link: contact_3
-  indices: [0, 1, 2]
+  indices: [2]
   cartesian_type: velocity
 
 zero_velocity_4:
   type: Cartesian
   distal_link: contact_4
-  indices: [0, 1, 2]
+  indices: [2]
   cartesian_type: velocity
 
 # ==================================
