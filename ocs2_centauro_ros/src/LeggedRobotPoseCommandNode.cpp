@@ -54,7 +54,6 @@ using namespace ocs2;
 using namespace ocs2::legged_robot;
 using namespace std;
 std::vector<std::vector<double>> doubleData;
-int n_segments = 0;
 
 scalar_t targetDisplacementVelocity;
 scalar_t targetRotationVelocity;
@@ -63,8 +62,10 @@ vector_t defaultJointState;
 vector_t desireJointState;
 vector_t desirepose;
 bool iii = true;
-
 bool arm_rl_bool = false;
+
+int buffer_size = 10;
+int n_segments = 0;
 
 std::vector<double> parseDoubles(const std::string& line) {
     std::vector<double> doubles;
@@ -95,7 +96,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
 
   // desired time trajectory
   scalar_array_t timeTrajectory;
-  timeTrajectory.resize(doubleData.size());
+  timeTrajectory.resize(buffer_size);
   int i = 0;
   for (double& timePoint : timeTrajectory) {
       timePoint = observation.time + 0.1 * i;
@@ -104,9 +105,9 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
 
   // desired state trajectory
   // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
-  vector_array_t stateTrajectory(doubleData.size(), vector_t::Zero(observation.state.size()));
+  vector_array_t stateTrajectory(buffer_size, vector_t::Zero(observation.state.size()));
   int j = 0;
-  for (size_t i = 0; i < doubleData.size(); i++)
+  for (size_t i = 0; i < buffer_size; i++)
   {
     desireJointState = defaultJointState;
     desireJointState[24] = doubleData[j][6];
@@ -130,25 +131,25 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   }
   
   // desired input trajectory (just right dimensions, they are not used)
-  const vector_array_t inputTrajectory(doubleData.size(), vector_t::Zero(observation.state.size()));
-  if ( iii )
-  {
-    for (size_t i = 0; i < desireJointState.size(); i++)
-    {
-      std::cout << "desireJointState[" << i << "] = " << desireJointState[i] << std::endl;
-    }
-    for (size_t i = 0; i < observation.state.size(); i++)
-    {
-      std::cout << "state[" << i << "] = " << observation.state[i] << std::endl;
-    }
-    iii = false;
-  }
+  const vector_array_t inputTrajectory(buffer_size, vector_t::Zero(observation.state.size()));
+  // if ( iii )
+  // {
+  //   for (size_t i = 0; i < desireJointState.size(); i++)
+  //   {
+  //     std::cout << "desireJointState[" << i << "] = " << desireJointState[i] << std::endl;
+  //   }
+  //   for (size_t i = 0; i < observation.state.size(); i++)
+  //   {
+  //     std::cout << "state[" << i << "] = " << observation.state[i] << std::endl;
+  //   }
+  //   iii = false;
+  // }
 
-  std::cout << "timeTrajectory.size() = " << timeTrajectory.size() << std::endl;
-  std::cout << "stateTrajectory.size() = " << stateTrajectory.size() << std::endl;
-  std::cout << "inputTrajectory.size() = " << inputTrajectory.size() << std::endl;
-  std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
-  std::cout << "desireJointState.size() = " << desireJointState.size() << std::endl;
+  // std::cout << "timeTrajectory.size() = " << timeTrajectory.size() << std::endl;
+  // std::cout << "stateTrajectory.size() = " << stateTrajectory.size() << std::endl;
+  // std::cout << "inputTrajectory.size() = " << inputTrajectory.size() << std::endl;
+  // std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
+  // std::cout << "desireJointState.size() = " << desireJointState.size() << std::endl;
 
   return {timeTrajectory, stateTrajectory, inputTrajectory};
 }
@@ -214,7 +215,7 @@ int main(int argc, char* argv[]) {
 
 
 
-  ifstream file("/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/output.txt");
+  ifstream file("/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/door.txt");
   if (!file) {
       cerr << "Unable to open file!" << endl;
   }
@@ -255,7 +256,7 @@ int main(int argc, char* argv[]) {
           std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
           const auto targetTrajectories = jointRefToTargetTrajectories(observation);
           targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
-          arm_rl_bool = !arm_rl_bool;
+          // arm_rl_bool = !arm_rl_bool;
         }
       }
     }
