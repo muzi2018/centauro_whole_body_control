@@ -5,9 +5,10 @@
       "includePath": [
         "${workspaceFolder}/**",
         "/home/wang/forest_ws/install/include/**",
-        "/home/wang/forest_ws/**",
+        "/home/wang/forest_ws/share",
+        "/home/wang/forest_ws/install/share",
         "/opt/ros/noetic/**",
-        "~/catkin_ws_1/**",
+        "~/catkin_ws_1/**"
       ],
       "compilerPath": "/usr/bin/gcc",
       "cStandard": "${default}",

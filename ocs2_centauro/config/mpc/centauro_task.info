@@ -1,4 +1,4 @@
-centroidalModelType             1      // 0: FullCentroidalDynamics, 1: Single Rigid Body Dynamics
+centroidalModelType             0      // 0: FullCentroidalDynamics, 1: Single Rigid Body Dynamics
 
 legged_robot_interface
 {
@@ -24,11 +24,11 @@ model_settings
 ; #######################################
 swing_trajectory_config
 {
-  addPlanarConstraints          false   ; true for exact steps
+  addPlanarConstraints          true   ; true for exact steps
 
   liftOffVelocity               0.0
   touchDownVelocity             -0.0
-  swingHeight                   0.1
+  swingHeight                   0.05
 
   touchdownAfterHorizon         0.2
   swingTimeScale                0.15
@@ -193,8 +193,8 @@ rollout
 
 mpc
 {
-  timeHorizon                     1       ; [s]
-  solutionTimeWindow              0.8        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
+  timeHorizon                     1.0       ; [s]
+  solutionTimeWindow              0.2        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
   coldStart                       false     ; Initialize the SLQ with the controller from previous call (warm start) or the given operating trajectories (cold start).
 
   debugPrint                      false
