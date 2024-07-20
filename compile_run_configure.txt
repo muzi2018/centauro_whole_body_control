@@ -1,0 +1,5 @@
+1. if find multiple file contain just one package
+    export CMAKE_PREFIX_PATH=/home/wang/forest_ws/install:/opt/ros/noetic:/opt/xbot
+2. run 
+    roslaunch ocs2_centauro_ros centauro_ddp.launch task:=locomotion
+

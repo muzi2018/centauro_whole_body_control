@@ -3,6 +3,7 @@ project(ocs2_centauro)
 
 # Generate compile_commands.json for clang tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_BUILD_TYPE Release)
 
 set(CATKIN_PACKAGE_DEPENDENCIES
   ocs2_core

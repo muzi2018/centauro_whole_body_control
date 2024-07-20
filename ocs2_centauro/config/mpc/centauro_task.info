@@ -39,13 +39,13 @@ swing_trajectory_config
 
   liftOffLateralVelocity           0.0
   touchDownLateralVelocity         0.0
-  lateralStepLength                0.0
+  lateralStepLength                -0.0
 }
 
 arm_swing_trajectory_config
 {
-  addConstraints                true
-  positionPlanner               true
+  addConstraints                false
+  positionPlanner               false
   orientationPlanner            false
   positionIndicesLeftArm
   {
@@ -193,8 +193,8 @@ rollout
 
 mpc
 {
-  timeHorizon                     1.0       ; [s]
-  solutionTimeWindow              -1        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
+  timeHorizon                     1       ; [s]
+  solutionTimeWindow              0.8        ; The time window (sec) for retrieving the optimized outputs (controller and state-input trajectories). Any negative number implies the whole time horizon.
   coldStart                       false     ; Initialize the SLQ with the controller from previous call (warm start) or the given operating trajectories (cold start).
 
   debugPrint                      false
@@ -205,11 +205,11 @@ mpc
 
 xbotcore
 {
-  xbotCoreRunning                     true                ; true if xbotcore is running so that initialState is received from there
+  xbotCoreRunning                     true               ; true if xbotcore is running so that initialState is received from there
   xbotCoreFeedback                    true                ; true if it is to receive feedback from xbotcore
 
   ; topic prefix to receive base pose and twist ;
-  baseLinkTopicPrefix            /centauro_base_estimation/base_link      ;/xbotcore/link_state/pelvis
+  baseLinkTopicPrefix          /xbotcore/link_state/pelvis  ;   /centauro_base_estimation/base_link  
 
   ; flag to clamp the commands within the urdf limits at the xbotcore control level
   clampTorqueCmd                      true
@@ -219,10 +219,10 @@ xbotcore
 
 forceTorqueSensingInMpc         ; pass sensor measurements (estimated wrench or joint states to mpc through synchronized modules)
 {
-    estimatedWrenches               false
-    jointStates                     false
+    estimatedWrenches               true
+    jointStates                     true
 }
-publishJointImpedancePolicy         true
+publishJointImpedancePolicy         false
 
 initialState
 {
@@ -318,25 +318,25 @@ Q
   (14,14)  2.0e-1   ; knee_pitch_1
   (15,15)  2.0e-1   ; ankle_pitch_1
   (16,16)  2.0e-1   ; ankle_yaw_1
-  (17,17)  2.0e-1   ; j_wheel_1
+  (17,17)  2.0e2   ; j_wheel_1
   (18,18)  2.0e-1   ; hip_yaw_3
   (19,19)  2.0e-1   ; hip_pitch_3
   (20,20)  2.0e-1   ; knee_pitch_3
   (21,21)  2.0e-1   ; ankle_pitch_3
   (22,22)  2.0e-1   ; ankle_yaw_3
-  (23,23)  2.0e-1   ; j_wheel_3
+  (23,23)  2.0e2   ; j_wheel_3
   (24,24)  2.0e-1   ; hip_yaw_2
   (25,25)  2.0e-1   ; hip_pitch_2
   (26,26)  2.0e-1   ; knee_pitch_2
   (27,27)  2.0e-1   ; ankle_pitch_2
   (28,28)  2.0e-1   ; ankle_yaw_2
-  (29,29)  2.0e-1   ; j_wheel_1
+  (29,29)  2.0e2   ; j_wheel_1
   (30,30)  2.0e-1   ; hip_yaw_4
   (31,31)  2.0e-1   ; hip_pitch_4
   (32,32)  2.0e-1   ; knee_pitch_4
   (33,33)  2.0e-1   ; ankle_pitch_4
   (34,34)  2.0e-1   ; ankle_yaw_4
-  (35,35)  2.0e-1   ; j_wheel_4
+  (35,35)  2.0e2   ; j_wheel_4
 
   ;; Torso Joint Positions: [torso] ;;
   (36,36)  2.0e-1     ; torso_yaw

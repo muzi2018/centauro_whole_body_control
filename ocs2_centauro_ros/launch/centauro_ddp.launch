@@ -69,18 +69,18 @@
             <node pkg="ocs2_centauro_ros" type="legged_robot_dummy" name="legged_robot_dummy"
                   output="screen" launch-prefix="gnome-terminal --"/>
             <node pkg="ocs2_centauro_ros" type="centauro_ddp_mpc" name="legged_robot_ddp_mpc"
-                   output="screen" launch-prefix=""/>
+                   output="screen" launch-prefix="gnome-terminal --"/>
         </group>
     </group>
 
 
     
+
     <node pkg="ocs2_centauro_ros" type="legged_robot_target" name="legged_robot_target"
         output="screen" launch-prefix="gnome-terminal --"/>
 
     <node pkg="ocs2_centauro_ros" type="legged_robot_gait_command" name="legged_robot_gait_command"
           output="screen" launch-prefix="gnome-terminal --"/>
-
 
 
     <!-- add node for arm ee targets -->

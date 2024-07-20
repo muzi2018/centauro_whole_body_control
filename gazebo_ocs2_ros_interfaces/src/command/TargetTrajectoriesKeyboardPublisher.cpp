@@ -52,8 +52,9 @@ TargetTrajectoriesKeyboardPublisher::TargetTrajectoriesKeyboardPublisher(::ros::
   observationSubscriber_ = nodeHandle.subscribe<ocs2_msgs::mpc_observation>(topicPrefix + "_mpc_observation", 1, observationCallback);
 
   // Trajectories publisher
-  targetTrajectoriesPublisherPtr_.reset(new TargetTrajectoriesRosPublisher(nodeHandle, topicPrefix));
-}
+  targetTrajectoriesPublisherPtr_.reset(new TargetTrajectoriesRosPublisher(nodeHandle, topicPrefix, ""));
+} 
+
 
 /******************************************************************************************************/
 /******************************************************************************************************/
@@ -62,10 +63,10 @@ void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::stri
   while (ros::ok() && ros::master::check()) {
     // get command line
     std::cout << commadMsg << ": ";
-    const vector_t commandLineInput = getCommandLine().cwiseMin(targetCommandLimits_).cwiseMax(-targetCommandLimits_);
+    // const vector_t commandLineInput = getCommandLine().cwiseMin(targetCommandLimits_).cwiseMax(-targetCommandLimits_);
 
     // display
-    std::cout << "The following command is published: [" << toDelimitedString(commandLineInput) << "]\n\n";
+    // std::cout << "The following command is published: [" << toDelimitedString(commandLineInput) << "]\n\n";
 
     // get the latest observation
     ::ros::spinOnce();
@@ -75,13 +76,44 @@ void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::stri
       observation = latestObservation_;
     }
 
+    std::cout << "observation.size = " << observation.state.size() << std::endl; 
+
     // get TargetTrajectories
-    const auto targetTrajectories = commandLineToTargetTrajectoriesFun_(commandLineInput, observation);
+    // const auto targetTrajectories = commandLineToTargetTrajectoriesFun_(commandLineInput, observation);
 
     // publish TargetTrajectories
-    targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
+    // targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
   }  // end of while loop
 }
+
+
+// void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::string& commadMsg) {
+//   while (ros::ok() && ros::master::check()) {
+//     // get command line
+//     std::cout << commadMsg << ": ";
+//     const vector_t commandLineInput = getCommandLine().cwiseMin(targetCommandLimits_).cwiseMax(-targetCommandLimits_);
+
+//     // display
+//     std::cout << "The following command is published: [" << "]\n\n";
+
+//     // get the latest observation
+//     ::ros::spinOnce();
+//     SystemObservation observation;
+//     {
+//       std::lock_guard<std::mutex> lock(latestObservationMutex_);
+//       observation = latestObservation_;
+//     }
+
+//     std::cout << "observation.size = " << observation.state.size() << std::endl; 
+
+//     // get TargetTrajectories
+//     const auto targetTrajectories = jointRefToTargetTrajectoriesFun_(observation);
+
+//     // publish TargetTrajectories
+//     targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
+//   }  // end of while loop
+// }
+
 
 /******************************************************************************************************/
 /******************************************************************************************************/
@@ -89,7 +121,11 @@ void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::stri
 vector_t TargetTrajectoriesKeyboardPublisher::getCommandLine() {
   // get command line as one long string
   auto shouldTerminate = []() { return !ros::ok() || !ros::master::check(); };
+  
+
   const std::string line = getCommandLineString(shouldTerminate);
+
+
 
   // a line to words
   const std::vector<std::string> words = stringToWords(line);

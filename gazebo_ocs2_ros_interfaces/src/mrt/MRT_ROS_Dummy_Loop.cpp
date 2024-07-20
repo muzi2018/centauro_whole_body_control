@@ -139,7 +139,7 @@ void MRT_ROS_Dummy_Loop::synchronizedDummyLoop(const SystemObservation& initObse
 
   ros::Rate simRate(mrtDesiredFrequency_);
   while (ros::ok() && ros::master::check()) {
-    std::cout << "### Current time " << currentObservation.time << "\n";
+    // std::cout << "### Current time " << currentObservation.time << "\n";
 
     // Trigger MRT callbacks
     mrt_.spinMRT();
@@ -150,7 +150,7 @@ void MRT_ROS_Dummy_Loop::synchronizedDummyLoop(const SystemObservation& initObse
       while (!policyUpdatedForTime(currentObservation.time) && ros::ok() && ros::master::check()) {
         mrt_.spinMRT();
       }
-      std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
+      // std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
     }
 
     // get observation from xbotCore
@@ -165,7 +165,7 @@ void MRT_ROS_Dummy_Loop::synchronizedDummyLoop(const SystemObservation& initObse
     // Publish observation if at the next step we want a new policy
     if ((loopCounter + 1) % mpcUpdateRatio == 0) {
       mrt_.setCurrentObservation(currentObservation);
-      std::cout << ">>> Observation is published at " << currentObservation.time << "\n";
+      // std::cout << ">>> Observation is published at " << currentObservation.time << "\n";
     }
 
     // Update observers
@@ -199,7 +199,7 @@ void MRT_ROS_Dummy_Loop::synchronizedXbotCoreLoop(const SystemObservation& initO
 
   ros::Rate simRate(mrtDesiredFrequency_);
   while (ros::ok() && ros::master::check()) {
-    std::cout << "### Current time " << currentObservation.time << "\n";
+    // std::cout << "### Current time " << currentObservation.time << "\n";
 
     // Trigger MRT callbacks
     mrt_.spinMRT();
@@ -210,7 +210,7 @@ void MRT_ROS_Dummy_Loop::synchronizedXbotCoreLoop(const SystemObservation& initO
       while (!policyUpdatedForTime(currentObservation.time) && ros::ok() && ros::master::check()) {
         mrt_.spinMRT();
       }
-      std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
+      // std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
     }
 
     // get observation from xbotCore
@@ -223,7 +223,7 @@ void MRT_ROS_Dummy_Loop::synchronizedXbotCoreLoop(const SystemObservation& initO
     // Publish observation if at the next step we want a new policy
     if ((loopCounter + 1) % mpcUpdateRatio == 0) {
       mrt_.setCurrentObservation(currentObservation);
-      std::cout << ">>> Observation is published at " << currentObservation.time << "\n";
+      // std::cout << ">>> Observation is published at " << currentObservation.time << "\n";
     }
 
     // evaluate policy at current time
@@ -259,38 +259,38 @@ void MRT_ROS_Dummy_Loop::realtimeDummyLoop(const SystemObservation& initObservat
 
   
   while (ros::ok() && ros::master::check()) {
-    std::cout << "### Current time " << currentObservation.time << "\n";
+    // std::cout << "### Current time " << currentObservation.time << "\n";
 
     // Trigger MRT callbacks
     mrt_.spinMRT();
 
     // Update the policy if a new one was received
     if (mrt_.updatePolicy()) {
-      std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
+      // std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
     }
 
     // Forward simulation
     currentObservation = forwardSimulation(currentObservation);
 
-    ROS_INFO_STREAM("forwardSimulation");
+    // ROS_INFO_STREAM("forwardSimulation");
 
     // User-defined modifications before publishing
     modifyObservation(currentObservation);
 
-    ROS_INFO_STREAM("modifyObservation");
+    // ROS_INFO_STREAM("modifyObservation");
 
     // Publish observation
     mrt_.setCurrentObservation(currentObservation);
 
-    ROS_INFO_STREAM("setCurrentObservation");
+    // ROS_INFO_STREAM("setCurrentObservation");
 
     // Update observers
     for (auto& observer : observers_) {
-      ROS_INFO_STREAM("observers_111111");
+      // ROS_INFO_STREAM("observers_111111");
       observer->update(currentObservation, mrt_.getPolicy(), mrt_.getCommand());
     }
 
-    ROS_INFO_STREAM("observers_2222");
+    // ROS_INFO_STREAM("observers_2222");
 
 
     ros::spinOnce();
@@ -308,14 +308,14 @@ void MRT_ROS_Dummy_Loop::realtimeXbotCoreLoop(const SystemObservation& initObser
   if (xbotInterface_.getConfig().xbotCoreFeedback) {
       ros::Rate simRate(mrtDesiredFrequency_);
       while (ros::ok() && ros::master::check()) {
-        std::cout << "### Current time " << currentObservation.time << "\n";
+        // std::cout << "### Current time " << currentObservation.time << "\n";
 
         // Trigger MRT callbacks
         mrt_.spinMRT();
 
         // Update the policy if a new one was received
         if (mrt_.updatePolicy()) {
-          std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
+          // std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
 
 //          PerformanceIndex currentPerformanceIndex = mrt_.getPerformanceIndices();
 //          if (currentPerformanceIndex.cost > 500 || currentPerformanceIndex.merit > 500) {      // safety
@@ -351,14 +351,14 @@ void MRT_ROS_Dummy_Loop::realtimeXbotCoreLoop(const SystemObservation& initObser
   } else {
       ros::Rate simRate(mrtDesiredFrequency_);
       while (ros::ok() && ros::master::check()) {
-        std::cout << "### Current time " << currentObservation.time << "\n";
+        // std::cout << "### Current time " << currentObservation.time << "\n";
 
         // Trigger MRT callbacks
         mrt_.spinMRT();
 
         // Update the policy if a new one was received
         if (mrt_.updatePolicy()) {
-          std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
+          // std::cout << "<<< New MPC policy starting at " << mrt_.getPolicy().timeTrajectory_.front() << "\n";
 
 //          PerformanceIndex currentPerformanceIndex = mrt_.getPerformanceIndices();
 //          if (currentPerformanceIndex.cost > 500 || currentPerformanceIndex.merit > 500) {      // safety
