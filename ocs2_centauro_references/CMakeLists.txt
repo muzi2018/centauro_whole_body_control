@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(ocs2_centauro_references)
+set(CMAKE_BUILD_TYPE Release)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
