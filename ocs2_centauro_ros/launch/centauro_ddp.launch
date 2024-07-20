@@ -8,7 +8,7 @@
     <arg name="multiplot"          default="false"/>
 
     <!-- further flags -->
-    <arg name="gdb"                default="true"/>
+    <arg name="gdb"                default="false"/>
     <arg name="xbot_plugin"        default="false"/>
     <arg name="task"      	       default="task"/>		<!-- with arm EEs soft constrained -->
     <arg name="base_estimation"    default="true"/>		
@@ -76,7 +76,11 @@
 
     
 
+    <node pkg="ocs2_centauro_ros" type="legged_robot_target" name="legged_robot_target"
+        output="screen" launch-prefix="gnome-terminal --"/>
 
+    <node pkg="ocs2_centauro_ros" type="legged_robot_gait_command" name="legged_robot_gait_command"
+          output="screen" launch-prefix="gnome-terminal --"/>
 
 
     <!-- add node for arm ee targets -->

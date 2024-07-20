@@ -272,25 +272,25 @@ void MRT_ROS_Dummy_Loop::realtimeDummyLoop(const SystemObservation& initObservat
     // Forward simulation
     currentObservation = forwardSimulation(currentObservation);
 
-    ROS_INFO_STREAM("forwardSimulation");
+    // ROS_INFO_STREAM("forwardSimulation");
 
     // User-defined modifications before publishing
     modifyObservation(currentObservation);
 
-    ROS_INFO_STREAM("modifyObservation");
+    // ROS_INFO_STREAM("modifyObservation");
 
     // Publish observation
     mrt_.setCurrentObservation(currentObservation);
 
-    ROS_INFO_STREAM("setCurrentObservation");
+    // ROS_INFO_STREAM("setCurrentObservation");
 
     // Update observers
     for (auto& observer : observers_) {
-      ROS_INFO_STREAM("observers_111111");
+      // ROS_INFO_STREAM("observers_111111");
       observer->update(currentObservation, mrt_.getPolicy(), mrt_.getCommand());
     }
 
-    ROS_INFO_STREAM("observers_2222");
+    // ROS_INFO_STREAM("observers_2222");
 
 
     ros::spinOnce();

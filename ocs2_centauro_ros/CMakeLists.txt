@@ -4,7 +4,8 @@ project(ocs2_centauro_ros)
 # Generate compile_commands.json for clang tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(CMAKE_CXX_FLAGS "-g")
+# set(CMAKE_CXX_FLAGS "-g")
+set(CMAKE_BUILD_TYPE Release)
 
 
 set(CATKIN_PACKAGE_DEPENDENCIES

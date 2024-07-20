@@ -20,7 +20,7 @@ model_settings
 
 swing_trajectory_config
 {
-  addPlanarConstraints          true   ; true for exact steps
+  addPlanarConstraints          false   ; true for exact steps
 
   liftOffVelocity               0.0
   touchDownVelocity             -0.0
@@ -31,7 +31,7 @@ swing_trajectory_config
 
   liftOffLongVelocity           0.0
   touchDownLongVelocity         0.0
-  longStepLength                0.0
+  longStepLength                0.1
 
   liftOffLateralVelocity           0.0
   touchDownLateralVelocity         0.0
@@ -40,9 +40,9 @@ swing_trajectory_config
 
 arm_swing_trajectory_config
 {
-  positionPlanner               true
+  positionPlanner               false
   orientationPlanner            false
-  addConstraints                true
+  addConstraints                false
   meanEeVelocity                0.05
 
   liftOffVelocity               0.0
@@ -443,7 +443,7 @@ frictionConeConstraint
 
 stabilityConstraint
 {
-  activate                      true
+  activate                      false
   config
   {
     scale                       1e-0               ; a penalty term \pho that acts as a scaling factor for the total penalty.
@@ -458,7 +458,7 @@ maximumNormalForce          1000
 ; #############################################
 JointVelocityLimits
 {
-  activateVelocityLimits      true
+  activateVelocityLimits      false
   config
   {
     scale                       1e3               ; a penalty term \pho that acts as a scaling factor for the total penalty.
@@ -468,7 +468,7 @@ JointVelocityLimits
 
 JointPositionLimits
 {
-  activatePositionLimits      true
+  activatePositionLimits      false
   config
   {
     scale                       1e-0               ; a penalty term \pho that acts as a scaling factor for the total penalty.
