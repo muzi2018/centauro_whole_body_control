@@ -39,139 +39,78 @@ Additional modifications and contributions by Ioannis Dadiotis:
 #include <ocs2_core/Types.h>
 #include <ocs2_core/misc/LoadData.h>
 #include <gazebo_ocs2_ros_interfaces/command/TargetTrajectoriesKeyboardPublisher.h>
-#include <ocs2_centauro/common/ModelSettings.h>
-#include <ros/service.h>
-#include <std_srvs/Empty.h>
-#include <xbot_msgs/JointState.h>
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <gazebo_ocs2_ros_interfaces/synchronized_module/RosReferenceManager.h>
+#include  <ocs2_centauro/common/ModelSettings.h>
 
-#include "ocs2_centauro/reference_manager/SwitchedStateReferenceManager.h"
+#include <xbot_msgs/JointState.h>
 
 using namespace ocs2;
-using namespace ocs2::legged_robot;
-using namespace std;
-std::vector<std::vector<double>> doubleData;
 
+namespace {
 scalar_t targetDisplacementVelocity;
 scalar_t targetRotationVelocity;
 scalar_t comHeight;
 vector_t defaultJointState;
-vector_t desireJointState;
-vector_t desirepose;
-bool iii = true;
-bool arm_rl_bool = false;
+}  // namespace
 
-int buffer_size = 10;
-int n_segments = 0;
-
-std::vector<double> parseDoubles(const std::string& line) {
-    std::vector<double> doubles;
-    std::istringstream iss(line);
-    double value;
-
-    while (iss >> value) {
-        doubles.push_back(value);
-    }
-
-    return doubles;
+scalar_t estimateTimeToTarget(const vector_t& desiredBaseDisplacement) {
+  const scalar_t& dx = desiredBaseDisplacement(0);
+  const scalar_t& dy = desiredBaseDisplacement(1);
+  const scalar_t& dyaw = desiredBaseDisplacement(3);
+  const scalar_t rotationTime = std::abs(dyaw) / targetRotationVelocity;
+  const scalar_t displacement = std::sqrt(dx * dx + dy * dy);
+  const scalar_t displacementTime = displacement / targetDisplacementVelocity;
+  return std::max(rotationTime, displacementTime);
 }
 
-
-bool arm_rl_tracking(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res)
-{
-    arm_rl_bool = !arm_rl_bool;
-    return true;
-};
-
 /**
- * Send joints reference to TargetTrajectories
-*/
-
-TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observation){
-
+ * Converts command line to TargetTrajectories.
+ * @param [in] commadLineTarget : [deltaX, deltaY, deltaZ, deltaYaw]
+ * @param [in] observation : the current observation
+ */
+TargetTrajectories commandLineToTargetTrajectories(const vector_t& commadLineTarget, const SystemObservation& observation) {
   const vector_t currentPose = observation.state.segment<6>(6);
+  const vector_t targetPose = [&]() {
+    vector_t target(6);
+    // base p_x, p_y are relative to current state
+    target(0) = currentPose(0) + commadLineTarget(0);
+    target(1) = currentPose(1) + commadLineTarget(1);
+    // base z relative to the default height
+    target(2) = comHeight + commadLineTarget(2);
+    // theta_z relative to current
+    target(3) = currentPose(3) + commadLineTarget(3) * M_PI / 180.0;
+    // theta_y, theta_x
+    target(4) = currentPose(4);
+    target(5) = currentPose(5);
+    return target;
+  }();
 
+  // target reaching duration
+  const scalar_t targetReachingTime = observation.time + estimateTimeToTarget(targetPose - currentPose);
   // desired time trajectory
-  scalar_array_t timeTrajectory;
-  timeTrajectory.resize(buffer_size);
-  int i = 0;
-  for (double& timePoint : timeTrajectory) {
-      timePoint = observation.time + 0.1 * i;
-      i++;
-  }
-
+  const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
   // desired state trajectory
-  // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
-  vector_array_t stateTrajectory(buffer_size, vector_t::Zero(observation.state.size()));
-  int j = 0;
-  for (size_t i = 0; i < buffer_size; i++)
-  {
-    desireJointState = defaultJointState;
-    desireJointState[24] = doubleData[j][6];
-      //left arm
-    desireJointState[25] = doubleData[j][7]; 
-    desireJointState[26] = doubleData[j][8]; 
-    desireJointState[27] = doubleData[j][9]; 
-    desireJointState[28] = doubleData[j][10]; 
-    desireJointState[29] = doubleData[j][11]; 
-    desireJointState[30] = doubleData[j][12];
-    //right arm
-    desireJointState[31] = doubleData[j][13]; 
-    desireJointState[32] = doubleData[j][14];
-    desireJointState[33] = doubleData[j][15];
-    desireJointState[34] = doubleData[j][16];
-    desireJointState[35] = doubleData[j][17];
-    desireJointState[36] = doubleData[j][18];
-    /* code */
-    stateTrajectory[i] << vector_t::Zero(6), currentPose, desireJointState;
-    j++;
-  }
-  
-  // desired input trajectory (just right dimensions, they are not used)
-  const vector_array_t inputTrajectory(buffer_size, vector_t::Zero(observation.state.size()));
-  // if ( iii )
-  // {
-  //   for (size_t i = 0; i < desireJointState.size(); i++)
-  //   {
-  //     std::cout << "desireJointState[" << i << "] = " << desireJointState[i] << std::endl;
-  //   }
-  //   for (size_t i = 0; i < observation.state.size(); i++)
-  //   {
-  //     std::cout << "state[" << i << "] = " << observation.state[i] << std::endl;
-  //   }
-  //   iii = false;
-  // }
+  vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
+  stateTrajectory[0] << vector_t::Zero(6), currentPose, defaultJointState;
+  stateTrajectory[1] << vector_t::Zero(6), targetPose, defaultJointState;
 
-  // std::cout << "timeTrajectory.size() = " << timeTrajectory.size() << std::endl;
-  // std::cout << "stateTrajectory.size() = " << stateTrajectory.size() << std::endl;
-  // std::cout << "inputTrajectory.size() = " << inputTrajectory.size() << std::endl;
-  // std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
-  // std::cout << "desireJointState.size() = " << desireJointState.size() << std::endl;
+  // desired input trajectory (just right dimensions, they are not used)
+  const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
 
   return {timeTrajectory, stateTrajectory, inputTrajectory};
 }
 
-
 int main(int argc, char* argv[]) {
   const std::string robotName = "legged_robot";
+
   // Initialize ros node
   ::ros::init(argc, argv, robotName + "_target");
   ::ros::NodeHandle nodeHandle;
   // Get node parameters
   std::string referenceFile, taskFile;
   nodeHandle.getParam("/referenceFile", referenceFile);
-
-  std::cout << "referenceFile is " << referenceFile << std::endl;
-
   nodeHandle.getParam("/taskFile", taskFile);
   legged_robot::ModelSettings modelSettings = legged_robot::loadModelSettings(taskFile, "model_settings", false);
   defaultJointState.resize(modelSettings.jointNames.size());    // resize defaultJointState vector
-  desireJointState.resize(modelSettings.jointNames.size());    // resize desireJointState vector
-  
-
 
   loadData::loadCppDataType(referenceFile, "comHeight", comHeight);
   loadData::loadEigenMatrix(referenceFile, "defaultJointState", defaultJointState);
@@ -191,78 +130,14 @@ int main(int argc, char* argv[]) {
       }
   }
 
-  ::ros::Subscriber observationSubscriber_;
-  std::mutex latestObservationMutex_;
-  SystemObservation latestObservation_;
+  // goalPose: [deltaX, deltaY, deltaZ, deltaYaw]
+  const scalar_array_t relativeBaseLimit{10.0, 10.0, 1.0, 360.0};
+  TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &commandLineToTargetTrajectories);
 
-  //----------------------------------------------------------------
-  // Get the observation topic
-  //----------------------------------------------------------------
-  auto observationCallback = [&](const ocs2_msgs::mpc_observation::ConstPtr& msg) {
-    std::lock_guard<std::mutex> lock(latestObservationMutex_);
-    latestObservation_ = ros_msg_conversions::readObservationMsg(*msg);
-  };
-
-  observationSubscriber_ = nodeHandle.subscribe<ocs2_msgs::mpc_observation>(robotName + "_mpc_observation", 1, observationCallback);
-
-  //----------------------------------------------------------------
-  // Publish the target trajectories
-  //----------------------------------------------------------------
-  std::unique_ptr<TargetTrajectoriesRosPublisher> targetTrajectoriesPublisherPtr_;
-  targetTrajectoriesPublisherPtr_.reset(new TargetTrajectoriesRosPublisher(nodeHandle, robotName));  
-  ros::ServiceServer service = nodeHandle.advertiseService("arm_rl", arm_rl_tracking);
-
-
-
-
-  ifstream file("/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/door.txt");
-  if (!file) {
-      cerr << "Unable to open file!" << endl;
-  }
-  std::vector<std::string> lines;
-  std::string line;
-  if (file.is_open()) {
-      while (std::getline(file, line)) {
-          lines.push_back(line);
-      }
-      file.close();
-  } else {
-      std::cerr << "Unable to open file" << std::endl;
-  }
-    std::cout << "lines.size() = " << lines.size() << std::endl; 
-
-
+  const std::string commandMsg = "Enter XYZ and Yaw (deg) displacements for the TORSO, separated by spaces";
   
-  for (const auto& line : lines) {
-      doubleData.push_back(parseDoubles(line));
-  }
+  targetPoseCommand.publishKeyboardCommand(commandMsg);
 
-  ros::Rate r(10);
-  while (ros::ok() && ros::master::check()) {
-      {
-        while (!arm_rl_bool)
-        {
-            ros::spinOnce();
-            r.sleep();
-        }
-        SystemObservation observation;
-        {
-          std::lock_guard<std::mutex> lock(latestObservationMutex_);
-          observation = latestObservation_;
-        }
-      // std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
-        if (observation.state.size()) {
-        {
-          std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
-          const auto targetTrajectories = jointRefToTargetTrajectories(observation);
-          targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
-          // arm_rl_bool = !arm_rl_bool;
-        }
-      }
-    }
-  }
-
-  r.sleep();
-
+  // Successful exit
   return 0;
 }
