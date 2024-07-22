@@ -14,6 +14,48 @@ void SwingTrajectoryPlanner::update(
         foot 1 = 0.34 -0.34 0
         foot 2 = -0.34 0.34 0
         foot 3 = -0.34 -0.34 0
+initModeContactFlagsSum = 4
+
+
+initTime = 10.382
+if(initModeContactFlagsSum < 4){
+
+
+centauro_walk
+{
+  ;LF, RF, LH, RH
+  modeSequence
+  {
+    [0]     LF_LH_RH;
+    [1]     STANCE
+    [2]     RF_LH_RH;
+    [3]     STANCE
+    [4]     LF_RF_RH;
+    [5]     STANCE
+    [6]     LF_RF_LH;
+    [7]     STANCE
+  }
+  switchingTimes
+  {
+      [0]     0.0
+      [1]     1.2
+      [2]     2.0
+      [3]     3.2
+      [4]     4.0
+      [5]     5.2
+      [6]     6.0
+      [7]     7.2
+      [8]     8.0
+  }
+}
+
+
+    
+    Non-STANCE mode is: [2]     RF_LH_RH;
+    currentModeIndex: 2
+
+
+}
 
 }
 
