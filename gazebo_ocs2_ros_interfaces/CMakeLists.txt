@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(gazebo_ocs2_ros_interfaces)
 set(CMAKE_BUILD_TYPE Release)
-
+add_compile_options(-O2)
 set(CATKIN_PACKAGE_DEPENDENCIES
   roscpp
   ocs2_msgs
