@@ -1,0 +1,83 @@
+├── ocs2
+├── ocs2_core
+│   ├── cmake
+│   ├── include
+│   ├── misc
+│   ├── src
+│   └── test
+├── ocs2_ddp
+│   ├── include
+│   ├── src
+│   └── test
+├── ocs2_doc
+│   ├── cmake
+│   ├── docs
+│   └── tools
+├── ocs2_frank_wolfe
+│   ├── cmake
+│   ├── include
+│   ├── src
+│   └── test
+├── ocs2_mpc
+│   ├── include
+│   └── src
+├── ocs2_msgs
+│   ├── msg
+│   └── srv
+├── ocs2_oc
+│   ├── include
+│   ├── src
+│   └── test
+├── ocs2_ocs2
+│   ├── include
+│   ├── src
+│   └── test
+├── ocs2_pinocchio
+│   ├── ocs2_centroidal_model
+│   ├── ocs2_pinocchio
+│   ├── ocs2_pinocchio_interface
+│   ├── ocs2_self_collision
+│   ├── ocs2_self_collision_visualization
+│   └── ocs2_sphere_approximation
+├── ocs2_python_interface
+│   ├── include
+│   ├── src
+│   └── test
+├── ocs2_raisim
+│   ├── ocs2_legged_robot_raisim
+│   ├── ocs2_raisim
+│   ├── ocs2_raisim_core
+│   └── ocs2_raisim_ros
+├── ocs2_robotic_examples
+│   ├── ocs2_ballbot
+│   ├── ocs2_ballbot_ros
+│   ├── ocs2_cartpole
+│   ├── ocs2_cartpole_ros
+│   ├── ocs2_double_integrator
+│   ├── ocs2_double_integrator_ros
+│   ├── ocs2_legged_robot
+│   ├── ocs2_legged_robot_ros
+│   ├── ocs2_mobile_manipulator
+│   ├── ocs2_mobile_manipulator_ros
+│   ├── ocs2_perceptive_anymal
+│   ├── ocs2_quadrotor
+│   ├── ocs2_quadrotor_ros
+│   └── ocs2_robotic_examples
+├── ocs2_robotic_tools
+│   ├── include
+│   ├── src
+│   └── test
+├── ocs2_ros_interfaces
+│   ├── include
+│   ├── launch
+│   ├── multiplot
+│   ├── src
+│   └── test
+├── ocs2_sqp
+│   ├── blasfeo_catkin
+│   ├── hpipm_catkin
+│   └── ocs2_sqp
+├── ocs2_test_tools
+│   └── ocs2_qp_solver
+└── ocs2_thirdparty
+    └── include
