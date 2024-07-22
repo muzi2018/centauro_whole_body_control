@@ -95,7 +95,10 @@ scalar_t SwingTrajectoryPlanner::getYpositionConstraint(size_t leg, scalar_t tim
 /******************************************************************************************************/
 /******************************************************************************************************/
 void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition) {
+  // std::cout << "update 1" << std::endl;
   // vertical components
+  std::cout << "modeSchedule.modeSequence.size() = " << modeSchedule.modeSequence.size() << std::endl;
+  std::cout << "terrainHeight" << terrainHeight << std::endl;
   const scalar_array_t terrainHeightSequence(modeSchedule.modeSequence.size(), terrainHeight);
   feet_array_t<scalar_array_t> liftOffHeightSequence;
   liftOffHeightSequence.fill(terrainHeightSequence);
@@ -115,6 +118,15 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   // Get step length for generating steps
   const auto longStepLength = this->getConfig().longStepLength;
   const auto lateralStepLength = this->getConfig().lateralStepLength;
+
+  std::cout << "longStepLength: " << longStepLength << std::endl;
+  std::cout << "lateralStepLength: " << lateralStepLength << std::endl;
+  for (size_t i = 0; i < currentEePosition.size(); i++)
+  {
+    std::cout << "foot " << i << " = " << std::endl << 
+    currentEePosition[i][0] << " " << currentEePosition[i][1] << " " << currentEePosition[i][2] << std::endl;
+  }
+  
 
   feet_array_t<scalar_array_t> targetEePosition = currentEePosition;
 
@@ -260,10 +272,33 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, const feet
                                     const feet_array_t<scalar_array_t>& touchDownLongSequence,
                                     const feet_array_t<scalar_array_t>& liftOffLateralSequence,
                                     const feet_array_t<scalar_array_t>& touchDownLateralSequence) {
+                                      
   const auto& modeSequence = modeSchedule.modeSequence;
+
+
+  //   std::cout << "modeSequence: ";
+  //   for (const auto& mode : modeSchedule.modeSequence) {
+  //       std::cout << mode << " ";
+  //   }
+  //   std::cout << std::endl;
+
   const auto& eventTimes = modeSchedule.eventTimes;
+  //   std::cout << "eventTimes: ";
+  //   for (const auto& eventTimes_ : modeSchedule.eventTimes) {
+  //       std::cout << eventTimes_ << " ";
+  //   }
+  //   std::cout << std::endl;
 
   const auto eesContactFlagStocks = extractContactFlags(modeSequence);
+  // std::cout << "eesContactFlagStocks: ";
+  // int i_ = 1;
+  // for (const auto& eesContactFlagStocks_ : eesContactFlagStocks) {
+  //     for (const auto& eesContact : eesContactFlagStocks_) {
+  //         std::cout << "foot " << i_ << "= " << eesContact << " ";
+  //     }
+  //     i_++;
+  // }
+  // std::cout << std::endl;
 
   feet_array_t<std::vector<int>> startTimesIndices;
   feet_array_t<std::vector<int>> finalTimesIndices;

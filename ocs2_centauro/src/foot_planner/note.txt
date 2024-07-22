@@ -1,0 +1,24 @@
+void SwingTrajectoryPlanner::update(
+    const ModeSchedule& modeSchedule, 
+    scalar_t initTime, 
+    scalar_t terrainHeight, 
+    feet_array_t<scalar_array_t> currentEePosition)
+{
+    modeSchedule.modeSequence.size() = 4;
+    terrainHeight = 0;
+    longStepLength = 0.1;
+    lateralStepLength = 0.0;
+
+    currentEePosition =
+        foot 0 = 0.34 0.34 0
+        foot 1 = 0.34 -0.34 0
+        foot 2 = -0.34 0.34 0
+        foot 3 = -0.34 -0.34 0
+
+}
+
+
+
+
+
+
