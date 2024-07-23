@@ -441,9 +441,9 @@ R_taskspace
   (3,3)     1.0       ; right_front_velocity
   (4,4)     1.0       ; right_front_velocity
   (5,5)     1.0       ; right_front_velocity
-  (6,6)     1.0       ; left_hind_velocity
-  (7,7)     1.0       ; left_hind_velocity
-  (8,8)     1.0       ; left_hind_velocity
+  (6,6)     10       ; left_hind_velocity
+  (7,7)     10       ; left_hind_velocity
+  (8,8)     10       ; left_hind_velocity
   (9,9)     10       ; right_hind_velocity
   (10,10)   10       ; right_hind_velocity
   (11,11)   10       ; right_hind_velocity
