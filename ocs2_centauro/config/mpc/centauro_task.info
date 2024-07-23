@@ -44,7 +44,7 @@ swing_trajectory_config
 
 arm_swing_trajectory_config
 {
-  addConstraints                true
+  addConstraints                false
   positionPlanner               true
   orientationPlanner            false
   positionIndicesLeftArm
@@ -87,7 +87,7 @@ arm_swing_trajectory_config
 ; #######################################
 armEeSoftConstraints
 {
-    activate            true
+    activate            false
 
     arm1_8EndEffector
     {
