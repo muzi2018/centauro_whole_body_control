@@ -444,9 +444,9 @@ R_taskspace
   (6,6)     1.0       ; left_hind_velocity
   (7,7)     1.0       ; left_hind_velocity
   (8,8)     1.0       ; left_hind_velocity
-  (9,9)     1.0       ; right_hind_velocity
-  (10,10)   1.0       ; right_hind_velocity
-  (11,11)   1.0       ; right_hind_velocity
+  (9,9)     10       ; right_hind_velocity
+  (10,10)   10       ; right_hind_velocity
+  (11,11)   10       ; right_hind_velocity
 }
 
 armForceReferences              ; force references for arm EEs for quadratic state-input cost

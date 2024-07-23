@@ -95,39 +95,19 @@ scalar_t SwingTrajectoryPlanner::getYpositionConstraint(size_t leg, scalar_t tim
 /******************************************************************************************************/
 /******************************************************************************************************/
 void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition) {
-  // std::cout << "update 1" << std::endl;
-  // vertical components
-  // std::cout << "modeSchedule.modeSequence.size() = " << modeSchedule.modeSequence.size() << std::endl;
-  // std::cout << "terrainHeight" << terrainHeight << std::endl;
+
+  // std::cout << "update 1 initTime = " << initTime << std::endl;
+
   const scalar_array_t terrainHeightSequence(modeSchedule.modeSequence.size(), terrainHeight);
   feet_array_t<scalar_array_t> liftOffHeightSequence;
   liftOffHeightSequence.fill(terrainHeightSequence);
   feet_array_t<scalar_array_t> touchDownHeightSequence;
   touchDownHeightSequence.fill(terrainHeightSequence);
 
-//  // Debug HeightSequence
-//  std::cout << "[Yiannis] liftOffHeightSequence size: " << liftOffHeightSequence.size() << std::endl;
-//  std::cout << "[Yiannis] liftOffHeightSequence[0] size: " << liftOffHeightSequence[0].size() << std::endl;
-//  for (int i = 0; i< liftOffHeightSequence.size(); i++){
-//      for (int k = 0; k < liftOffHeightSequence[i].size(); k++) {
-//          std::cout << "[Yiannis] Passed EE position: " << liftOffHeightSequence[i].at(k) << std::endl;
-//          std::cout << "[Yiannis] Target EE position: " << touchDownHeightSequence[i].at(k) << std::endl;
-//      }
-//  }
-
   // Get step length for generating steps
   const auto longStepLength = this->getConfig().longStepLength;
   const auto lateralStepLength = this->getConfig().lateralStepLength;
-
-  // std::cout << "longStepLength: " << longStepLength << std::endl;
-  // std::cout << "lateralStepLength: " << lateralStepLength << std::endl;
-  // for (size_t i = 0; i < currentEePosition.size(); i++)
-  // {
-  //   std::cout << "foot " << i << " = " << std::endl << 
-  //   currentEePosition[i][0] << " " << currentEePosition[i][1] << " " << currentEePosition[i][2] << std::endl;
-  // }
   
-
   feet_array_t<scalar_array_t> targetEePosition = currentEePosition;
 
   // Find mode at initTime
@@ -135,18 +115,22 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   contact_flag_t initModeLegContactFlags = modeNumber2StanceLeg(initMode);      // Contact flags at initMode
   int initModeContactFlagsSum = std::accumulate(initModeLegContactFlags.begin(), initModeLegContactFlags.end(), 0);     // sum contact flags
   // std::cout << "initModeContactFlagsSum = " << initModeContactFlagsSum << std::endl;
-
+  // for (size_t i = 0; i < initModeLegContactFlags.size(); i++)
+  // {
+  //   std::cout << "initModeLegContactFlags[" << i << "]" <<" = " << initModeLegContactFlags[i] << std::endl;
+  // }
+  
   // If at initTime there is at least one leg swinging
-  std::cout << "initTime = " << initTime << std::endl;
+  // std::cout << "initTime = " << initTime << std::endl;
   if (initModeContactFlagsSum < 4) {
-   std::cout << "[Yiannis] ********************************** " << std::endl;
-   std::cout << "[Yiannis] Non-STANCE mode is: " << modeNumber2String(initMode) << std::endl;
+  //  std::cout << "[Yiannis] ********************************** " << std::endl;
+  //  std::cout << "[Yiannis] Non-STANCE mode is: " << modeNumber2String(initMode) << std::endl;
 
     // Find initial mode index within the modes vector
     auto currentModeIndex = std::distance(modeSchedule.modeSequence.begin(), std::find(modeSchedule.modeSequence.begin(),
                                                                                      modeSchedule.modeSequence.end(),
                                                                                      modeSchedule.modeAtTime(initTime)));
-   std::cout << "[Yiannis] currentModeIndex: " << currentModeIndex << std::endl;
+  //  std::cout << "[Yiannis] currentModeIndex: " << currentModeIndex << std::endl;
 
     // Id of the current swing leg
     int CurrentSwingLegId = std::distance(initModeLegContactFlags.begin(),
@@ -155,17 +139,17 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
 
     // contact flags for the current swing leg (for all modes)
     const auto CurrentSwingLegContactFlags = extractContactFlags(modeSchedule.modeSequence)[CurrentSwingLegId];
-//    std::cout << "[Yiannis] CurrentSwingLeg ContactFlags: ";
-//    for (int iter = 0; iter < CurrentSwingLegContactFlags.size(); iter++)
-//        std::cout << CurrentSwingLegContactFlags[iter] << " ";
-//    std::cout << " " << std::endl;
+  //  std::cout << "[Yiannis] CurrentSwingLeg ContactFlags: ";
+  //  for (int iter = 0; iter < CurrentSwingLegContactFlags.size(); iter++)
+  //      std::cout << CurrentSwingLegContactFlags[iter] << " ";
+  //  std::cout << " " << std::endl;
 
     // find the startTime and finalTime indices (e.g. eventTimes[startTimeIndex]) for swing lift off and touch down times
     int startTimeIndex = 0;
     int finalTimeIndex = 0;
     std::tie(startTimeIndex, finalTimeIndex) = findIndex(currentModeIndex, CurrentSwingLegContactFlags);
-//    std::cout << "[Yiannis] startTimeIndex: " << startTimeIndex << std::endl;
-//    std::cout << "[Yiannis] finalTimeIndex: " << finalTimeIndex << std::endl;
+  //  std::cout << "[Yiannis] startTimeIndex: " << startTimeIndex << std::endl;
+  //  std::cout << "[Yiannis] finalTimeIndex: " << finalTimeIndex << std::endl;
 
     // get lift off time and position before the ongoing swing
     scalar_t startTime = modeSchedule.eventTimes[startTimeIndex];   // ok
@@ -274,7 +258,8 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, const feet
                                     const feet_array_t<scalar_array_t>& touchDownLongSequence,
                                     const feet_array_t<scalar_array_t>& liftOffLateralSequence,
                                     const feet_array_t<scalar_array_t>& touchDownLateralSequence) {
-                                      
+  
+  // std::cout << "update 2" << std::endl;
   const auto& modeSequence = modeSchedule.modeSequence;
 
 
@@ -406,7 +391,7 @@ std::pair<std::vector<int>, std::vector<int>> SwingTrajectoryPlanner::updateFoot
 /******************************************************************************************************/
 feet_array_t<std::vector<bool>> SwingTrajectoryPlanner::extractContactFlags(const std::vector<size_t>& phaseIDsStock) const {
   const size_t numPhases = phaseIDsStock.size();
-
+  // std::cout << "numPhases: " << numPhases << std::endl;
   feet_array_t<std::vector<bool>> contactFlagStock;
   std::fill(contactFlagStock.begin(), contactFlagStock.end(), std::vector<bool>(numPhases));
 

@@ -1,26 +1,3 @@
-void SwingTrajectoryPlanner::update(
-    const ModeSchedule& modeSchedule, 
-    scalar_t initTime, 
-    scalar_t terrainHeight, 
-    feet_array_t<scalar_array_t> currentEePosition)
-{
-    modeSchedule.modeSequence.size() = 4;
-    terrainHeight = 0;
-    longStepLength = 0.1;
-    lateralStepLength = 0.0;
-
-    currentEePosition =
-        foot 0 = 0.34 0.34 0
-        foot 1 = 0.34 -0.34 0
-        foot 2 = -0.34 0.34 0
-        foot 3 = -0.34 -0.34 0
-initModeContactFlagsSum = 4
-
-
-initTime = 10.382
-if(initModeContactFlagsSum < 4){
-
-
 centauro_walk
 {
   ;LF, RF, LH, RH
@@ -50,12 +27,41 @@ centauro_walk
 }
 
 
+
+void SwingTrajectoryPlanner::update(
+    const ModeSchedule& modeSchedule, 
+    scalar_t initTime, 
+    scalar_t terrainHeight, 
+    feet_array_t<scalar_array_t> currentEePosition)
+{
+
+  
+    modeSchedule.modeSequence.size() = 4;
+    terrainHeight = 0;
+    longStepLength = 0.1;
+    lateralStepLength = 0.0;
+
+    currentEePosition =
+        foot 0 = 0.34 0.34 0
+        foot 1 = 0.34 -0.34 0
+        foot 2 = -0.34 0.34 0
+        foot 3 = -0.34 -0.34 0
     
-    Non-STANCE mode is: [2]     RF_LH_RH;
-    currentModeIndex: 2
+    initModeLegContactFlags[0] = 1;
+    initModeLegContactFlags[1] = 0;
+    initModeLegContactFlags[2] = 1;
+    initModeLegContactFlags[3] = 1;
+
+    initModeContactFlagsSum = 3
+
+    initTime = 10.382
+    if(initModeContactFlagsSum < 4){
+
+        Non-STANCE mode is: [2]     RF_LH_RH;
+        currentModeIndex: 2
 
 
-}
+    }
 
 }
 
