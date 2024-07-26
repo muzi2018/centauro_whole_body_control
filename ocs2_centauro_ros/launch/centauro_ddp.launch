@@ -8,7 +8,7 @@
     <arg name="multiplot"          default="false"/>
 
     <!-- further flags -->
-    <arg name="gdb"                default="false"/>
+    <arg name="gdb"                default="true"/>
     <arg name="xbot_plugin"        default="false"/>
     <arg name="task"      	       default="task"/>		<!-- with arm EEs soft constrained -->
     <arg name="base_estimation"    default="true"/>		
