@@ -48,6 +48,24 @@ SwingTrajectoryPlanner::SwingTrajectoryPlanner(Config config, size_t numFeet) : 
 /******************************************************************************************************/
 scalar_t SwingTrajectoryPlanner::getZvelocityConstraint(size_t leg, scalar_t time) const {
   const auto index = lookup::findIndexInTimeArray(feetHeightTrajectoriesEvents_[leg], time);
+
+
+  // // Print feetHeightTrajectoriesEvents_
+  // if (time < 0.02)
+  // {
+  //   std::cout << "time: " << time << std::endl;
+  //   std::cout << "feetHeightTrajectoriesEvents_: " << std::endl;
+  //   for (size_t i = 0; i < feetHeightTrajectoriesEvents_.size(); i++) {
+  //       std::cout << "Foot " << i << ": ";
+  //       for (size_t j = 0; j < feetHeightTrajectoriesEvents_[i].size(); j++) {
+  //           std::cout << feetHeightTrajectoriesEvents_[i][j] << " ";
+  //       }
+  //       std::cout << std::endl;
+  //   }
+  // }
+  
+
+
   return feetHeightTrajectories_[leg][index].velocity(time);
 }
 
@@ -327,11 +345,13 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, const feet
 //        std::cout << "[SwingTrajectoryPlanner::update] swingFinalTime = " << swingFinalTime << std::endl;
 
         const scalar_t scaling = swingTrajectoryScaling(swingStartTime, swingFinalTime, config_.swingTimeScale);
-
+        // std::cout << "[SwingTrajectoryPlanner::update] scaling = " << scaling << std::endl;
         const CubicSpline::Node liftOff{swingStartTime, liftOffHeightSequence[j][p], scaling * config_.liftOffVelocity};
         const CubicSpline::Node touchDown{swingFinalTime, touchDownHeightSequence[j][p], scaling * config_.touchDownVelocity};
         const scalar_t midHeight = std::min(liftOffHeightSequence[j][p], touchDownHeightSequence[j][p]) + scaling * config_.swingHeight;
         const CubicSpline::Node midSwingVertical{(liftOff.time + touchDown.time) / 2, midHeight, 3 * (touchDown.position - liftOff.position) / (touchDown.time - liftOff.time)};
+        // std::cout << "liftOffLong.time = " << liftOff.time << std::endl;
+        // std::cout << "touchDownLong.time = " << touchDown.time << std::endl;
 
         // longitudinal
         const CubicSpline::Node liftOffLong{swingStartTime, liftOffLongSequence[j][p], scaling * config_.liftOffLongVelocity};
@@ -466,6 +486,10 @@ void SwingTrajectoryPlanner::checkThatIndicesAreValid(int leg, int index, int st
 /******************************************************************************************************/
 /******************************************************************************************************/
 scalar_t SwingTrajectoryPlanner::swingTrajectoryScaling(scalar_t startTime, scalar_t finalTime, scalar_t swingTimeScale) {
+  // std::cout << "IIT Swing trajectory scaling" << std::endl;
+  // std::cout << "Start time: " << startTime << std::endl;
+  // std::cout << "Final time: " << finalTime << std::endl;
+  // std::cout << "Swing time scale: " << swingTimeScale << std::endl;
   return std::min(1.0, (finalTime - startTime) / swingTimeScale);
 }
 
