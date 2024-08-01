@@ -73,7 +73,21 @@ scalar_t SwingTrajectoryPlanner::getZvelocityConstraint(size_t leg, scalar_t tim
 /******************************************************************************************************/
 /******************************************************************************************************/
 scalar_t SwingTrajectoryPlanner::getZpositionConstraint(size_t leg, scalar_t time) const {
+  // std::cout << "IIT: time = " << time << std::endl;
+  // std::cout << "IIT: leg = " << leg << std::endl; 
+  // feet_array_t<std::vector<scalar_t>> feetHeightTrajectoriesEvents_;
+
+  // std::cout << "IIT: feetHeight in " << time <<std::endl;
+  // for (size_t i = 0; i < feetHeightTrajectoriesEvents_.size(); i++) {
+  //     std::cout << "Foot " << i << ": ";
+  //     for (size_t j = 0; j < feetHeightTrajectoriesEvents_[i].size(); j++) {
+  //         std::cout << feetHeightTrajectoriesEvents_[i][j] << " ";
+  //     }
+  //     std::cout << std::endl;
+  // }
+
   const auto index = lookup::findIndexInTimeArray(feetHeightTrajectoriesEvents_[leg], time);
+  // std::cout << "index : " << index << std::endl;
   return feetHeightTrajectories_[leg][index].position(time);
 }
 
@@ -277,15 +291,17 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, const feet
                                     const feet_array_t<scalar_array_t>& liftOffLateralSequence,
                                     const feet_array_t<scalar_array_t>& touchDownLateralSequence) {
   
-  // std::cout << "update 2" << std::endl;
+  // std::cout << "IIT swinglwg " << std::endl;
   const auto& modeSequence = modeSchedule.modeSequence;
+  // std::cout << "modeSequence has size " << modeSequence.size() << std::endl;
 
+  // for (size_t i = 0; i < modeSequence.size(); i++)
+  // {
+  //   std::cout << "modeSequence [" << i << "]: " << modeSequence[i] << std::endl;
+  // }
+  
 
-  //   std::cout << "modeSequence: ";
-  //   for (const auto& mode : modeSchedule.modeSequence) {
-  //       std::cout << mode << " ";
-  //   }
-  //   std::cout << std::endl;
+  // std::cout << std::endl;
 
   const auto& eventTimes = modeSchedule.eventTimes;
   //   std::cout << "eventTimes: ";

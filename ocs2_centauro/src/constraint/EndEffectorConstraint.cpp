@@ -112,6 +112,20 @@ auto EndEffectorConstraint::interpolateEndEffectorPose(scalar_t time) const -> s
   const auto& timeTrajectory = targetTrajectories.timeTrajectory;
   const auto& stateTrajectory = targetTrajectories.stateTrajectory;
 
+  std::cout << "IIT: timeTrajectory = " << time << std::endl;
+  for (size_t i = 0; i < timeTrajectory.size(); i++)
+  {
+    /* code */
+    std::cout << timeTrajectory[i] << std::endl;
+  }
+  std::cout << "IIT: stateTrajectory = " << time << std::endl;
+  for (size_t i = 0; i < stateTrajectory.size(); i++)
+  {
+    /* code */
+    std::cout << stateTrajectory[i] << std::endl;
+  }
+
+
   vector_t position;
   quaternion_t orientation;
 

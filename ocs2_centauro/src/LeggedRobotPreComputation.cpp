@@ -95,6 +95,8 @@ LeggedRobotPreComputation* LeggedRobotPreComputation::clone() const {
 /******************************************************************************************************/
 /******************************************************************************************************/
 void LeggedRobotPreComputation::request(RequestSet request, scalar_t t, const vector_t& x, const vector_t& u) {
+  // std::cout << "request time : " << t << std::endl;
+  
   if (!request.containsAny(Request::Cost + Request::Constraint + Request::SoftConstraint)) {
     return;
   }
@@ -107,6 +109,12 @@ void LeggedRobotPreComputation::request(RequestSet request, scalar_t t, const ve
         config.Av = (matrix_t(1, 3) << 0.0, 0.0, 1.0).finished();
         if (!numerics::almost_eq(settings_.positionErrorGain, 0.0)) {
           config.b(0) -= settings_.positionErrorGain * swingTrajectoryPlannerPtr_->getZpositionConstraint(footIndex, t);
+          // if (swingTrajectoryPlannerPtr_->getZpositionConstraint(footIndex, t) != 0)
+          // {
+          //   std::cout << "IIT footindex: " << footIndex << "in time " << t << std::endl;
+          //   std::cout << "has the  zpositionconstraint : " << swingTrajectoryPlannerPtr_->getZpositionConstraint(footIndex, t) << std::endl;
+          // } 
+
           config.Ax = (matrix_t(1, 3) << 0.0, 0.0, settings_.positionErrorGain).finished();
         }
     }

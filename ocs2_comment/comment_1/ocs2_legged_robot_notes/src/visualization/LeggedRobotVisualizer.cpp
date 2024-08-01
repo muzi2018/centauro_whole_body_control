@@ -70,6 +70,7 @@ LeggedRobotVisualizer::LeggedRobotVisualizer(
 };
 
 void LeggedRobotVisualizer::launchVisualizerNode(ros::NodeHandle& nodeHandle) {
+  footpoistion_pub = nodeHandle.advertise<geometry_msgs::Pose>("footposition_topic", 1);
   costDesiredBasePositionPublisher_ =
       nodeHandle.advertise<visualization_msgs::Marker>(
           "/legged_robot/desiredBaseTrajectory", 1);
@@ -114,6 +115,12 @@ void LeggedRobotVisualizer::update(const SystemObservation& observation,
                                    const PrimalSolution& primalSolution,
                                    const CommandData& command) {
   if (observation.time - lastTime_ > minPublishTimeDifference_) {
+
+    // std::cout << "[LeggedRobotVisualizer]" << std::endl; 
+    // const auto feetPositions =
+    //   endEffectorKinematicsPtr_->getPosition(observation.state);
+
+
     const auto& model = pinocchioInterface_.getModel();
     auto& data = pinocchioInterface_.getData();
     pinocchio::forwardKinematics(model, data,
@@ -211,6 +218,9 @@ void LeggedRobotVisualizer::publishCartesianMarkers(
 
   // Feet positions and Forces
   for (size_t i = 0; i < centroidalModelInfo_.numThreeDofContacts; ++i) {
+    // std::cout << "foot " << i << " = " << std::endl;
+    // std::cout << feetPositions[i] << std::endl;
+
     markerArray.markers.emplace_back(
         getFootMarker(feetPositions[i], contactFlags[i], feetColorMap_[i],
                       footMarkerDiameter_, footAlphaWhenLifted_));
@@ -284,6 +294,10 @@ void LeggedRobotVisualizer::publishDesiredTrajectory(
       geometry_msgs::Pose footPose;
       footPose.position = getPointMsg(feetPositions[i]);
       desiredFeetPositionMsgs[i].push_back(footPose.position);
+
+
+      footpoistion_pub.publish(footPose);
+
     }
   }
 

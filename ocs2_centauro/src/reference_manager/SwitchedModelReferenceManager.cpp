@@ -72,6 +72,12 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   const auto timeHorizon = finalTime - initTime;
   // TODO: if I increase the final time it can be useful for planning motion and contact switch later
   modeSchedule = gaitSchedulePtr_->getModeSchedule(initTime - timeHorizon, finalTime + timeHorizon);
+  // std::cout << "IIT: SwitchedModelReferenceManager::modifyReferences" << std::endl;
+  // std::cout << "initTime: " << initTime << std::endl;
+  // std::cout << "finalTime: " << finalTime << std::endl;
+
+  // std::cout << "IIT modeSequence " << std::endl;
+  // std::cout << "modeSequence.size = " << modeSchedule.modeSequence.size() << std::endl;
 
   const scalar_t terrainHeight = 0.0;
 
