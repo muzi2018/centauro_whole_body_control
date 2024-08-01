@@ -8,7 +8,7 @@
         "/home/wang/forest_ws/share",
         "/home/wang/forest_ws/install/share",
         "/opt/ros/noetic/**",
-        "~/catkin_ws_1/**"
+        "~/catkin_ws_1/src/"
       ],
       "compilerPath": "/usr/bin/gcc",
       "cStandard": "${default}",

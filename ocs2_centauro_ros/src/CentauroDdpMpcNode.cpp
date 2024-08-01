@@ -112,11 +112,13 @@ int main(int argc, char** argv) {
 
 
   if (eeWrenchSensing) {      // Wrench receiver
+      std::cout << "IIT Wrench receiver" << std::endl;
       auto wrenchesReceiverPtr =
           std::make_shared<EstimatedWrenchReceiver>(nodeHandle, interface.getSwitchedModelReferenceManagerPtr()->getForceTorqueSensingPtr());
       mpc.getSolverPtr()->addSynchronizedModule(wrenchesReceiverPtr);
   }
   if (jointSensing) {         // joint states receiver
+      std::cout << "IIT joint states receiver" << std::endl;
       auto jointStatesReceiverPtr =
           std::make_shared<JointStatesReceiver>(nodeHandle, interface.getSwitchedModelReferenceManagerPtr()->getForceTorqueSensingPtr());
       mpc.getSolverPtr()->addSynchronizedModule(jointStatesReceiverPtr);

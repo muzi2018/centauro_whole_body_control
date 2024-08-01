@@ -158,7 +158,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
 int main(int argc, char* argv[]) {
   const std::string robotName = "legged_robot";
   // Initialize ros node
-  ::ros::init(argc, argv, robotName + "_target");
+  ::ros::init(argc, argv, robotName + "_arm_target");
   ::ros::NodeHandle nodeHandle;
   // Get node parameters
   std::string referenceFile, taskFile;
@@ -215,7 +215,7 @@ int main(int argc, char* argv[]) {
 
 
 
-  ifstream file("/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/door.txt");
+  ifstream file("/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/output.txt");
   if (!file) {
       cerr << "Unable to open file!" << endl;
   }

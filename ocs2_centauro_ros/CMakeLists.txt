@@ -5,8 +5,8 @@ project(ocs2_centauro_ros)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # set(CMAKE_CXX_FLAGS "-g")
-set(CMAKE_BUILD_TYPE Release)
-add_compile_options(-O2)
+# set(CMAKE_BUILD_TYPE Release)
+# add_compile_options(-O2)
 
 set(CATKIN_PACKAGE_DEPENDENCIES
   roslib
@@ -119,6 +119,36 @@ target_link_libraries(centauro_ddp_mpc
   ${catkin_LIBRARIES}
 )
 target_compile_options(centauro_ddp_mpc PRIVATE ${OCS2_CXX_FLAGS})
+
+# FootPlanner node for centauro
+add_executable(centauro_arm_target
+  src/LeggedRobotTrajectoryNode.cpp
+)
+add_dependencies(centauro_arm_target
+  ${PROJECT_NAME}
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(centauro_arm_target
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+target_compile_options(centauro_arm_target PRIVATE ${OCS2_CXX_FLAGS})
+
+# FootPlanner node for centauro
+add_executable(centauro_foot_planner
+  src/CentauroFootPlannerNode.cpp
+)
+add_dependencies(centauro_foot_planner
+  ${PROJECT_NAME}
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(centauro_foot_planner
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+target_compile_options(centauro_foot_planner PRIVATE ${OCS2_CXX_FLAGS})
 
 ## SQP-MPC node for legged robot
 add_executable(legged_robot_sqp_mpc

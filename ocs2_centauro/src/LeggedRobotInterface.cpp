@@ -221,10 +221,13 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
   };
 
   // loop over contacts
+  std::cout << "IIT loop over contacts" << std::endl;
   for (size_t i = 0; i < centroidalModelInfo_.numThreeDofContacts; i++) {
     const std::string& footName = modelSettings_.contactNames3DoF[i];
     auto& legContacts = modelSettings_.legContactNames3DoF;
     bool isLegContact = std::find(legContacts.begin(), legContacts.end(), footName) != legContacts.end();
+
+    std::cout << footName << " is contact: " << isLegContact << std::endl;
 
     std::unique_ptr<EndEffectorKinematics<scalar_t>> eeKinematicsPtr;
     if (useAnalyticalGradientsConstraints) {
@@ -239,8 +242,16 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
       };
 
       auto eeMotionFrame = footName;        // motion ee frame to be tracked, may be different for arms
-      if (!isLegContact)
-          eeMotionFrame = targetFramesNames[i - legContacts.size()];
+      // for (size_t i = 0; i < targetFramesNames.size(); i++)
+      // {
+      //   std::cout << "IIT targetFramesNames " << i << " is " << targetFrameNames[targetFramesNames] <<std::endl;
+      // }
+      
+      if (!isLegContact){
+        eeMotionFrame = targetFramesNames[i - legContacts.size()];
+        std::cout << "IIT " << " =  " << eeMotionFrame << std::endl;
+      }
+          
       eeKinematicsPtr.reset(new PinocchioEndEffectorKinematicsCppAd(*pinocchioInterfacePtr_, pinocchioMappingCppAd, {eeMotionFrame},
                                                                     centroidalModelInfo_.stateDim, centroidalModelInfo_.inputDim,
                                                                     velocityUpdateCallback, eeMotionFrame, modelSettings_.modelFolderCppAd,
@@ -289,6 +300,7 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
             problemPtr_->finalSoftConstraintPtr->add(targetFramesNames[i - legContacts.size()] + "_finalEeSoftConstraint",
                                                      getEndEffectorConstraint(taskFile, "armEeSoftConstraints." + targetFramesNames[i - legContacts.size()] + "EndEffector"));
         }
+        std::cout << "armEeHardConstraints = " << armEeHardConstraints << std::endl;
         if (armEeHardConstraints) {
             // add position hard constraints
             if (referenceManagerPtr_->getArmSwingTrajectoryPlanner()->isPositionPlanner() && !hConstraintPositionIndices[i - legContacts.size()].empty()) {
@@ -449,7 +461,9 @@ matrix_t LeggedRobotInterface::initializeTaskSpaceInputCostWeight(const std::str
   const size_t legContactVelDim = 3 * modelSettings_.legContactNames3DoF.size();
   const size_t totalForcesDim = 3 * info.numThreeDofContacts;
   const size_t legJointDim = 6 * modelSettings_.legContactNames3DoF.size();
-
+  std::cout << "IIT legContactVelDim = " << legContactVelDim << std::endl;
+  std::cout << "IIT totalForcesDim = " << totalForcesDim << std::endl;
+  std::cout << "IIT legJointDim = " << legJointDim << std::endl;
   vector_t initialState(centroidalModelInfo_.stateDim);
   loadData::loadEigenMatrix(taskFile, "initialState", initialState);        // jacobians at initial state
 
@@ -501,6 +515,9 @@ matrix_t LeggedRobotInterface::initializeFullInputCostWeight(const std::string& 
 std::unique_ptr<StateInputCost> LeggedRobotInterface::getFullInputCost(const std::string& taskFile, const CentroidalModelInfo& info,
                                                                         bool verbose) {
   matrix_t Q(info.stateDim, info.stateDim);
+  std::cout << " Full input cost" << " info.stateDim = " << info.stateDim << std::endl;
+  std::cout << " Full input cost" << " info.inputDim = " << info.inputDim << std::endl;
+
   loadData::loadEigenMatrix(taskFile, "Q", Q);
   matrix_t R = initializeFullInputCostWeight(taskFile, info);
 

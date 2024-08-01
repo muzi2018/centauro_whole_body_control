@@ -1,7 +1,6 @@
 {
   "version": "0.2.0",
   "configurations": [
-    
     {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
@@ -9,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/wang/catkin_ws_1/devel/lib/ocs2_centauro_ros",
-      "program": "/home/wang/catkin_ws_1/devel/lib/ocs2_centauro_ros/centauro_ddp_mpc",
+      "cwd": "/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros",
+      "program": "/home/wang/catkin_ws_1/devel/lib/ocs2_centauro_ros/centauro_foot_planner",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
