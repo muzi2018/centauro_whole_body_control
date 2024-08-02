@@ -109,6 +109,8 @@ class LeggedRobotVisualizer : public DummyObserver {
 
   ros::Publisher currentStatePublisher_;
 
+  std::vector<ros::Publisher> footpositionPublisher_;
+
 //  ros::Publisher jointCmdPublisher_;
 
   scalar_t lastTime_;

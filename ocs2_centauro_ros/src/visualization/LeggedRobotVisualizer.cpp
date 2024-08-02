@@ -89,6 +89,12 @@ LeggedRobotVisualizer::LeggedRobotVisualizer(PinocchioInterface pinocchioInterfa
 /******************************************************************************************************/
 /******************************************************************************************************/
 void LeggedRobotVisualizer::launchVisualizerNode(ros::NodeHandle& nodeHandle) {
+  footpositionPublisher_.resize(4);
+  footpositionPublisher_[0] = nodeHandle.advertise<geometry_msgs::Pose>("/legged_robot/footposition/LF", 1);
+  footpositionPublisher_[1] = nodeHandle.advertise<geometry_msgs::Pose>("/legged_robot/footposition/RF", 1);
+  footpositionPublisher_[2] = nodeHandle.advertise<geometry_msgs::Pose>("/legged_robot/footposition/LH", 1);
+  footpositionPublisher_[3] = nodeHandle.advertise<geometry_msgs::Pose>("/legged_robot/footposition/RH", 1);
+  
   costDesiredBasePositionPublisher_ = nodeHandle.advertise<visualization_msgs::Marker>("/legged_robot/desiredBaseTrajectory", 1);
   costDesiredFeetPositionPublishers_.resize(4);
   std::cout << "centroidalModelInfo_.numThreeDofContacts: " << centroidalModelInfo_.numThreeDofContacts  << std::endl;
@@ -332,6 +338,8 @@ void LeggedRobotVisualizer::publishDesiredTrajectory(ros::Time timeStamp, const 
       footPose.position = getPointMsg(feetPositions[i]);
       desiredFeetPositionMsgs[i].push_back(footPose.position);
 
+
+
 //      ROS_INFO_STREAM("feetPositions = " << feetPositions[i].transpose());
     }
   }
@@ -387,8 +395,25 @@ void LeggedRobotVisualizer::publishOptimizedStateTrajectory(ros::Time timeStamp,
     for (size_t i = 0; i < centroidalModelInfo_.numThreeDofContacts; i++) {
       const auto position = getPointMsg(feetPositions[i]);
       feetMsgs[i].push_back(position);
-//      ROS_INFO_STREAM("feetPositions = " << feetPositions[i].transpose());
+      // std::cout << "foot number " << centroidalModelInfo_.numThreeDofContacts << std::endl;
 
+      geometry_msgs::Pose pose_msg;
+      pose_msg.position.x = position.x;
+      pose_msg.position.y = position.y;
+      pose_msg.position.z = position.z;
+      pose_msg.orientation.x = 0.0;
+      pose_msg.orientation.y = 0.0;
+      pose_msg.orientation.z = 0.0;
+      pose_msg.orientation.w = 1.0;
+      if( i < 4){
+        // if (i == 1){
+        //   std::cout << "foot LF " << "position " << std::endl;
+        //   std::cout << position << std::endl;
+        // }
+        footpositionPublisher_[i].publish(pose_msg);
+      }
+        
+//      ROS_INFO_STREAM("feetPositions = " << feetPositions[i].transpose());
     }
 
   });
