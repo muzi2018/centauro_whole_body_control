@@ -429,7 +429,24 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
 /******************************************************************************************************/
 std::shared_ptr<GaitSchedule> LeggedRobotInterface::loadGaitSchedule(const std::string& file, bool verbose) const {
   const auto initModeSchedule = loadModeSchedule(file, "initialModeSchedule", false);
+
+    // std::cout << "event_Tiems_" << std::endl;
+    // for (const auto& eventTimes_ : initModeSchedule.eventTimes) {
+    //     std::cout << eventTimes_ << " ";
+    // }
+    // std::cout << std::endl;
+
+
+    // std::cout << "mode_Sequences_" << std::endl;
+    // for (const auto& modeSequences_ : initModeSchedule.modeSequence) {
+    //     std::cout << modeSequences_ << " ";
+    // }
+    // std::cout << std::endl;
+
+
   const auto defaultModeSequenceTemplate = loadModeSequenceTemplate(file, "defaultModeSequenceTemplate", false);
+
+
 
   const auto defaultGait = [&] {
     Gait gait{};

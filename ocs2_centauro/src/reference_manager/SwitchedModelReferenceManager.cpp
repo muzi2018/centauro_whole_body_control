@@ -29,7 +29,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "ocs2_centauro/reference_manager/SwitchedModelReferenceManager.h"
 #include <numeric>
-
 namespace ocs2 {
 namespace legged_robot {
 
@@ -41,7 +40,7 @@ SwitchedModelReferenceManager::SwitchedModelReferenceManager(std::shared_ptr<Gai
                                                              int targetFrameNumber)
     : ReferenceManager(std::vector<TargetTrajectories>(targetFrameNumber, TargetTrajectories()), TargetTrajectories(), ModeSchedule()),
       gaitSchedulePtr_(std::move(gaitSchedulePtr)),
-      swingTrajectoryPtr_(std::move(swingTrajectoryPtr)) {}
+      swingTrajectoryPtr_(std::move(swingTrajectoryPtr)){}
 
 /******************************************************************************************************/
 /******************************************************************************************************/
@@ -70,8 +69,27 @@ locoma_contact_flag_t SwitchedModelReferenceManager::getContactFlags(scalar_t ti
 void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t finalTime, const vector_t& initState,
                                                      TargetTrajectories& targetTrajectories, ModeSchedule& modeSchedule) {
   const auto timeHorizon = finalTime - initTime;
+
   // TODO: if I increase the final time it can be useful for planning motion and contact switch later
+  
+    /* code */
+    // std::cout << "initTime: " << initTime << std::endl;
+    // std::cout << "finalTime: " << finalTime << std::endl;
+    // std::cout << "timeHorizon: " << timeHorizon << std::endl;
+  
   modeSchedule = gaitSchedulePtr_->getModeSchedule(initTime - timeHorizon, finalTime + timeHorizon);
+  // std::cout << "initTime: " << initTime << std::endl;
+  // std::cout << "finalTime: " << finalTime << std::endl;
+  // std::cout << "timeHorizon: " << timeHorizon << std::endl;
+
+  // const auto& modeSequence = modeSchedule.modeSequence;
+  // std::cout << "modeSequence has size " << modeSequence.size() << std::endl;
+  // for (size_t i = 0; i < modeSequence.size(); i++)
+  // {
+  //   std::cout << "modeSequence [" << i << "]: " << modeSequence[i] << std::endl;
+  // }
+  // std::cout << std::endl;
+
   // std::cout << "IIT: SwitchedModelReferenceManager::modifyReferences" << std::endl;
   // std::cout << "initTime: " << initTime << std::endl;
   // std::cout << "finalTime: " << finalTime << std::endl;

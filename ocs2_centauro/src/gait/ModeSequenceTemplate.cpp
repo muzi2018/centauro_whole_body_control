@@ -92,6 +92,12 @@ Gait toGait(const ModeSequenceTemplate& modeSequenceTemplate) {
 ModeSchedule loadModeSchedule(const std::string& filename, const std::string& topicName, bool verbose) {
   std::vector<scalar_t> eventTimes;
   loadData::loadStdVector(filename, topicName + ".eventTimes", eventTimes, verbose);
+  // std::cout << "eventTimes size = " << eventTimes.size() << std::endl;
+  // for (size_t i = 0; i < eventTimes.size(); i++)
+  // {
+  //   std::cout << eventTimes[i] << std::endl;
+  // }
+  
 
   std::vector<std::string> modeSequenceString;
   loadData::loadStdVector(filename, topicName + ".modeSequence", modeSequenceString, verbose);

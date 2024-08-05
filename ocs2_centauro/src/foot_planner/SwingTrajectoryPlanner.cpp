@@ -86,6 +86,14 @@ scalar_t SwingTrajectoryPlanner::getZpositionConstraint(size_t leg, scalar_t tim
   //     std::cout << std::endl;
   // }
 
+
+  // std::cout << "leg : " << leg << std::endl;
+  // for (size_t i = 0; i < feetHeightTrajectoriesEvents_[leg].size(); i++)
+  // {
+  //   std::cout << feetHeightTrajectoriesEvents_[leg][i] << " ";
+  // }
+  // std::cout << std::endl;
+  
   const auto index = lookup::findIndexInTimeArray(feetHeightTrajectoriesEvents_[leg], time);
   // std::cout << "index : " << index << std::endl;
   return feetHeightTrajectories_[leg][index].position(time);
@@ -128,7 +136,13 @@ scalar_t SwingTrajectoryPlanner::getYpositionConstraint(size_t leg, scalar_t tim
 /******************************************************************************************************/
 void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition) {
 
-  // std::cout << "update 1 initTime = " << initTime << std::endl;
+  // std::cout << "modeSchedule.modeSequence.size() = " << modeSchedule.modeSequence.size() << std::endl;
+  // for (size_t i = 0; i < modeSchedule.modeSequence.size(); i++)
+  // {
+  //   /* code */
+  //   std::cout << modeSchedule.modeSequence[i] << std::endl;
+  // }
+  
 
   const scalar_array_t terrainHeightSequence(modeSchedule.modeSequence.size(), terrainHeight);
   feet_array_t<scalar_array_t> liftOffHeightSequence;

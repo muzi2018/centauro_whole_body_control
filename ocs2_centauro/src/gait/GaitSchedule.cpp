@@ -30,6 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ocs2_centauro/gait/GaitSchedule.h"
 #include <numeric>
 
+int i = 0;
+
 namespace ocs2 {
 namespace legged_robot {
 
@@ -80,14 +82,11 @@ void GaitSchedule::insertModeSequenceTemplate(const ModeSequenceTemplate& modeSe
 ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) {
   auto& eventTimes = modeSchedule_.eventTimes;
   auto& modeSequence = modeSchedule_.modeSequence;
-  // std::cout << "IIT modeSequence" << modeSequence.size() << std::endl;
-  // std::cout << "IIT evenTimes " << std::endl;
-  // for (size_t i = 0; i < eventTimes.size(); i++)
-  // {
-  //   std::cout << eventTimes[i] << std::endl;
-  // }
-  
+
   const size_t index = std::lower_bound(eventTimes.begin(), eventTimes.end(), lowerBoundTime) - eventTimes.begin();
+    // std::cout << "lowerBoundTime: " << lowerBoundTime << " upperBoundTime: " << upperBoundTime << std::endl;
+
+
 
   if (index > 0) {
     // delete the old logic from index and set the default start phase to stance
@@ -98,12 +97,53 @@ ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upp
     modeSequence.front() = ModeNumber::STANCE;
   }
 
+
   // Start tiling at time
   const auto tilingStartTime = eventTimes.empty() ? upperBoundTime : eventTimes.back();
+
 
   // delete the last default stance phase
   eventTimes.erase(eventTimes.end() - 1, eventTimes.end());
   modeSequence.erase(modeSequence.end() - 1, modeSequence.end());
+
+
+  if (i == 0)
+  {
+    std::cout << "lowerBoundTime: " << lowerBoundTime << " upperBoundTime: " << upperBoundTime << std::endl;
+    std::cout << "default modeSequence size = " << modeSequence.size() << std::endl;
+    for (size_t i = 0; i < modeSequence.size(); i++)
+    {
+      std::cout << modeSequence[i] << std::endl;
+    }
+
+    std::cout << "default evenTimes size = "  << eventTimes.size() << std::endl;
+    for (size_t i = 0; i < eventTimes.size(); i++)
+    {
+      std::cout << eventTimes[i] << std::endl;
+    }
+    std::cout << "the lowerBounTime is on " << index << " th " << "eventTimes" << std::endl; 
+    
+    std::cout << "tilingStartTime: " << tilingStartTime << std::endl;
+
+    std::cout << "after erase" << std::endl;
+    std::cout << "modeSequence size = " << modeSequence.size() << std::endl;
+    for (size_t i = 0; i < modeSequence.size(); i++)
+    {
+      std::cout << modeSequence[i] << std::endl;
+    }
+
+    std::cout << "evenTimes size = "  <<  eventTimes.size() << std::endl;
+    for (size_t i = 0; i < eventTimes.size(); i++)
+    {
+      std::cout << eventTimes[i] << std::endl;
+    }
+
+  }
+
+  
+  
+  i++;
+
 
   // tile the template logic
   tileModeSequenceTemplate(tilingStartTime, upperBoundTime);
@@ -114,11 +154,15 @@ ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upp
 /******************************************************************************************************/
 /******************************************************************************************************/
 void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTime) {
+
+  
   auto& eventTimes = modeSchedule_.eventTimes;
   auto& modeSequence = modeSchedule_.modeSequence;
   const auto& templateTimes = modeSequenceTemplate_.switchingTimes;
   const auto& templateModeSequence = modeSequenceTemplate_.modeSequence;
   const size_t numTemplateSubsystems = modeSequenceTemplate_.modeSequence.size();
+
+
 
   // If no template subsystem is defined, the last subsystem should continue for ever
   if (numTemplateSubsystems == 0) {
@@ -132,6 +176,10 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
   // add a initial time
   eventTimes.push_back(startTime);
 
+
+
+
+
   // TODO: why finalTime is not the final time and is the duration of the horizon of the mpc?
   // concatenate from index
   while (eventTimes.back() < finalTime) {
@@ -144,6 +192,64 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
 
   // default final phase
   modeSequence.push_back(ModeNumber::STANCE);
+
+  if (i == 1)
+  {
+    std::cout << "--- tileModeSequenceTemplate --- " << std::endl;
+
+    i ++;
+    std::cout << "startTime: " << startTime << " finalTime: " << finalTime << std::endl;
+    std::cout << "eventTimes: " << eventTimes.size() << std::endl;
+    for (const auto& elem : eventTimes) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "modeSequence: ";
+    for (const auto& elem : modeSequence) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "templateTimes: ";
+    for (const auto& elem : templateTimes) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "templateModeSequence: ";
+    for (const auto& elem : templateModeSequence) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "numTemplateSubsystems: " << numTemplateSubsystems << std::endl;
+
+    std::cout << std::endl;
+
+    std::cout << "after add init time eventTimes: " << eventTimes.size() << std::endl;
+    for (const auto& elem : eventTimes) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "final modesequence: " << std::endl;
+
+
+    std::cout << "eventTimes: " << modeSchedule_.eventTimes.size() << std::endl;
+    for (const auto& elem : modeSchedule_.eventTimes) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "modeSequence: " << modeSchedule_.modeSequence.size() << std::endl;
+    for (const auto& elem : modeSchedule_.modeSequence) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+  }
+
 }
 
 }  // namespace legged_robot

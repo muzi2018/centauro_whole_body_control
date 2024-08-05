@@ -38,7 +38,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ocs2_centauro/gait/MotionPhaseDefinition.h"
 #include <ocs2_robotic_tools/end_effector/EndEffectorKinematics.h>  // [Yiannis]
 #include <ocs2_centauro/sensing/ForceTorqueSensing.h>
-
 namespace ocs2 {
 namespace legged_robot {
 
@@ -103,6 +102,8 @@ class SwitchedModelReferenceManager : public ReferenceManager {
   // class member variable for eeKinematics [Yiannis]
   KinematicsPtrArray eeKinematicsPtrArray_;
   ArmKinematicsPtrArray armEeKinematicsPtrArray_;
+  
+
 };
 
 }  // namespace legged_robot
