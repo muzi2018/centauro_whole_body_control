@@ -136,12 +136,7 @@ scalar_t SwingTrajectoryPlanner::getYpositionConstraint(size_t leg, scalar_t tim
 /******************************************************************************************************/
 void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition) {
 
-  // std::cout << "modeSchedule.modeSequence.size() = " << modeSchedule.modeSequence.size() << std::endl;
-  // for (size_t i = 0; i < modeSchedule.modeSequence.size(); i++)
-  // {
-  //   /* code */
-  //   std::cout << modeSchedule.modeSequence[i] << std::endl;
-  // }
+
   
 
   const scalar_array_t terrainHeightSequence(modeSchedule.modeSequence.size(), terrainHeight);
@@ -155,6 +150,18 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   const auto lateralStepLength = this->getConfig().lateralStepLength;
   
   feet_array_t<scalar_array_t> targetEePosition = currentEePosition;
+
+  // std::cout << "longStepLength = " << longStepLength << std::endl;
+  // std::cout << "lateralStepLength = " << lateralStepLength << std::endl;
+  // std::cout << "targetEePosition = " << std::endl;
+  // for (size_t i = 0; i < targetEePosition.size(); i++)
+  // {
+  //   for (size_t j = 0; j < targetEePosition[i].size(); j++)
+  //   {
+  //     std::cout << "targetEePosition[" << i << "][" << j << "]=" << targetEePosition[i][j] << std::endl;
+  //   }
+  // }
+
 
   // Find mode at initTime
   size_t initMode = modeSchedule.modeAtTime(initTime);
@@ -185,7 +192,7 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
 
     // contact flags for the current swing leg (for all modes)
     const auto CurrentSwingLegContactFlags = extractContactFlags(modeSchedule.modeSequence)[CurrentSwingLegId];
-  //  std::cout << "[Yiannis] CurrentSwingLeg ContactFlags: ";
+  //  std::cout << "[Yiannis] CurrentSwingLeg ContactFlags: " << CurrentSwingLegContactFlags.size() << std::endl;
   //  for (int iter = 0; iter < CurrentSwingLegContactFlags.size(); iter++)
   //      std::cout << CurrentSwingLegContactFlags[iter] << " ";
   //  std::cout << " " << std::endl;
@@ -225,6 +232,7 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   std::array<feet_array_t<scalar_array_t>, 4> liftOffTouchDownSeqs = getSequenceFromMode(currentEePosition, targetEePosition, modeSchedule);
 
   feet_array_t<scalar_array_t> liftOffLongitudinalSequence = liftOffTouchDownSeqs[0];
+  // std::cout << "liftOffLongitudinalSequence = " << liftOffLongitudinalSequence[0].size() << std::endl;
   feet_array_t<scalar_array_t> touchDownLongitudinalSequence = liftOffTouchDownSeqs[1];
   feet_array_t<scalar_array_t> liftOffLateralSequence = liftOffTouchDownSeqs[2];
   feet_array_t<scalar_array_t> touchDownLateralSequence = liftOffTouchDownSeqs[3];
@@ -346,7 +354,7 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, const feet
 //        std::cout << " " << modeSchedule.eventTimes[i];
 //    }
 //    std::cout << std::endl;
-
+  // which mode is swing for feet
   for (size_t j = 0; j < numFeet_; j++) {   // loop over end effectors
     feetHeightTrajectories_[j].clear();
     feetHeightTrajectories_[j].reserve(modeSequence.size());
@@ -371,9 +379,10 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, const feet
         const scalar_t swingFinalTime = eventTimes[swingFinalIndex];
 //        std::cout << "[SwingTrajectoryPlanner::update] swingStartIndex = " << swingStartIndex << std::endl;
 //        std::cout << "[SwingTrajectoryPlanner::update] swingFinalIndex = " << swingFinalIndex << std::endl;
-//        std::cout << "[SwingTrajectoryPlanner::update] swingStartTime = " << swingStartTime << std::endl;
-//        std::cout << "[SwingTrajectoryPlanner::update] swingFinalTime = " << swingFinalTime << std::endl;
-
+      //  std::cout << std::endl;
+      //  std::cout << "[SwingTrajectoryPlanner::update] swingStartTime = " << swingStartTime << std::endl;
+      //  std::cout << "[SwingTrajectoryPlanner::update] swingFinalTime = " << swingFinalTime << std::endl;
+      //  std::cout << std::endl;
         const scalar_t scaling = swingTrajectoryScaling(swingStartTime, swingFinalTime, config_.swingTimeScale);
         // std::cout << "[SwingTrajectoryPlanner::update] scaling = " << scaling << std::endl;
         const CubicSpline::Node liftOff{swingStartTime, liftOffHeightSequence[j][p], scaling * config_.liftOffVelocity};

@@ -71,31 +71,43 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   const auto timeHorizon = finalTime - initTime;
 
   // TODO: if I increase the final time it can be useful for planning motion and contact switch later
+  // std::cout << "************    foot gait   ***********" << std::endl;
   
+  if ( 0 ){
     /* code */
-    // std::cout << "initTime: " << initTime << std::endl;
-    // std::cout << "finalTime: " << finalTime << std::endl;
+    std::cout << "************    foot gait   ***********" << std::endl;
+    std::cout << "planning initTime: " << initTime << std::endl;
+    std::cout << "planning finalTime: " << finalTime << std::endl << std::endl;
+    std::cout << "-: enter getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) " << std::endl;
+  }
+
     // std::cout << "timeHorizon: " << timeHorizon << std::endl;
   
+
   modeSchedule = gaitSchedulePtr_->getModeSchedule(initTime - timeHorizon, finalTime + timeHorizon);
-  // std::cout << "initTime: " << initTime << std::endl;
-  // std::cout << "finalTime: " << finalTime << std::endl;
+  // std::cout << "initTime: " << initTime - timeHorizon << std::endl;
+  // std::cout << "finalTime: " << finalTime + timeHorizon << std::endl;
   // std::cout << "timeHorizon: " << timeHorizon << std::endl;
 
   // const auto& modeSequence = modeSchedule.modeSequence;
   // std::cout << "modeSequence has size " << modeSequence.size() << std::endl;
+
+  
   // for (size_t i = 0; i < modeSequence.size(); i++)
   // {
   //   std::cout << "modeSequence [" << i << "]: " << modeSequence[i] << std::endl;
   // }
   // std::cout << std::endl;
 
-  // std::cout << "IIT: SwitchedModelReferenceManager::modifyReferences" << std::endl;
-  // std::cout << "initTime: " << initTime << std::endl;
-  // std::cout << "finalTime: " << finalTime << std::endl;
 
-  // std::cout << "IIT modeSequence " << std::endl;
-  // std::cout << "modeSequence.size = " << modeSchedule.modeSequence.size() << std::endl;
+  // const auto& eventTimes = modeSchedule.eventTimes;
+  // std::cout << "eventTimes has size " << eventTimes.size() << std::endl;
+  // for (size_t i = 0; i < eventTimes.size(); i++)
+  // {
+  //   std::cout << "eventTimes [" << i << "]: " << eventTimes[i] << std::endl;
+  // }
+  // std::cout << std::endl;
+
 
   const scalar_t terrainHeight = 0.0;
 
@@ -106,10 +118,13 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   // Receive eeKinematicsPosition from Kinematics pointer objects
   for (int i = 0; i< eeKinematicsPtrArray_.size(); i++){
       auto eeKinematicsPosition = eeKinematicsPtrArray_.at(i)->getPosition(initState);      // get EE position at initial state
+      // std::cout << eeKinematicsPosition.size() << std::endl;
       for (int j = 0; j < eeKinematicsPosition.size(); j++) {
           // set values to eeCurrentPosition, from eigen::matrix to std::vector
+          // std::cout << eeKinematicsPosition.at(j).rows() << std::endl;
           eeCurrentPosition[i].assign(eeKinematicsPosition.at(j).data(),
                                     eeKinematicsPosition.at(j).data() + eeKinematicsPosition.at(j).rows() * eeKinematicsPosition.at(j).cols());
+          
           // Debug
 //          std::cout << "[Yiannis] Contact position: " << eeKinematicsPosition.at(j).transpose() << std::endl;
       }
