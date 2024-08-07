@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="Hmns1SX6gBMBKFeWI7t4" name="Page-1">
-        <mxGraphModel dx="3366" dy="2157" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2866" dy="1840" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -255,9 +255,6 @@
                 <mxCell id="76" value="STANCE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="-1220" y="1185" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="77" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
-                    <mxGeometry x="-1450" y="1090" width="550" height="160" as="geometry"/>
-                </mxCell>
                 <mxCell id="78" value="t_0=2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="-1220" y="1125" width="50" height="30" as="geometry"/>
                 </mxCell>
@@ -288,10 +285,10 @@
                 <mxCell id="83" value="LF_LH_RH" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="-1085" y="1185" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="85" value="" style="endArrow=classic;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" target="77">
+                <mxCell id="85" value="" style="endArrow=classic;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="-1175" y="1020" as="sourcePoint"/>
-                        <mxPoint x="-1090" y="910" as="targetPoint"/>
+                        <mxPoint x="-1175" y="1090" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="86" value="add STANCE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
@@ -1104,8 +1101,8 @@
                 <mxCell id="367" value="&lt;p style=&quot;line-height: 120%;&quot;&gt;&lt;b&gt;Extend modeSchedule&lt;/b&gt;&lt;/p&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#6F0000;fillColor=#a20025;fontColor=#ffffff;" vertex="1" parent="1">
                     <mxGeometry x="1140" y="560" width="150" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="368" value="&lt;p style=&quot;line-height: 120%;&quot;&gt;&lt;b&gt;Extend modeSchedule&lt;/b&gt;&lt;/p&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#6F0000;fillColor=#a20025;fontColor=#ffffff;" vertex="1" parent="1">
-                    <mxGeometry x="85" y="860" width="150" height="50" as="geometry"/>
+                <mxCell id="368" value="&lt;p style=&quot;line-height: 120%;&quot;&gt;&lt;b&gt;Keep modeSchedule&lt;/b&gt;&lt;/p&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#6F0000;fillColor=#a20025;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="860" width="140" height="50" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

@@ -208,7 +208,7 @@ if ( 0 )
   tileModeSequenceTemplate(tilingStartTime, upperBoundTime);
   // std::cout << "***************************************" << std::endl;
 
-  if (index == 2)
+  if (0)
   {
     std::cout << "lowerBoundTime = " << lowerBoundTime << std::endl;
     std::cout << "upperBoundTime = " << upperBoundTime << std::endl;

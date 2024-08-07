@@ -102,13 +102,18 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   // std::cout << std::endl;
 
 
-  // const auto& eventTimes = modeSchedule.eventTimes;
-  // std::cout << "eventTimes has size " << eventTimes.size() << std::endl;
-  // for (size_t i = 0; i < eventTimes.size(); i++)
+  const auto& eventTimes = modeSchedule.eventTimes;
+  // if (eventTimes.back() == 6)
   // {
-  //   std::cout << "eventTimes [" << i << "]: " << eventTimes[i] << std::endl;
+  //   std::cout << "eventTimes has size " << eventTimes.size() << std::endl;
+  //   for (size_t i = 0; i < eventTimes.size(); i++)
+  //   {
+  //     std::cout << "eventTimes [" << i << "]: " << eventTimes[i] << std::endl;
+  //   }
+  //   std::cout << std::endl;
   // }
-  // std::cout << std::endl;
+  
+
 
 
   const scalar_t terrainHeight = 0.0;
@@ -116,6 +121,9 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   // Define eeCurrentPosition
   feet_array_t<scalar_array_t> eeCurrentPosition;
   arms_array_t<scalar_array_t> armEeCurrentPosition, armEeCurrentOrientation;
+
+
+
 
   // Receive eeKinematicsPosition from Kinematics pointer objects
   for (int i = 0; i< eeKinematicsPtrArray_.size(); i++){
@@ -131,6 +139,13 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
 //          std::cout << "[Yiannis] Contact position: " << eeKinematicsPosition.at(j).transpose() << std::endl;
       }
   }
+  // std::cout << "eeCurrentPosition1: " << eeCurrentPosition.size() << std::endl;
+  // std::cout << "eeCurrentPosition2: " << eeCurrentPosition[1].size() << std::endl;
+
+  // if (eventTimes.back() == 4){
+  //   std::cout << "initTime: " << initTime << std::endl;
+  //   std::cout << "terrainHeight: " << terrainHeight << std::endl;
+  // }
 
 
   swingTrajectoryPtr_->update(modeSchedule, initTime, terrainHeight, eeCurrentPosition);  // pass the current ee position

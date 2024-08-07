@@ -165,7 +165,15 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
 
   // Find mode at initTime
   size_t initMode = modeSchedule.modeAtTime(initTime);
+  // std::cout << "initTime = " << initTime << std::endl;
+  // std::cout << "initMode = " << initMode << std::endl;
+
   contact_flag_t initModeLegContactFlags = modeNumber2StanceLeg(initMode);      // Contact flags at initMode
+  // if (initMode == 7){
+  //   std::cout << "initModeLegContactFlags " << std::endl;
+  //   std::cout << initModeLegContactFlags[0] << " " << initModeLegContactFlags[1] << " " << initModeLegContactFlags[2] << " " << initModeLegContactFlags[3];
+  // }
+  // std::cout << std::endl;
   int initModeContactFlagsSum = std::accumulate(initModeLegContactFlags.begin(), initModeLegContactFlags.end(), 0);     // sum contact flags
   // std::cout << "initModeContactFlagsSum = " << initModeContactFlagsSum << std::endl;
   // for (size_t i = 0; i < initModeLegContactFlags.size(); i++)
@@ -183,19 +191,30 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
     auto currentModeIndex = std::distance(modeSchedule.modeSequence.begin(), std::find(modeSchedule.modeSequence.begin(),
                                                                                      modeSchedule.modeSequence.end(),
                                                                                      modeSchedule.modeAtTime(initTime)));
-  //  std::cout << "[Yiannis] currentModeIndex: " << currentModeIndex << std::endl;
+    // if (initMode == 7){
+    //    std::cout << "[Yiannis] currentModeIndex: " << currentModeIndex << std::endl;
+    // }                                                                                 
+  
 
     // Id of the current swing leg
     int CurrentSwingLegId = std::distance(initModeLegContactFlags.begin(),
                                           std::find(initModeLegContactFlags.begin(), initModeLegContactFlags.end(), false));
-//    std::cout << "[Yiannis] CurrentSwingLegId is: " << CurrentSwingLegId << std::endl;
+    // if (initMode == 7){
+    //    std::cout << "[Yiannis] CurrentSwingLegId is: " << CurrentSwingLegId << std::endl;
+    // }    
 
     // contact flags for the current swing leg (for all modes)
     const auto CurrentSwingLegContactFlags = extractContactFlags(modeSchedule.modeSequence)[CurrentSwingLegId];
-  //  std::cout << "[Yiannis] CurrentSwingLeg ContactFlags: " << CurrentSwingLegContactFlags.size() << std::endl;
-  //  for (int iter = 0; iter < CurrentSwingLegContactFlags.size(); iter++)
-  //      std::cout << CurrentSwingLegContactFlags[iter] << " ";
-  //  std::cout << " " << std::endl;
+
+    // if (initMode == 7){
+    //   std::cout << "[Yiannis] modeSchedule.modeSequence.size: " << modeSchedule.modeSequence.size() << std::endl;
+    //    std::cout << "[Yiannis] CurrentSwingLeg ContactFlags: " << CurrentSwingLegContactFlags.size() << std::endl;
+    //    for (int iter = 0; iter < CurrentSwingLegContactFlags.size(); iter++)
+    //        std::cout << CurrentSwingLegContactFlags[iter] << " ";
+    //    std::cout << " " << std::endl;
+    // }
+  
+
 
     // find the startTime and finalTime indices (e.g. eventTimes[startTimeIndex]) for swing lift off and touch down times
     int startTimeIndex = 0;
@@ -206,7 +225,10 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
 
     // get lift off time and position before the ongoing swing
     scalar_t startTime = modeSchedule.eventTimes[startTimeIndex];   // ok
+    // std::cout << "startTime: " << startTime << std::endl;
     scalar_t lastStanceLongPosition = feetLongitTrajectories_[CurrentSwingLegId][startTimeIndex].position(startTime);   // seems ok
+    // std::cout << "feetLongitTrajectories_ " << std::endl;
+    // std::cout << feetLongitTrajectories_[0].size() << std::endl;
     scalar_t lastStanceLateralPosition = feetLateralTrajectories_[CurrentSwingLegId][startTimeIndex].position(startTime);   // seems ok
 
 //    std::cout << "[Yiannis] startSwingTime: " << startTime << std::endl;
@@ -230,6 +252,8 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
 
   // get sequences from modes for each leg based if it is a swing mode or a stance one
   std::array<feet_array_t<scalar_array_t>, 4> liftOffTouchDownSeqs = getSequenceFromMode(currentEePosition, targetEePosition, modeSchedule);
+  // std::cout << "liftOffLongitudinalSequence " << liftOffTouchDownSeqs[0].size() << std::endl;
+
 
   feet_array_t<scalar_array_t> liftOffLongitudinalSequence = liftOffTouchDownSeqs[0];
   // std::cout << "liftOffLongitudinalSequence = " << liftOffLongitudinalSequence[0].size() << std::endl;
@@ -348,6 +372,28 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, const feet
   for (size_t leg = 0; leg < numFeet_; leg++) {
     std::tie(startTimesIndices[leg], finalTimesIndices[leg]) = updateFootSchedule(eesContactFlagStocks[leg]);
   }
+
+  // std::cout << "startTimesIndices: ";
+  // int i_ = 1;
+  // for (const auto& startTimesIndices_ : startTimesIndices) {
+  //     for (const auto& startTimesIndices__ : startTimesIndices_) {
+  //         std::cout << "foot " << i_ << "= " << startTimesIndices__ << " ";
+  //     }
+  //     i_++;
+  // }
+  // std::cout << std::endl;
+
+
+  // std::cout << "finalTimesIndices: ";
+  // int i__ = 1;
+  // for (const auto& finalTimesIndices_ : finalTimesIndices) {
+  //     for (const auto& finalTimesIndices__ : finalTimesIndices_) {
+  //         std::cout << "foot " << i__ << "= " << finalTimesIndices__ << " ";
+  //     }
+  //     i__++;
+  // }
+  // std::cout << std::endl;
+
 
 //    std::cout << "[SwingTrajectoryPlanner::update] event times: ";
 //    for (int i = 0; i < modeSchedule.eventTimes.size(); i++) {
