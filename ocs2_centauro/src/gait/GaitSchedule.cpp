@@ -85,6 +85,11 @@ ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upp
   auto& modeSequence = modeSchedule_.modeSequence;
 
   const size_t index = std::lower_bound(eventTimes.begin(), eventTimes.end(), lowerBoundTime) - eventTimes.begin();
+    // std::cout << "index: " << index << std::endl;
+    // std::cout << "modeSequence size = " << modeSequence.size() << std::endl;
+    // std::cout << "lowerBoundTime: " << lowerBoundTime << " upperBoundTime: " << upperBoundTime << std::endl;
+
+
   if ( 0 )
   {
     std::cout << "index: " << index << std::endl;
@@ -145,19 +150,23 @@ ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upp
     // delete the old logic from index and set the default start phase to stance
     eventTimes.erase(eventTimes.begin(), eventTimes.begin() + index - 1);  // keep the one before the last to make it stance
     modeSequence.erase(modeSequence.begin(), modeSequence.begin() + index - 1);
-    // std::cout << " ----------------*************--------------- " << std::endl;
-    // std::cout << "modeSequence size = " << modeSequence.size() << std::endl;
-    // for (size_t i = 0; i < modeSequence.size(); i++)
-    // {
-    //   std::cout << modeSequence[i] << std::endl;
-    // }
-    // // std::cout << "evenTimes size = "  <<  eventTimes.size() << std::endl;
-    // for (size_t i = 0; i < eventTimes.size(); i++)
-    // {
-    //   std::cout << eventTimes[i] << std::endl;
-    // }
-
-
+    if (0)
+    {
+      std::cout << "lowerBoundTime = " << lowerBoundTime << std::endl;
+      std::cout << "upperBoundTime = " << upperBoundTime << std::endl;
+      std::cout << " ----------------*************--------------- " << std::endl;
+      std::cout << "modeSequence size = " << modeSequence.size() << std::endl;
+      for (size_t i = 0; i < modeSequence.size(); i++)
+      {
+        std::cout << modeSequence[i] << std::endl;
+      }
+      std::cout << "evenTimes size = "  <<  eventTimes.size() << std::endl;
+      for (size_t i = 0; i < eventTimes.size(); i++)
+      {
+        std::cout << eventTimes[i] << std::endl;
+      }
+    }
+    
     // set the default initial phase
     modeSequence.front() = ModeNumber::STANCE;
   }
@@ -199,6 +208,23 @@ if ( 0 )
   tileModeSequenceTemplate(tilingStartTime, upperBoundTime);
   // std::cout << "***************************************" << std::endl;
 
+  if (index == 2)
+  {
+    std::cout << "lowerBoundTime = " << lowerBoundTime << std::endl;
+    std::cout << "upperBoundTime = " << upperBoundTime << std::endl;
+    std::cout << " ----------------*************--------------- " << std::endl;
+    std::cout << "modeSequence size = " << modeSequence.size() << std::endl;
+    for (size_t i = 0; i < modeSequence.size(); i++)
+    {
+      std::cout << modeSequence[i] << std::endl;
+    }
+    std::cout << "evenTimes size = "  <<  eventTimes.size() << std::endl;
+    for (size_t i = 0; i < eventTimes.size(); i++)
+    {
+      std::cout << eventTimes[i] << std::endl;
+    }
+  }
+
   // std::cout << std::endl;
   return modeSchedule_;
 }
@@ -206,7 +232,7 @@ if ( 0 )
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTime) {
+void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTime) { // 6 6.004
 
 
   
@@ -256,6 +282,8 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
   // concatenate from index
   while (eventTimes.back() < finalTime) {
     // std::cout << "when the final time in eventTimes < finalTime" << std::endl;
+    // std::cout << "finalTime = " << finalTime << std::endl;
+    // std::cout << "eventTimes.back() = " << eventTimes.back() << std::endl;
     for (size_t i = 0; i < templateModeSequence.size(); i++) {
       modeSequence.push_back(templateModeSequence[i]);
       scalar_t deltaTime = templateTimes[i + 1] - templateTimes[i];

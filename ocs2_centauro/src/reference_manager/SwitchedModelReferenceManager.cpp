@@ -72,7 +72,9 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
 
   // TODO: if I increase the final time it can be useful for planning motion and contact switch later
   // std::cout << "************    foot gait   ***********" << std::endl;
-  
+    //   std::cout << "************    foot gait   ***********" << std::endl;
+    // std::cout << "planning initTime: " << initTime << std::endl;
+    // std::cout << "planning finalTime: " << finalTime << std::endl << std::endl;
   if ( 0 ){
     /* code */
     std::cout << "************    foot gait   ***********" << std::endl;
