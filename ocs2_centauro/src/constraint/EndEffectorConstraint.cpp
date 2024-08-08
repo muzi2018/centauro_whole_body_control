@@ -47,6 +47,7 @@ EndEffectorConstraint::EndEffectorConstraint(const EndEffectorKinematics<scalar_
   if (endEffectorKinematics.getIds().size() != 1) {
     throw std::runtime_error("[EndEffectorConstraint] endEffectorKinematics has wrong number of end effector IDs.");
   }
+  // std::cout << "EndEffectorConstraint-------------" << std::endl;
   pinocchioEEKinPtr_ = dynamic_cast<PinocchioEndEffectorKinematics*>(endEffectorKinematicsPtr_.get());
 }
 
@@ -73,6 +74,13 @@ vector_t EndEffectorConstraint::getValue(scalar_t time, const vector_t& state, c
 
   vector_t constraint(6);
   constraint.head<3>() = endEffectorKinematicsPtr_->getPosition(state).front() - desiredPositionOrientation.first;
+
+  // std::cout << "*- *- *- *- *- *- EndEffectorConstraint -* -* -* -* -* -*" << std::endl;
+  // std::cout << "Desired position: " << desiredPositionOrientation.first<< std::endl;
+  // std::cout << "Actual position: " << endEffectorKinematicsPtr_->getPosition(state).front() << std::endl;
+  // std::cout << "Position error: " << constraint.head<3>() << std::endl;
+
+
   constraint.tail<3>() = endEffectorKinematicsPtr_->getOrientationError(state, {desiredPositionOrientation.second}).front();
   return constraint;
 }

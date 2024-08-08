@@ -135,10 +135,6 @@ scalar_t SwingTrajectoryPlanner::getYpositionConstraint(size_t leg, scalar_t tim
 /******************************************************************************************************/
 /******************************************************************************************************/
 void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition) {
-
-
-  
-
   const scalar_array_t terrainHeightSequence(modeSchedule.modeSequence.size(), terrainHeight);
   feet_array_t<scalar_array_t> liftOffHeightSequence;
   liftOffHeightSequence.fill(terrainHeightSequence);
@@ -245,7 +241,7 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
 
   // augment target position with longStepLength
   for (int i = 0; i < targetEePosition.size(); i++) {
-    targetEePosition[i].at(0) += longStepLength;    // augment by longitudinal step
+    targetEePosition[i].at(0) += longStepLength ;    // augment by longitudinal step
     targetEePosition[i].at(1) += lateralStepLength;    // augment by longitudinal step
 
   }
@@ -253,6 +249,13 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   // get sequences from modes for each leg based if it is a swing mode or a stance one
   std::array<feet_array_t<scalar_array_t>, 4> liftOffTouchDownSeqs = getSequenceFromMode(currentEePosition, targetEePosition, modeSchedule);
   // std::cout << "liftOffLongitudinalSequence " << liftOffTouchDownSeqs[0].size() << std::endl;
+  // std::cout << "- targetEePosition -" << std::endl;
+  // for (size_t i = 0; i < targetEePosition.size(); i++)
+  // {
+  //   std::cout << i << "th foot targetEePosition" << std::endl;
+  //   std::cout << "x = " << targetEePosition[i][0] << "; y = " << targetEePosition[i][1] << "; z = " << targetEePosition[i][2]  << std::endl;   
+  // }
+  
 
 
   feet_array_t<scalar_array_t> liftOffLongitudinalSequence = liftOffTouchDownSeqs[0];
@@ -261,8 +264,14 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   feet_array_t<scalar_array_t> liftOffLateralSequence = liftOffTouchDownSeqs[2];
   feet_array_t<scalar_array_t> touchDownLateralSequence = liftOffTouchDownSeqs[3];
 
-  update(modeSchedule, liftOffHeightSequence, touchDownHeightSequence, liftOffLongitudinalSequence, touchDownLongitudinalSequence,
-         liftOffLateralSequence, touchDownLateralSequence);
+  update(modeSchedule,  liftOffHeightSequence, 
+                        touchDownHeightSequence, 
+
+                        liftOffLongitudinalSequence, 
+                        touchDownLongitudinalSequence,
+                              
+                        liftOffLateralSequence, 
+                        touchDownLateralSequence);
 }
 
 /******************************************************************************************************/
@@ -292,15 +301,38 @@ std::array<feet_array_t<scalar_array_t>, 4> SwingTrajectoryPlanner::getSequenceF
 
     // Modify touchDownSequence
     feet_array_t<std::vector<bool>> contactFlags = extractContactFlags(modeSchedule.modeSequence);
-    for (int i = 0; i < contactFlags.size(); i++) {
-        for (int j = 0; j < contactFlags[i].size(); j++) {
+    // std::cout << std::endl;
+    // std::cout << "- contact flags -" << std::endl;
+    // for (int i = 0; i < contactFlags.size(); i++) {
+    //   std::cout << "Leg " << i << " contact flags: ";
+    //   for (bool flag : contactFlags[i]) {
+    //       std::cout << flag << " ";
+    //   }
+    //   std::cout << std::endl;
+    // }
+
+
+    for (int i = 0; i < contactFlags.size(); i++) { //foot number
+        for (int j = 0; j < contactFlags[i].size(); j++) { //phase number
             if (contactFlags[i].at(j) == false)
                 touchDownLongitudinalSequence[i].at(j) = targetEePosition[i].at(0);
                 touchDownLateralSequence[i].at(j) = targetEePosition[i].at(1);
         }
     }
 
-//    // Different way of getting contact flags
+    // std::cout << std::endl;
+    // int phase_num = 0;
+    // for (int i = 0; i < touchDownLateralSequence.size(); i++) {
+    //   std::cout << "Leg " << i << " touchDownLateralSequence: ";
+    //   for (size_t j = 0; j < touchDownLateralSequence[i].size(); j++)
+    //   {
+    //    std::cout << j << "th phase: " << touchDownLateralSequence[i][j] << " " ;   
+    //   }
+    //   std::cout << std::endl;
+    // }    
+
+
+   // Different way of getting contact flags
 //    for (int i=0; i < modeSchedule.modeSequence.size(); i++) {
 //        contact_flag_t contact_flags = modeNumber2StanceLeg(modeSchedule.modeSequence[i]);
 
@@ -330,10 +362,13 @@ std::array<feet_array_t<scalar_array_t>, 4> SwingTrajectoryPlanner::getSequenceF
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, const feet_array_t<scalar_array_t>& liftOffHeightSequence,
+void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, 
+                                    const feet_array_t<scalar_array_t>& liftOffHeightSequence,
                                     const feet_array_t<scalar_array_t>& touchDownHeightSequence,
+
                                     const feet_array_t<scalar_array_t>& liftOffLongSequence,
                                     const feet_array_t<scalar_array_t>& touchDownLongSequence,
+
                                     const feet_array_t<scalar_array_t>& liftOffLateralSequence,
                                     const feet_array_t<scalar_array_t>& touchDownLateralSequence) {
   
@@ -429,21 +464,34 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, const feet
       //  std::cout << "[SwingTrajectoryPlanner::update] swingStartTime = " << swingStartTime << std::endl;
       //  std::cout << "[SwingTrajectoryPlanner::update] swingFinalTime = " << swingFinalTime << std::endl;
       //  std::cout << std::endl;
+
+      // **********  high
         const scalar_t scaling = swingTrajectoryScaling(swingStartTime, swingFinalTime, config_.swingTimeScale);
         // std::cout << "[SwingTrajectoryPlanner::update] scaling = " << scaling << std::endl;
         const CubicSpline::Node liftOff{swingStartTime, liftOffHeightSequence[j][p], scaling * config_.liftOffVelocity};
         const CubicSpline::Node touchDown{swingFinalTime, touchDownHeightSequence[j][p], scaling * config_.touchDownVelocity};
         const scalar_t midHeight = std::min(liftOffHeightSequence[j][p], touchDownHeightSequence[j][p]) + scaling * config_.swingHeight;
+        // std::cout << "[SwingTrajectoryPlanner::update] = " << liftOffHeightSequence[j][p] << std::endl;
+
+
+
+
         const CubicSpline::Node midSwingVertical{(liftOff.time + touchDown.time) / 2, midHeight, 3 * (touchDown.position - liftOff.position) / (touchDown.time - liftOff.time)};
         // std::cout << "liftOffLong.time = " << liftOff.time << std::endl;
         // std::cout << "touchDownLong.time = " << touchDown.time << std::endl;
 
-        // longitudinal
+        // **********  longitudinal
         const CubicSpline::Node liftOffLong{swingStartTime, liftOffLongSequence[j][p], scaling * config_.liftOffLongVelocity};
         const CubicSpline::Node touchDownLong{swingFinalTime, touchDownLongSequence[j][p], scaling * config_.touchDownLongVelocity};
+        // std::cout << std::endl;
+        // std::cout << "touchDownLongSequence " << j << "th foot in " << p << "th phase = " << std::endl;  
+        // std::cout <<touchDownLongSequence[j][p] << std::endl;
+        // std::cout << std::endl;
+
         const scalar_t midLongStep = liftOffLongSequence[j][p] + scaling * 0.5 * config_.longStepLength;
         const CubicSpline::Node midSwingLong{(liftOffLong.time + touchDownLong.time) / 2, midLongStep, 3 * (touchDownLong.position - liftOffLong.position) / (touchDownLong.time - liftOffLong.time)};
-        // lateral
+
+        // ************* lateral
         const CubicSpline::Node liftOffLateral{swingStartTime, liftOffLateralSequence[j][p], scaling * config_.liftOffLateralVelocity};
         const CubicSpline::Node touchDownLateral{swingFinalTime, touchDownLateralSequence[j][p], scaling * config_.touchDownLateralVelocity};
         const scalar_t midLateralStep = liftOffLateralSequence[j][p] + scaling * 0.5 * config_.lateralStepLength;

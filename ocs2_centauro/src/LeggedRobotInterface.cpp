@@ -223,6 +223,7 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
   // loop over contacts
   std::cout << "IIT loop over contacts" << std::endl;
   for (size_t i = 0; i < centroidalModelInfo_.numThreeDofContacts; i++) {
+    /**I Loop : numThreeDofContacts */
     const std::string& footName = modelSettings_.contactNames3DoF[i];
     auto& legContacts = modelSettings_.legContactNames3DoF;
     bool isLegContact = std::find(legContacts.begin(), legContacts.end(), footName) != legContacts.end();
@@ -233,25 +234,22 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
     if (useAnalyticalGradientsConstraints) {
       throw std::runtime_error(
           "[LeggedRobotInterface::setupOptimalConrolProblem] The analytical end-effector linear constraint is not implemented!");
-    } else {
+    } 
+    else 
+    {
       const auto infoCppAd = centroidalModelInfo_.toCppAd();
       const CentroidalModelPinocchioMappingCppAd pinocchioMappingCppAd(infoCppAd);
       auto velocityUpdateCallback = [&infoCppAd](const ad_vector_t& state, PinocchioInterfaceCppAd& pinocchioInterfaceAd) {
         const ad_vector_t q = centroidal_model::getGeneralizedCoordinates(state, infoCppAd);
-        updateCentroidalDynamics(pinocchioInterfaceAd, infoCppAd, q);
-      };
+        updateCentroidalDynamics(pinocchioInterfaceAd, infoCppAd, q);};
 
       auto eeMotionFrame = footName;        // motion ee frame to be tracked, may be different for arms
-      // for (size_t i = 0; i < targetFramesNames.size(); i++)
-      // {
-      //   std::cout << "IIT targetFramesNames " << i << " is " << targetFrameNames[targetFramesNames] <<std::endl;
-      // }
       
       if (!isLegContact){
         eeMotionFrame = targetFramesNames[i - legContacts.size()];
         std::cout << "IIT " << " =  " << eeMotionFrame << std::endl;
       }
-          
+        
       eeKinematicsPtr.reset(new PinocchioEndEffectorKinematicsCppAd(*pinocchioInterfacePtr_, pinocchioMappingCppAd, {eeMotionFrame},
                                                                     centroidalModelInfo_.stateDim, centroidalModelInfo_.inputDim,
                                                                     velocityUpdateCallback, eeMotionFrame, modelSettings_.modelFolderCppAd,
@@ -260,6 +258,7 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
 
     // for leg contacts
     if (isLegContact) {
+      std::cout << "footName is " << footName << std::endl; 
         // stability constraint through augmented lagrangian
         auto getConstraint = [&]() {
             constexpr size_t numIneqConstraint = 2;     // two-side bound
@@ -268,20 +267,19 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
             D(0, 3*i+2) = 1.0;       // lower bound
             D(1, 3*i+2) = -1.0;       // upper bound
             const matrix_t C = matrix_t::Zero(numIneqConstraint, centroidalModelInfo_.stateDim);
-            return std::unique_ptr<StateInputConstraint>(new LinearStateInputConstraint(e, C, D));
-        };
+            return std::unique_ptr<StateInputConstraint>(new LinearStateInputConstraint(e, C, D));};
+
         if (activateStability)
             problemPtr_->inequalityLagrangianPtr->add(footName + "_stability", create(getConstraint(), getPenalty()));
         problemPtr_->inequalityLagrangianPtr->add(footName + "_frictionCone", create(getFrictionConeConstraint(taskFile, i, verbose), getFrictionConePenalty()));
         problemPtr_->equalityConstraintPtr->add(footName + "_zeroForce", getZeroForceConstraint(i));
-        problemPtr_->equalityConstraintPtr->add(footName + "_zeroVelocity",
-                                                getZeroVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints));
+        problemPtr_->equalityConstraintPtr->add(footName + "_zeroVelocity", getZeroVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints));
         if (referenceManagerPtr_->getSwingTrajectoryPlanner()->getConfig().addPlanarConstraints) {
             problemPtr_->equalityConstraintPtr->add(footName + "_velocityX",
                                                     getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints, 0));
             problemPtr_->equalityConstraintPtr->add(footName + "_velocityY",
-                                                    getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints, 1));
-        }
+                                                    getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints, 1));}
+
         problemPtr_->equalityConstraintPtr->add(footName + "_velocityZ",
                                                 getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints, 2));
         // assign the kinematic pointer objects for the feet EE
@@ -655,9 +653,11 @@ std::unique_ptr<StateInputCost> LeggedRobotInterface::getUnilateralConstraint(co
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-std::unique_ptr<StateInputConstraint> LeggedRobotInterface::getZeroForceConstraint(const size_t& contactPointIndex) {
-  return std::unique_ptr<StateInputConstraint>(new ZeroForceConstraint(*referenceManagerPtr_, contactPointIndex, centroidalModelInfo_));
-}
+std::unique_ptr<StateInputConstraint> LeggedRobotInterface::getZeroForceConstraint
+  (const size_t& contactPointIndex) 
+  {
+    return std::unique_ptr<StateInputConstraint>(new ZeroForceConstraint(*referenceManagerPtr_, contactPointIndex, centroidalModelInfo_));
+  }
 
 /******************************************************************************************************/
 /******************************************************************************************************/
