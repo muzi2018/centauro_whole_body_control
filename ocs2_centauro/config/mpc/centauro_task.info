@@ -24,7 +24,7 @@ model_settings
 ; #######################################
 swing_trajectory_config
 {
-  addPlanarConstraints          true   ; true for exact steps
+  addPlanarConstraints          true   ; true for exact steps or false
 
   liftOffVelocity               0.0
   touchDownVelocity             -0.0
@@ -325,18 +325,18 @@ Q
   (21,21)  2.0e-1   ; ankle_pitch_3
   (22,22)  2.0e-1   ; ankle_yaw_3
   (23,23)  2.0e-1   ; j_wheel_3
-  (24,24)  2.0   ; hip_yaw_2
-  (25,25)  2.0   ; hip_pitch_2
-  (26,26)  2.0   ; knee_pitch_2
-  (27,27)  2.0   ; ankle_pitch_2
-  (28,28)  2.0   ; ankle_yaw_2
-  (29,29)  2.0   ; j_wheel_2
-  (30,30)  2.0   ; hip_yaw_4
-  (31,31)  2.0   ; hip_pitch_4
-  (32,32)  2.0   ; knee_pitch_4
-  (33,33)  2.0   ; ankle_pitch_4
-  (34,34)  2.0   ; ankle_yaw_4
-  (35,35)  2.0   ; j_wheel_4
+  (24,24)  2.0e-1   ; hip_yaw_2
+  (25,25)  2.0e-1   ; hip_pitch_2
+  (26,26)  2.0e-1   ; knee_pitch_2
+  (27,27)  2.0e-1   ; ankle_pitch_2
+  (28,28)  2.0e-1   ; ankle_yaw_2
+  (29,29)  2.0e-1   ; j_wheel_2
+  (30,30)  2.0e-1   ; hip_yaw_4
+  (31,31)  2.0e-1   ; hip_pitch_4
+  (32,32)  2.0e-1   ; knee_pitch_4
+  (33,33)  2.0e-1   ; ankle_pitch_4
+  (34,34)  2.0e-1   ; ankle_yaw_4
+  (35,35)  2.0e-1   ; j_wheel_4
 
   ;; Torso Joint Positions: [torso] ;;
   (36,36)  2.0e-1     ; torso_yaw
@@ -503,7 +503,7 @@ frictionConeConstraint
 
 stabilityConstraint
 {
-  activate                      false
+  activate                      true
   config
   {
     scale                       1e-0               ; a penalty term \pho that acts as a scaling factor for the total penalty.

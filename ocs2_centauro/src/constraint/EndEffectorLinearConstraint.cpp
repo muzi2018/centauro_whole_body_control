@@ -83,7 +83,18 @@ vector_t EndEffectorLinearConstraint::getValue(
   bool print = false;
   vector_t f = config_.b;
   if (config_.Ax.size() > 0) {
+
     f.noalias() += config_.Ax * endEffectorKinematicsPtr_->getPosition(state).front();
+
+    // std::cout <<  "config_.Ax" << std::endl;
+    // std::cout <<  "config_.Ax.rows() = " << config_.Ax.rows() << std::endl;
+    // std::cout <<  "config_.Ax.cols() = " << config_.Ax.cols() << std::endl;
+    // for (size_t i = 0; i < config_.Ax.rows(); i++)
+    // {
+    //   std::cout << config_.Ax(i, 0) << " " << config_.Ax(i, 1) << " " << config_.Ax(i, 2) << std::endl;
+    // }
+    // std::cout << "----" << std::endl;
+    
   }
   if (config_.Av.size() > 0) {
     f.noalias() += config_.Av * endEffectorKinematicsPtr_->getVelocity(state, input).front();

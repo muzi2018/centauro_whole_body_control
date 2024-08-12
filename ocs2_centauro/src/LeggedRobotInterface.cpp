@@ -275,6 +275,7 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
         problemPtr_->equalityConstraintPtr->add(footName + "_zeroForce", getZeroForceConstraint(i));
         problemPtr_->equalityConstraintPtr->add(footName + "_zeroVelocity", getZeroVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints));
         if (referenceManagerPtr_->getSwingTrajectoryPlanner()->getConfig().addPlanarConstraints) {
+            // std::cout << "IIT: addPlanarConstraints" << std::endl;
             problemPtr_->equalityConstraintPtr->add(footName + "_velocityX",
                                                     getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints, 0));
             problemPtr_->equalityConstraintPtr->add(footName + "_velocityY",
@@ -282,6 +283,8 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
 
         problemPtr_->equalityConstraintPtr->add(footName + "_velocityZ",
                                                 getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints, 2));
+        // std::cout << "IIT: getArmSwingTrajectoryPlanner" << std::endl;
+
         // assign the kinematic pointer objects for the feet EE
         eeKinematicsPtrArray.at(i) = std::move(eeKinematicsPtr);
     }
@@ -302,6 +305,7 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
         if (armEeHardConstraints) {
             // add position hard constraints
             if (referenceManagerPtr_->getArmSwingTrajectoryPlanner()->isPositionPlanner() && !hConstraintPositionIndices[i - legContacts.size()].empty()) {
+              std::cout << "IIT: getArmSwingTrajectoryPlanner" << std::endl;
                 for (auto& linearDoF: hConstraintPositionIndices[i - legContacts.size()]) {     // loop over XYZ
                     problemPtr_->equalityConstraintPtr->add(targetFramesNames[i - legContacts.size()] + "_velocity" + std::to_string(linearDoF),
                                                             getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints,
@@ -672,6 +676,7 @@ std::unique_ptr<StateInputConstraint> LeggedRobotInterface::getZeroVelocityConst
     if (!numerics::almost_eq(positionErrorGain, 0.0)) {
       config.Ax.setZero(3, 3);
       config.Ax(2, 2) = positionErrorGain;
+      // std::cout << "positionErrorGain: " << positionErrorGain << std::endl;
     }
     return config;
   };

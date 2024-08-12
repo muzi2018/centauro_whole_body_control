@@ -56,6 +56,7 @@ ZeroVelocityConstraintCppAd::ZeroVelocityConstraintCppAd(const ZeroVelocityConst
 /******************************************************************************************************/
 /******************************************************************************************************/
 bool ZeroVelocityConstraintCppAd::isActive(scalar_t time) const {
+  // std::cout << "contactPointIndex: " << contactPointIndex_ << "th foot is  " << referenceManagerPtr_->getContactFlags(time)[contactPointIndex_] << std::endl;
   return referenceManagerPtr_->getContactFlags(time)[contactPointIndex_];
 }
 

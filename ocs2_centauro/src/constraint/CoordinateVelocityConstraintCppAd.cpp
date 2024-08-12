@@ -44,7 +44,11 @@ CoordinateVelocityConstraintCppAd::CoordinateVelocityConstraintCppAd(const Switc
       referenceManagerPtr_(&referenceManager),
       eeLinearConstraintPtr_(new EndEffectorLinearConstraint(endEffectorKinematics, 1)),
       contactPointIndex_(contactPointIndex),
-      coordinateNumber_(coordinateNumber), activeWhen_(activeWhen) {} //activeAtSwingOnly_(activeAtSwingOnly){}
+      coordinateNumber_(coordinateNumber), activeWhen_(activeWhen) {
+      // std::cout << "CoordinateVelocityConstraint " << contactPointIndex << "th "  << std::endl;
+      // std::cout << "activeWhen " << activeWhen << std::endl; 
+
+      } //activeAtSwingOnly_(activeAtSwingOnly){}
 
 /******************************************************************************************************/
 /******************************************************************************************************/
