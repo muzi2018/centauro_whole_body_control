@@ -701,6 +701,12 @@ std::unique_ptr<StateInputConstraint> LeggedRobotInterface::getCoordinateVelocit
     throw std::runtime_error(
         "[LeggedRobotInterface::getCoordinateVelocityConstraint] The analytical end-effector normal velocity constraint is not implemented!");
   } else {
+    std::cout << "----[LeggedRobotInterface::getCoordinateVelocityConstraint]----" << std::endl;
+    std::cerr << "Using CppAd implementation for coordinate velocity constraint\n";
+    std::cerr << "Contact point index: " << contactPointIndex << ", coordinate number: " << coordinateNumber << ", activation state: " << static_cast<int>(activationState) << std::endl;
+    std::cout << "--------------------------------" << std::endl;
+
+    
     return std::unique_ptr<StateInputConstraint>(new CoordinateVelocityConstraintCppAd(*referenceManagerPtr_, eeKinematics, contactPointIndex, coordinateNumber, activationState));
   }
 }

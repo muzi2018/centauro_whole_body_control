@@ -45,10 +45,14 @@ CoordinateVelocityConstraintCppAd::CoordinateVelocityConstraintCppAd(const Switc
       eeLinearConstraintPtr_(new EndEffectorLinearConstraint(endEffectorKinematics, 1)),
       contactPointIndex_(contactPointIndex),
       coordinateNumber_(coordinateNumber), activeWhen_(activeWhen) {
-      // std::cout << "CoordinateVelocityConstraint " << contactPointIndex << "th "  << std::endl;
-      // std::cout << "activeWhen " << activeWhen << std::endl; 
+        std::cout << "----[CoordinateVelocityConstraintCppAd]----" << std::endl;
+        // std::cout << "End-effector kinematics: " << endEffectorKinematics.getName() << std::endl;
+        std::cout << "Contact point index: " << contactPointIndex << std::endl;
+        std::cout << "Coordinate number: " << coordinateNumber << std::endl;
+        std::cout << "Active when: " << activeWhen << std::endl;
+        std::cout << "------------------------------------------------" << std::endl;
+      }
 
-      } //activeAtSwingOnly_(activeAtSwingOnly){}
 
 /******************************************************************************************************/
 /******************************************************************************************************/
@@ -64,12 +68,21 @@ CoordinateVelocityConstraintCppAd::CoordinateVelocityConstraintCppAd(const Coord
 /******************************************************************************************************/
 /******************************************************************************************************/
 bool CoordinateVelocityConstraintCppAd::isActive(scalar_t time) const {
+  // std::cout << "---- [contactPointIndex activeWhen] ---- " << activeWhen_ << std::endl;
   switch (activeWhen_) {
     case 0:                             //  INCONTACT = 0
+      // std::cout << "----------------"<< std::endl;
       return referenceManagerPtr_->getContactFlags(time)[contactPointIndex_];
     case 1:                             //  NOTINCONTACT = 1
+      // std::cout << "--------*-------"<< std::endl;
+      if (1)
+      {
+        // std::cout << "---- [contactPointIndex " << contactPointIndex_ << "] Active is ----" << !referenceManagerPtr_->getContactFlags(time)[contactPointIndex_] << std::endl;
+      }
+    
       return !referenceManagerPtr_->getContactFlags(time)[contactPointIndex_];
     case 2:                             //  ALWAYS = 2
+      // std::cout << "--------**-------"<< std::endl;
       return true;
   }
 }
@@ -81,9 +94,12 @@ vector_t CoordinateVelocityConstraintCppAd::getValue(scalar_t time, const vector
                                                      const PreComputation& preComp) const {
   const auto& preCompLegged = cast<LeggedRobotPreComputation>(preComp);
 
+  // std::cout << "---- [CoordinateVelocityConstraintCppAd::getValue] ----" << std::endl;
+
   // pick up the right coordinate
   switch (coordinateNumber_) {
   case 0:
+      // std::cout << "getEeLongVelocityConstraintConfigs in " << contactPointIndex_ << "th foot" << std::endl;
       eeLinearConstraintPtr_->configure(preCompLegged.getEeLongitVelocityConstraintConfigs()[contactPointIndex_]);
       break;
   case 1:
