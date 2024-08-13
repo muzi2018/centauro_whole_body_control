@@ -134,18 +134,31 @@ scalar_t SwingTrajectoryPlanner::getYpositionConstraint(size_t leg, scalar_t tim
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition, const TargetTrajectories& targetTrajectories) {
+void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition, const TargetTrajectories& targetTrajectories, const vector_t& state) {
   const scalar_array_t terrainHeightSequence(modeSchedule.modeSequence.size(), terrainHeight);
   feet_array_t<scalar_array_t> liftOffHeightSequence;
   liftOffHeightSequence.fill(terrainHeightSequence);
   feet_array_t<scalar_array_t> touchDownHeightSequence;
   touchDownHeightSequence.fill(terrainHeightSequence);
 
+  auto target_position = targetTrajectories.getDesiredState(initTime);
+
+  // std::cout << "---- [SwingTrajectoryPlanner start x target] ----" << std::endl;
+  scalar_t x_e = target_position[6] - state[6] ;
+  std::cout << x_e << std::endl;
+  // std::cout << target_position[6] << std::endl;
+  // std::cout << state[6] << std::endl;
+  // std::cout << "---- [SwingTrajectoryPlanner end] ----" << std::endl;
+  
+
   // Get step length for generating steps
-  const auto longStepLength = this->getConfig().longStepLength;
+  const auto longStepLength = x_e * this->getConfig().longStepLength;
   const auto lateralStepLength = this->getConfig().lateralStepLength;
   
   feet_array_t<scalar_array_t> targetEePosition = currentEePosition;
+
+
+
 
   // std::cout << "longStepLength = " << longStepLength << std::endl;
   // std::cout << "lateralStepLength = " << lateralStepLength << std::endl;
