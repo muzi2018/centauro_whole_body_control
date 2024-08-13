@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "ocs2_centauro/common/Types.h"
 #include "ocs2_centauro/foot_planner/SplineCpg.h"
+#include "ocs2_core/reference/TargetTrajectories.h"
 
 namespace ocs2 {
 namespace legged_robot {
@@ -61,7 +62,7 @@ class SwingTrajectoryPlanner {
 //  void update(const ModeSchedule& modeSchedule, scalar_t terrainHeight, scalar_t longStepReference);
   // update by considering the ee current position
   // TBD change initialEePosition to be feet_array_t<vector_3>
-  void update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> initialEePosition);
+  void update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> initialEePosition, const TargetTrajectories& targetTrajectories);
 
   void update(const ModeSchedule& modeSchedule, const feet_array_t<scalar_array_t>& liftOffHeightSequence,
               const feet_array_t<scalar_array_t>& touchDownHeightSequence, const feet_array_t<scalar_array_t>& liftOffLongSequence,

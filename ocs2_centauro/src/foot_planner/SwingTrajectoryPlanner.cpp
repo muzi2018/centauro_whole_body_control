@@ -134,7 +134,7 @@ scalar_t SwingTrajectoryPlanner::getYpositionConstraint(size_t leg, scalar_t tim
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition) {
+void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition, const TargetTrajectories& targetTrajectories) {
   const scalar_array_t terrainHeightSequence(modeSchedule.modeSequence.size(), terrainHeight);
   feet_array_t<scalar_array_t> liftOffHeightSequence;
   liftOffHeightSequence.fill(terrainHeightSequence);

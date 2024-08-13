@@ -148,7 +148,7 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   // }
 
 
-  swingTrajectoryPtr_->update(modeSchedule, initTime, terrainHeight, eeCurrentPosition);  // pass the current ee position
+  swingTrajectoryPtr_->update(modeSchedule, initTime, terrainHeight, eeCurrentPosition, targetTrajectories);  // pass the current ee position
   if (armSwingTrajectoryPtr_ != nullptr) {      // if arm trajectories have to be planned
       // receive current arm ee position
       for (int i = 0; i< armEeKinematicsPtrArray_.size(); i++){
