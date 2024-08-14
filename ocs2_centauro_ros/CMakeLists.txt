@@ -5,8 +5,8 @@ project(ocs2_centauro_ros)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # set(CMAKE_CXX_FLAGS "-g")
-# set(CMAKE_BUILD_TYPE Release)
-# add_compile_options(-O2)
+set(CMAKE_BUILD_TYPE Release)
+add_compile_options(-O2)
 
 set(CATKIN_PACKAGE_DEPENDENCIES
   roslib

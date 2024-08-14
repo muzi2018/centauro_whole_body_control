@@ -48,6 +48,9 @@ ZeroForceConstraint::ZeroForceConstraint(const SwitchedModelReferenceManager& re
 /******************************************************************************************************/
 /******************************************************************************************************/
 bool ZeroForceConstraint::isActive(scalar_t time) const {
+
+  // std::cout << "contact " << contactPointIndex_ << "in time = " << time << std::endl;
+  // std::cout << "active = " <<  referenceManagerPtr_->getContactFlags(time)[contactPointIndex_] << std::endl;
   return !referenceManagerPtr_->getContactFlags(time)[contactPointIndex_];
 }
 
@@ -55,6 +58,7 @@ bool ZeroForceConstraint::isActive(scalar_t time) const {
 /******************************************************************************************************/
 /******************************************************************************************************/
 vector_t ZeroForceConstraint::getValue(scalar_t time, const vector_t& state, const vector_t& input, const PreComputation& preComp) const {
+  // std::cout << "contact " << contactPointIndex_ << " get value" << std::endl;
   return centroidal_model::getContactForces(input, contactPointIndex_, info_);
 }
 

@@ -63,8 +63,18 @@ LeggedRobotStateInputQuadraticCost* LeggedRobotStateInputQuadraticCost::clone() 
 /******************************************************************************************************/
 std::pair<vector_t, vector_t> LeggedRobotStateInputQuadraticCost::getStateInputDeviation(
     scalar_t time, const vector_t& state, const vector_t& input, const TargetTrajectories& targetTrajectories) const {
+  // std::cout << "LeggedRobotStateInputQuadraticCost::getStateInputDeviation" << std::endl;
   const auto contactFlags = referenceManagerPtr_->getContactFlags(time);
   const vector_t xNominal = targetTrajectories.getDesiredState(time);
+  auto state_Deviation = state - xNominal ;
+  // std::cout << "state_Deviation: " << std::endl;
+  // for (size_t i = 0; i < 1; i++)
+  // {
+  //   /* code */
+  //   std::cout << state_Deviation[6] << " ";
+  // }
+  // std::cout << std::endl;
+
   const vector_t uNominal = robotObjectWeightCompensatingInput(info_, contactFlags, armsForceReferences_);
   return {state - xNominal, input - uNominal};
 }

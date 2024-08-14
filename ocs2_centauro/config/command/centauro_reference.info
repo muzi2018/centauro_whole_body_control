@@ -75,3 +75,41 @@ defaultModeSequenceTemplate
     [1]  4.0
   }
 }
+
+defaultModeSequenceTemplate2
+ {
+   modeSequence
+   {
+     [0]     RF_LH_RH
+     [1]     STANCE
+     [2]     LF_LH_RH
+     [3]     STANCE
+   }
+   switchingTimes
+   {
+     [0]     0.0
+     [1]     1.0
+     [2]     2.0
+     [3]     3.0
+     [4]     4.0
+   }
+ }
+
+
+defaultModeSequenceTemplate1
+ {
+   modeSequence
+   {
+     [0]     RF_LH_RH
+     [1]     LF_LH_RH
+   }
+   switchingTimes
+   {
+     [0]     0.0
+     [1]     1.0
+     [2]     2.0
+   }
+ }
+
+
+
