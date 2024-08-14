@@ -77,9 +77,11 @@ int main(int argc, char** argv) {
     loadData::loadCppDataType(taskFile, "xbotcore.clampTorqueCmd", xbotConfig.clampTorqueCmd);
     loadData::loadCppDataType(taskFile, "xbotcore.clampPositionCmd", xbotConfig.clampPositionCmd);
     loadData::loadCppDataType(taskFile, "xbotcore.clampVelocityCmd", xbotConfig.clampVelocityCmd);
-    xbot_interface::XbotInterface xbotInterface(nodeHandle, interface.getPinocchioInterface(),
+    xbot_interface::XbotInterface xbotInterface(nodeHandle, 
+                                                interface.getPinocchioInterface(),
                                                 interface.getCentroidalModelInfo(),
-                                                interface.modelSettings().jointNames, xbotConfig);
+                                                interface.modelSettings().jointNames, 
+                                                xbotConfig);
     xbotInterface.getInitialMsg();
     initialState = xbotInterface.getCentroidalStateFromXbotInfo();
   }

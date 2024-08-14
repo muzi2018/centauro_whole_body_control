@@ -87,16 +87,28 @@ std::vector<std::string> lowerBodyJoints = {
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-XbotInterface::XbotInterface(ros::NodeHandle& nodeHandle, PinocchioInterface pinocchioInterface, CentroidalModelInfo centroidalModelInfo,
-                             std::vector<std::string> jointNames, Config config)
+XbotInterface::XbotInterface(
+    ros::NodeHandle& nodeHandle,
+
+    PinocchioInterface pinocchioInterface,
+
+    CentroidalModelInfo centroidalModelInfo,
+
+    std::vector<std::string> jointNames,
+
+    Config config)
+
     : config_(config),
+
       jointPos_(vector_t(centroidalModelInfo.actuatedDofNum)),
       jointPosRef_(vector_t(centroidalModelInfo.actuatedDofNum)),
       jointVel_(vector_t(centroidalModelInfo.actuatedDofNum)),
+
       baseTwist_(vector_t(6)),
       basePoseVector_(vector_t(6)),
       baseOrientation_(Eigen::Quaterniond::Identity()),
       continuousBaseOrientation_(vector_t(3)),
+
       eeEstimatedWrenches_(matrix_t::Zero(6, centroidalModelInfo.numThreeDofContacts + centroidalModelInfo.numSixDofContacts)),
       nodeHandle_(nodeHandle),
       centroidalModelRbdConversions_(pinocchioInterface, centroidalModelInfo),
@@ -107,6 +119,21 @@ XbotInterface::XbotInterface(ros::NodeHandle& nodeHandle, PinocchioInterface pin
   // temporarily initialize xbotJointNames equal to centroidal model joint Names
   // as soon as a xbot message is received this will be updated
   xbotJointNames_ = jointNames_;
+  if (1)
+  {
+    std::cout << "---- [xbot info] ----" << std::endl;
+    std::cout << "centroidal model actuatedDofNum: " << centroidalModelInfo.actuatedDofNum << std::endl;
+    
+
+    std::cout << "Number of joints: " << jointNames_.size() << std::endl;
+    std::cout << "xbotJointNames_ names: ";
+    for (const auto& name : xbotJointNames_) {
+        std::cout << name << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "---- ---- ----" << std::endl;
+  }
+  
 
   // load PD gains for control
   std::vector<float> lowerBodyPGains(3), lowerBodyDGains(3), upperBodyPGains(3), upperBodyDGains(3);

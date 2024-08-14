@@ -8,7 +8,11 @@
         "/home/wang/forest_ws/share",
         "/home/wang/forest_ws/install/share",
         "/opt/ros/noetic/**",
-        "~/catkin_ws_1/src/"
+        "/opt/xbot/include/**",
+        "~/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro/include/**",
+        "~/catkin_ws_1/src/centauro_whole_body_control/gazebo_ocs2_ros_interfaces/include/**",
+        "~/catkin_ws_1/src/ocs2/ocs2_core/include",
+        "/usr/include/**"
       ],
       "compilerPath": "/usr/bin/gcc",
       "cStandard": "${default}",
