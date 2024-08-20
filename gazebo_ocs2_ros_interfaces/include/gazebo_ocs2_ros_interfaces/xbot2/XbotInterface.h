@@ -137,7 +137,8 @@ class XbotInterface
   vector_t getCentroidalStateFromXbotInfo();
 
   /** Get observation from xbotcore */
-  SystemObservation getObservationFromXbot(const SystemObservation& currentObservation, const scalar_t& interfaceFrequency,
+  SystemObservation getObservationFromXbot(const SystemObservation& currentObservation, 
+                                           const scalar_t& interfaceFrequency,
                                            const std::shared_ptr<legged_robot::LeggedRobotInterface> leggedRobotInterfacePtr,
                                            const MRT_ROS_Interface& mrt);
 

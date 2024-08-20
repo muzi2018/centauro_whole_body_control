@@ -1,4 +1,4 @@
-﻿/******************************************************************************
+/******************************************************************************
 Copyright (c) 2020, Farbod Farshidian. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -86,6 +86,8 @@ void MRT_ROS_Dummy_Loop::run(const SystemObservation& initObservation, const Tar
   }
   ROS_INFO_STREAM("Initial policy has been received.");
 
+  
+
   // Pick simulation loop mode
   if (mpcDesiredFrequency_ > 0.0) {
       ROS_INFO_STREAM("mpcDesiredFrequency_ > 0.0");
@@ -101,6 +103,8 @@ void MRT_ROS_Dummy_Loop::run(const SystemObservation& initObservation, const Tar
   } else {
       ROS_INFO_STREAM("mpcDesiredFrequency_ < 0.0");
       if (xbotInterface_.getConfig().xbotCoreRunning){
+        std::cout << "mpcDesiredFrequency_ = " << mpcDesiredFrequency_ << std::endl;
+        std::cout << "xbotCoreRunning = " << xbotInterface_.getConfig().xbotCoreRunning << std::endl;
         ROS_INFO_STREAM("xbotCoreRunning");
         realtimeXbotCoreLoop(initObservation, initTargetTrajectories);
       }
