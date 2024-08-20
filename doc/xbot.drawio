@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="1btjpcoBKTG_bGhoGLtb" name="Page-1">
-        <mxGraphModel dx="3716" dy="740" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="5222" dy="617" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -1717,6 +1717,56 @@
                 </mxCell>
                 <mxCell id="403" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;div style=&quot;font-size: 11.2px; line-height: 15px;&quot;&gt;centroidalModelRbdConversions_&lt;span style=&quot;color: #b4b4b4;&quot;&gt;.&lt;/span&gt;&lt;span style=&quot;color: #dcdcaa;&quot;&gt;computeRbdTorqueFromCentroidalModel&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;optimalState&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #9a9a9a;&quot;&gt;optimalInput&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;vector_t&lt;/span&gt;::&lt;span style=&quot;color: #dcdcaa;&quot;&gt;Zero&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;numberJoints&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;))&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#A50040;fillColor=#d80073;fontColor=#ffffff;" vertex="1" parent="1">
                     <mxGeometry x="-2520" y="1350" width="860" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="410" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-weight: normal; font-size: 11.2px; line-height: 15px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;vector_t&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #dcdcaa;&quot;&gt;computeRbdTorqueFromCentroidalModel&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;const&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;vector_t&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;state&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;const&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;vector_t&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;input&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;const&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;vector_t&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;jointAccelerations&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;vector_t&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;measure_date&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+                    <mxGeometry x="-3540" y="1580" width="560" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="419" value="measure_date" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fontColor=#FFFFFF;" vertex="1" parent="1">
+                    <mxGeometry x="-3540" y="1645" width="850" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="420" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#FFFFFF;" vertex="1" parent="419">
+                    <mxGeometry y="30" width="850" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="421" value="basePose_agular" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontColor=#FFFFFF;" vertex="1" parent="420">
+                    <mxGeometry width="142" height="40" as="geometry">
+                        <mxRectangle width="142" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="422" value="basePose_linear" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontColor=#FFFFFF;" vertex="1" parent="420">
+                    <mxGeometry x="142" width="141" height="40" as="geometry">
+                        <mxRectangle width="141" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="423" value="joints_position" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontColor=#FFFFFF;" vertex="1" parent="420">
+                    <mxGeometry x="283" width="142" height="40" as="geometry">
+                        <mxRectangle width="142" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="424" value="base_angVel" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontColor=#FFFFFF;" vertex="1" parent="420">
+                    <mxGeometry x="425" width="142" height="40" as="geometry">
+                        <mxRectangle width="142" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="425" value="base_linearVel" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontColor=#FFFFFF;" vertex="1" parent="420">
+                    <mxGeometry x="567" width="141" height="40" as="geometry">
+                        <mxRectangle width="141" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="426" value="joint_velocity" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontColor=#FFFFFF;" vertex="1" parent="420">
+                    <mxGeometry x="708" width="142" height="40" as="geometry">
+                        <mxRectangle width="142" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="427" value="measuredRbdState" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fontColor=#FFFFFF;" vertex="1" parent="1">
+                    <mxGeometry x="-3540" y="1740" width="800" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="428" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#FFFFFF;" vertex="1" parent="427">
+                    <mxGeometry y="30" width="800" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="429" value="" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontColor=#FFFFFF;" vertex="1" parent="428">
+                    <mxGeometry width="800" height="40" as="geometry">
+                        <mxRectangle width="800" height="40" as="alternateBounds"/>
+                    </mxGeometry>
                 </mxCell>
             </root>
         </mxGraphModel>

@@ -384,7 +384,24 @@ void XbotInterface::sendCommandToXbot(const std::shared_ptr<legged_robot::Legged
     // compute torques with inverse dynamics
     // vector_t ffModelTorque = centroidalModelRbdConversions_.computeRbdTorqueFromCentroidalModel(optimalState, optimalInput, vector_t::Zero(numberJoints));
 
-    vector_t ffModelTorque = centroidalModelRbdConversions_.computeRbdTorqueFromCentroidalModel(optimalState, optimalInput, vector_t::Zero(numberJoints));
+
+    // measure robot_state
+    vector_t rbdState(baseTwist_.rows() + jointPos_.rows() + jointVel_.rows() + basePoseVector_.rows());    // get size from basePose
+    // assign rbd State, angular/orientation precedes linear/position
+    rbdState << basePoseVector_.bottomRows(3), basePoseVector_.topRows(3), jointPos_, baseTwist_.bottomRows(3), baseTwist_.topRows(3), jointVel_;
+
+
+
+
+    // std::cout << "---- [sendCommandToXbot] ----" << std::endl;
+    // for (size_t i = 0; i < rbdState.size(); i++)
+    // {
+    //     std::cout << "rbdState[" << i << "] = " << rbdState[i] << std::endl;
+    // }
+
+
+
+    vector_t ffModelTorque = centroidalModelRbdConversions_.computeRbdTorqueFromCentroidalModel(optimalState, optimalInput, vector_t::Zero(numberJoints), rbdState);
 
 
     vector_t ffJointTorque = ffModelTorque.tail(numberJoints);      // ignore base wrench
