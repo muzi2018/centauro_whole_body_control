@@ -142,6 +142,26 @@ XbotInterface::XbotInterface(
   nodeHandle_.getParamCached(jointImpedanceGainsPrefix + "/lower_body/d_gains", lowerBodyDGains);
   nodeHandle_.getParamCached(jointImpedanceGainsPrefix + "/upper_body/p_gains", upperBodyPGains);
   nodeHandle_.getParamCached(jointImpedanceGainsPrefix + "/upper_body/d_gains", upperBodyDGains);
+//   std::cout << "---- [xbot-configure] ----" << std::endl;
+//   std::cout << "lowerBodyPGains: " << std::endl;
+//   for (size_t i = 0; i < lowerBodyPGains.size(); i++)
+//   {
+//     std::cout << lowerBodyPGains[i] << " " ;
+//   }
+//   std::cout << std::endl;
+
+//   std::cout << "lowerBodyDGains: " << std::endl;
+//   for (size_t i = 0; i < lowerBodyDGains.size(); i++)
+//   {
+//     std::cout << lowerBodyDGains[i] << " " ;
+//   }
+//   std::cout << std::endl;
+
+
+//   std::cout << ": " << std::endl <<  << std::endl;
+//   std::cout << "upperBodyPGains: " << std::endl << upperBodyPGains << std::endl;
+//   std::cout << "upperBodyDGains: " << std::endl << upperBodyDGains << std::endl;
+//   std::cout << "---- ---- ----" << std::endl;
   const auto lowerBodyJointImpedanceGains = std::make_pair(lowerBodyPGains, lowerBodyDGains);
   const auto upperBodyJointImpedanceGains = std::make_pair(upperBodyPGains, upperBodyDGains);
   orderedJointImpedanceGains_ = getJointImpedanceGains(lowerBodyJointImpedanceGains, upperBodyJointImpedanceGains);
@@ -346,6 +366,13 @@ void XbotInterface::sendCommandToXbot(const std::shared_ptr<legged_robot::Legged
     // fill and publish xbotcore msg after getting optimal state
     int numberJoints = leggedRobotInterfacePtr->getCentroidalModelInfo().actuatedDofNum;
     cmd.name = leggedRobotInterfacePtr->modelSettings().jointNames;
+    // std::cout << "----[sendCommandToXbot]----" << std::endl;
+    // for (size_t i = 0; i < cmd.name.size(); i++)
+    // {
+    //     std::cout << cmd.name[i] << std::endl;
+    // }
+    
+
     // position & velocity
     vector_t qJoints = centroidal_model::getJointAngles(optimalState, leggedRobotInterfacePtr->getCentroidalModelInfo());
     vector_t dqJoints = centroidal_model::getJointVelocities(optimalInput, leggedRobotInterfacePtr->getCentroidalModelInfo());
@@ -355,7 +382,11 @@ void XbotInterface::sendCommandToXbot(const std::shared_ptr<legged_robot::Legged
 //        std::cout << "[MRT_ROS_Dummy_Loop] norm " << (optimalState - currentObservation.state).norm() << std::endl;
 
     // compute torques with inverse dynamics
+    // vector_t ffModelTorque = centroidalModelRbdConversions_.computeRbdTorqueFromCentroidalModel(optimalState, optimalInput, vector_t::Zero(numberJoints));
+
     vector_t ffModelTorque = centroidalModelRbdConversions_.computeRbdTorqueFromCentroidalModel(optimalState, optimalInput, vector_t::Zero(numberJoints));
+
+
     vector_t ffJointTorque = ffModelTorque.tail(numberJoints);      // ignore base wrench
 
     // clamp joint commands if true from task.info file
@@ -479,8 +510,9 @@ void XbotInterface::onEeWrenchReceived(const base_estimation::ContactsWrenchCons
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-std::pair<vector_t, vector_t> XbotInterface::getJointImpedanceGains(const std::pair<std::vector<float>, std::vector<float>>& lowerBodyJointImpedanceGains,
-                                                                    const std::pair<std::vector<float>, std::vector<float>>& upperBodyJointImpedanceGains) const {
+std::pair<vector_t, vector_t> XbotInterface::getJointImpedanceGains(
+    const std::pair<std::vector<float>, std::vector<float>>& lowerBodyJointImpedanceGains,
+    const std::pair<std::vector<float>, std::vector<float>>& upperBodyJointImpedanceGains) const {
     vector_t stiffness(xbotJointNames_.size()), damping(xbotJointNames_.size());
 
     for (int i = 0; i < xbotJointNames_.size(); i++) {
