@@ -64,12 +64,20 @@ class XbotInterface
      * clampVelocityCmd : true for clamping the velocity commanded within the urdf limits
      */
     struct Config {
-        Config(bool xbotCoreRunningParam = false, bool xbotCoreFeedbackParam = false,
-               std::string baseLinkTopicPrefixParam = "/xbotcore/link_state/pelvis",
-               bool clampTorqueCmdParam = false, bool clampPositionCmdParam = false, bool clampVelocityCmdParam = false)
-            : xbotCoreRunning(xbotCoreRunningParam), xbotCoreFeedback(xbotCoreFeedbackParam),
-              baseLinkTopicPrefix(baseLinkTopicPrefixParam), clampTorqueCmd(clampTorqueCmdParam),
-              clampPositionCmd(clampPositionCmdParam), clampVelocityCmd(clampVelocityCmdParam) {}
+        Config( bool xbotCoreRunningParam = false, 
+                bool xbotCoreFeedbackParam = false,
+                std::string baseLinkTopicPrefixParam = "/xbotcore/link_state/pelvis",
+                bool clampTorqueCmdParam = false, 
+                bool clampPositionCmdParam = false, 
+                bool clampVelocityCmdParam = false)
+
+            : xbotCoreRunning(xbotCoreRunningParam), 
+              xbotCoreFeedback(xbotCoreFeedbackParam),
+              baseLinkTopicPrefix(baseLinkTopicPrefixParam), 
+              clampTorqueCmd(clampTorqueCmdParam),
+              clampPositionCmd(clampPositionCmdParam), 
+              clampVelocityCmd(clampVelocityCmdParam) {}
+
         bool xbotCoreRunning;
         bool xbotCoreFeedback;
         std::string baseLinkTopicPrefix;
@@ -82,8 +90,15 @@ class XbotInterface
    * @param baseLinkTopicPrefix the prefix of the ros topic for accessing base pose and twist. It can be something like
    * "/xbotcore/link_state/pelvis" or "/centauro_base_estimation/base_link".
    */
-  XbotInterface(ros::NodeHandle& nodeHandle, PinocchioInterface pinocchioInterface, CentroidalModelInfo centroidalModelInfo,
-                std::vector<std::string> jointNames, Config config);
+  XbotInterface(  ros::NodeHandle& nodeHandle, 
+
+                  PinocchioInterface pinocchioInterface, 
+
+                  CentroidalModelInfo centroidalModelInfo,
+
+                  std::vector<std::string> jointNames, 
+                  
+                  Config config);
   /*!
    * Destructor.
    */
@@ -122,7 +137,8 @@ class XbotInterface
   vector_t getCentroidalStateFromXbotInfo();
 
   /** Get observation from xbotcore */
-  SystemObservation getObservationFromXbot(const SystemObservation& currentObservation, const scalar_t& interfaceFrequency,
+  SystemObservation getObservationFromXbot(const SystemObservation& currentObservation, 
+                                           const scalar_t& interfaceFrequency,
                                            const std::shared_ptr<legged_robot::LeggedRobotInterface> leggedRobotInterfacePtr,
                                            const MRT_ROS_Interface& mrt);
 
