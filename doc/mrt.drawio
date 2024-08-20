@@ -1,0 +1,137 @@
+<mxfile host="65bd71144e">
+    <diagram id="fVydL_Q7YisWS6cI0EUB" name="Page-1">
+        <mxGraphModel dx="2016" dy="740" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="LeggedRobotDummyNode.cpp" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#d80073;fontColor=#ffffff;strokeColor=#A50040;" vertex="1" parent="1">
+                    <mxGeometry x="-10" y="110" width="720" height="470" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="3">
+                    <mxGeometry y="30" width="720" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="1" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="4">
+                    <mxGeometry width="75" height="110" as="geometry">
+                        <mxRectangle width="75" height="110" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="6" value="nodeHandle = legged_robot_mrt" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="4">
+                    <mxGeometry x="75" width="645" height="110" as="geometry">
+                        <mxRectangle width="645" height="110" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="7" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="3">
+                    <mxGeometry y="140" width="720" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="2" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="7">
+                    <mxGeometry width="75" height="110" as="geometry">
+                        <mxRectangle width="75" height="110" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;span style=&quot;color: #c8c8c8;&quot;&gt;std&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;::&lt;/span&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;shared_ptr&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;LeggedRobotInterface&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;interfacePtr&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;LeggedRobotInterface&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;taskFile&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;urdfFile&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;referenceFile&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;));&lt;/span&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="7">
+                    <mxGeometry x="75" width="645" height="110" as="geometry">
+                        <mxRectangle width="645" height="110" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="10" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="3">
+                    <mxGeometry y="250" width="720" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="3" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="10">
+                    <mxGeometry width="75" height="110" as="geometry">
+                        <mxRectangle width="75" height="110" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="12" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;targetFramesNames&lt;/span&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="10">
+                    <mxGeometry x="75" width="645" height="110" as="geometry">
+                        <mxRectangle width="645" height="110" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="13" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="3">
+                    <mxGeometry y="360" width="720" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="4" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="13">
+                    <mxGeometry width="75" height="110" as="geometry">
+                        <mxRectangle width="75" height="110" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="15" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;span style=&quot;color: #c8c8c8;&quot;&gt;xbot_interface&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;::&lt;/span&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;XbotInterface&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;::&lt;/span&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;Config&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;xbotConfig&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;false&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;false&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #e8c9bb;&quot;&gt;&quot;&lt;/span&gt;&lt;span style=&quot;color: #ce9178;&quot;&gt;/xbotcore/link_state/pelvis&lt;/span&gt;&lt;span style=&quot;color: #e8c9bb;&quot;&gt;&quot;&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;false&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;false&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;false&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;);&lt;/span&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="13">
+                    <mxGeometry x="75" width="645" height="110" as="geometry">
+                        <mxRectangle width="645" height="110" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" value="xbotConfig" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;" vertex="1" parent="1">
+                    <mxGeometry x="750" y="470" width="1290" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="16">
+                    <mxGeometry y="30" width="1290" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-weight: normal; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;xbotCoreRunningParam&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="17">
+                    <mxGeometry width="216" height="30" as="geometry">
+                        <mxRectangle width="216" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="20" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-weight: normal; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;xbotCoreFeedbackParam&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="17">
+                    <mxGeometry x="216" width="213" height="30" as="geometry">
+                        <mxRectangle width="213" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="21" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;baseLinkTopicPrefixParam&lt;/span&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="17">
+                    <mxGeometry x="429" width="216" height="30" as="geometry">
+                        <mxRectangle width="216" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="22" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;clampTorqueCmdParam&lt;/span&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="17">
+                    <mxGeometry x="645" width="216" height="30" as="geometry">
+                        <mxRectangle width="216" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="23" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;clampPositionCmdParam&lt;/span&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="17">
+                    <mxGeometry x="861" width="213" height="30" as="geometry">
+                        <mxRectangle width="213" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="18" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;span style=&quot;color: #9a9a9a;&quot;&gt;clampVelocityCmdParam&lt;/span&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="17">
+                    <mxGeometry x="1074" width="216" height="30" as="geometry">
+                        <mxRectangle width="216" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="24" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="16">
+                    <mxGeometry y="60" width="1290" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="1" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="24">
+                    <mxGeometry width="216" height="40" as="geometry">
+                        <mxRectangle width="216" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="26" value="1" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="24">
+                    <mxGeometry x="216" width="213" height="40" as="geometry">
+                        <mxRectangle width="213" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="27" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="24">
+                    <mxGeometry x="429" width="216" height="40" as="geometry">
+                        <mxRectangle width="216" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="28" value="1" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="24">
+                    <mxGeometry x="645" width="216" height="40" as="geometry">
+                        <mxRectangle width="216" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="29" value="1" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="24">
+                    <mxGeometry x="861" width="213" height="40" as="geometry">
+                        <mxRectangle width="213" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="30" value="1" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="24">
+                    <mxGeometry x="1074" width="216" height="40" as="geometry">
+                        <mxRectangle width="216" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="31" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-weight: normal; font-size: 12.6px; line-height: 17px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;initialState&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;=&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;xbotInterface&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;.&lt;/span&gt;&lt;span style=&quot;color: #dcdcaa;&quot;&gt;getCentroidalStateFromXbotInfo&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;();&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="790" width="500" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
