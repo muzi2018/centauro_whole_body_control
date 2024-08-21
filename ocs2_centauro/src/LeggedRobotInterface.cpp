@@ -82,6 +82,13 @@ using penalty_type = augmented::SlacknessSquaredHingePenalty;
 /******************************************************************************************************/
 /******************************************************************************************************/
 LeggedRobotInterface::LeggedRobotInterface(const std::string& taskFile, const std::string& urdfFile, const std::string& referenceFile) {
+  /**Check files
+   * 
+   * 
+   * 
+   * 
+   * 
+   */
   // check that task file exists
   boost::filesystem::path taskFilePath(taskFile);
   if (boost::filesystem::exists(taskFilePath)) {
@@ -113,6 +120,15 @@ LeggedRobotInterface::LeggedRobotInterface(const std::string& taskFile, const st
   mpcSettings_ = mpc::loadSettings(taskFile, "mpc", verbose);
   rolloutSettings_ = rollout::loadSettings(taskFile, "rollout", verbose);
   sqpSettings_ = multiple_shooting::loadSettings(taskFile, "multiple_shooting", verbose);
+  /**
+   * 
+   * 
+   * 
+   * 
+   * 
+   */
+
+
 
   // OptimalConrolProblem
   setupOptimalConrolProblem(taskFile, urdfFile, referenceFile, verbose);
