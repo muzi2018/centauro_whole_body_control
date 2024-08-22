@@ -105,7 +105,10 @@ int main(int argc, char** argv) {
   
 
   // MPC
-  GaussNewtonDDP_MPC mpc(interface.mpcSettings(), interface.ddpSettings(), interface.getRollout(), interface.getOptimalControlProblem(),
+  GaussNewtonDDP_MPC mpc(interface.mpcSettings(), 
+                         interface.ddpSettings(), 
+                         interface.getRollout(), 
+                         interface.getOptimalControlProblem(),
                          interface.getInitializer());
   mpc.getSolverPtr()->setReferenceManager(rosReferenceManagerPtr);
   mpc.getSolverPtr()->addSynchronizedModule(gaitReceiverPtr);

@@ -46,26 +46,30 @@ namespace ocs2 {
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-RosReferenceManager::RosReferenceManager(std::string topicPrefix, std::shared_ptr<ReferenceManagerInterface> referenceManagerPtr)
-    : ReferenceManagerDecorator(std::move(referenceManagerPtr)), topicPrefix_(std::move(topicPrefix)),
-      referenceGeneratorPtr_(nullptr) {}
+RosReferenceManager::RosReferenceManager(
+                                        std::string topicPrefix, std::shared_ptr<ReferenceManagerInterface> referenceManagerPtr)
+    : ReferenceManagerDecorator(std::move(referenceManagerPtr)), 
+                                topicPrefix_(std::move(topicPrefix)),
+                                referenceGeneratorPtr_(nullptr) {}
 
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
 void RosReferenceManager::subscribe(ros::NodeHandle& nodeHandle, const std::vector<std::string>& targetFrameNames) {
   // TargetTrajectories
-  auto targetTrajectoriesCallback = [this](const ocs2_msgs::mpc_target_trajectories::ConstPtr& msg) {
-    auto targetTrajectories = ros_msg_conversions::readTargetTrajectoriesMsg(*msg);
-    referenceManagerPtr_->setTargetTrajectories(std::move(targetTrajectories));
+  auto targetTrajectoriesCallback = 
+                  [this](const ocs2_msgs::mpc_target_trajectories::ConstPtr& msg) {
+                    auto targetTrajectories = ros_msg_conversions::readTargetTrajectoriesMsg(*msg);
+                    referenceManagerPtr_->setTargetTrajectories(std::move(targetTrajectories));
   };
   targetTrajectoriesSubscriber_ =
       nodeHandle.subscribe<ocs2_msgs::mpc_target_trajectories>(topicPrefix_ + "_mpc_target", 1, targetTrajectoriesCallback);
 
   // Subscribers for TargetTrajectories of TargetFrames
-  auto frameTargetTrajectoriesCallback = [this](const ocs2_msgs::mpc_target_trajectories::ConstPtr& msg, int i) {
-    auto targetTrajectories = ros_msg_conversions::readTargetTrajectoriesMsg(*msg);
-    referenceManagerPtr_->setFrameTargetTrajectories(std::move(targetTrajectories), i);
+  auto frameTargetTrajectoriesCallback = 
+                  [this](const ocs2_msgs::mpc_target_trajectories::ConstPtr& msg, int i) {
+                    auto targetTrajectories = ros_msg_conversions::readTargetTrajectoriesMsg(*msg);
+                    referenceManagerPtr_->setFrameTargetTrajectories(std::move(targetTrajectories), i);
   };
   // initialize as many subscribers as the target frames
   if (targetFrameNames.size() > 0) {
@@ -73,10 +77,10 @@ void RosReferenceManager::subscribe(ros::NodeHandle& nodeHandle, const std::vect
       for (int i = 0; i < targetFrameNames.size(); i++) {
           const std::string& frameName = targetFrameNames[i];
           framesTargetTrajectoriesSubscriber_.push_back(
-              nodeHandle.subscribe<ocs2_msgs::mpc_target_trajectories>(topicPrefix_ + "_mpc_" + frameName + "target", 1,
-                                                                       std::bind(frameTargetTrajectoriesCallback,
-                                                                                 std::placeholders::_1, i)
-                                                                       ));
+              nodeHandle.subscribe<ocs2_msgs::mpc_target_trajectories>(
+                topicPrefix_ + "_mpc_" + frameName + "target", 1, 
+                std::bind(frameTargetTrajectoriesCallback, std::placeholders::_1, i))
+              );
       }
   }
 }

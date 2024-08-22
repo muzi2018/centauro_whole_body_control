@@ -1,6 +1,7 @@
 1. if find multiple file contain just one package
 export CMAKE_PREFIX_PATH=/home/wang/forest_ws/install:/opt/ros/noetic:/opt/xbot
 
+if not find ocs2_msg: catkin build ocs2_core
 
 2. run 
     roslaunch ocs2_centauro_ros centauro_ddp.launch 

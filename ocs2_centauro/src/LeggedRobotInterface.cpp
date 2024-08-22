@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ocs2_core/soft_constraint/StateInputSoftConstraint.h>
 #include <ocs2_oc/synchronized_module/SolverSynchronizedModule.h>
 #include <ocs2_pinocchio_interface/PinocchioEndEffectorKinematicsCppAd.h>
-
+#include <ros/ros.h>
 #include <ocs2_core/constraint/LinearStateInputConstraint.h>    // augmented lagrangian
 #include <ocs2_core/augmented_lagrangian/AugmentedLagrangian.h>
 
@@ -271,10 +271,11 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
                                                                     velocityUpdateCallback, eeMotionFrame, modelSettings_.modelFolderCppAd,
                                                                     modelSettings_.recompileLibrariesCppAd, modelSettings_.verboseCppAd));
     }
-
+    std::cout << "---- [contac loop constrain info ] start ----" << std::endl;
     // for leg contacts
     if (isLegContact) {
-      std::cout << "footName is " << footName << std::endl; 
+        std::cout << "Foot " << footName << " contact which has constraints ####" << std::endl;
+         // std::cout << "foot " << footName << "" << std::endl; 
         // stability constraint through augmented lagrangian
         auto getConstraint = [&]() {
             constexpr size_t numIneqConstraint = 2;     // two-side bound
@@ -285,20 +286,33 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
             const matrix_t C = matrix_t::Zero(numIneqConstraint, centroidalModelInfo_.stateDim);
             return std::unique_ptr<StateInputConstraint>(new LinearStateInputConstraint(e, C, D));};
 
-        if (activateStability)
+        if (activateStability){
             problemPtr_->inequalityLagrangianPtr->add(footName + "_stability", create(getConstraint(), getPenalty()));
+            std::cout << footName << " _stability constrain" << std::endl;
+
+        }
+
         problemPtr_->inequalityLagrangianPtr->add(footName + "_frictionCone", create(getFrictionConeConstraint(taskFile, i, verbose), getFrictionConePenalty()));
         problemPtr_->equalityConstraintPtr->add(footName + "_zeroForce", getZeroForceConstraint(i));
         problemPtr_->equalityConstraintPtr->add(footName + "_zeroVelocity", getZeroVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints));
+          std::cout << footName << " _frictionCone constrain" << std::endl;
+          std::cout << footName << " _zeroForce constrain" << std::endl;
+          std::cout << footName << " _zeroVelocity constrain" << std::endl;
+ 
         if (referenceManagerPtr_->getSwingTrajectoryPlanner()->getConfig().addPlanarConstraints) {
             // std::cout << "IIT: addPlanarConstraints" << std::endl;
             problemPtr_->equalityConstraintPtr->add(footName + "_velocityX",
                                                     getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints, 0));
             problemPtr_->equalityConstraintPtr->add(footName + "_velocityY",
-                                                    getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints, 1));}
+                                                    getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints, 1));
+            std::cout << footName << " _velocityX constrain" << std::endl;
+            std::cout << footName << " _velocityY constrain" << std::endl;
+        }
 
         problemPtr_->equalityConstraintPtr->add(footName + "_velocityZ",
                                                 getCoordinateVelocityConstraint(*eeKinematicsPtr, i, useAnalyticalGradientsConstraints, 2));
+        std::cout << footName << " _velocityZ constrain" << std::endl;
+
         // std::cout << "IIT: getArmSwingTrajectoryPlanner" << std::endl;
 
         // assign the kinematic pointer objects for the feet EE
@@ -307,18 +321,24 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
     // for arm contacts, zero force and velocity do not apply
     // TODO: keep only one name for the frame to be tracked either from contacts or from targetFrame
     else {
+        std::cout << "Foot " << footName << " doesn't contact which has constraints ####" << std::endl;
+
         problemPtr_->equalityConstraintPtr->add(footName + "_zeroForce", getZeroForceConstraint(i));
         problemPtr_->inequalityLagrangianPtr->add(footName + "_frictionCone", create(getFrictionConeConstraint(taskFile, i, verbose), getFrictionConePenalty()));
+        std::cout << footName << " _zeroForce constrain" << std::endl;
+        std::cout << footName << " _frictionCone constrain" << std::endl;
 
+        
         // arm EE tracking equality or soft constraints
         if (armEeSoftConstraints) {
+            std::cout << "armErSoftConstraints is on" << std::endl;
             problemPtr_->stateSoftConstraintPtr->add(targetFramesNames[i - legContacts.size()] + "_eeSoftConstraint",
                                                      getEndEffectorConstraint(taskFile, "armEeSoftConstraints." + targetFramesNames[i - legContacts.size()] + "EndEffector"));
             problemPtr_->finalSoftConstraintPtr->add(targetFramesNames[i - legContacts.size()] + "_finalEeSoftConstraint",
                                                      getEndEffectorConstraint(taskFile, "armEeSoftConstraints." + targetFramesNames[i - legContacts.size()] + "EndEffector"));
         }
-        std::cout << "armEeHardConstraints = " << armEeHardConstraints << std::endl;
         if (armEeHardConstraints) {
+            std::cout << "armEeHardConstraints is on" << std::endl;
             // add position hard constraints
             if (referenceManagerPtr_->getArmSwingTrajectoryPlanner()->isPositionPlanner() && !hConstraintPositionIndices[i - legContacts.size()].empty()) {
               std::cout << "IIT: getArmSwingTrajectoryPlanner" << std::endl;
@@ -340,7 +360,9 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
         armEeKinematicsPtrArray.at(i-legContacts.size()) = std::move(eeKinematicsPtr);
     }
   }
-
+  std::cout << "---- [contac loop constrain info ] end ----" << std::endl;
+  std::cout << "================================" << std::endl;
+  std::cout << "---- [ general constrians] start ----" << std::endl;
   // Limits for joint position, velocity
   vector_t maxJointVelocity(centroidalModelInfo_.actuatedDofNum), maxJointPosition(centroidalModelInfo_.actuatedDofNum),
           minJointPosition(centroidalModelInfo_.actuatedDofNum);
@@ -361,6 +383,8 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
   loadData::loadCppDataType(taskFile, "JointVelocityLimits.activateVelocityLimits",  activateVelocityLimits);
   // Position limits
   if (activatePositionLimits) {
+    std::cout << "---- activatePositionLimits ----" << std::endl;
+
     Eigen::Matrix<bool, Eigen::Dynamic, 1> jointPositionActivationFlags(centroidalModelInfo_.actuatedDofNum);
     loadData::loadEigenMatrix(jointLimitsFile, "jointPositionActivationFlags", jointPositionActivationFlags);
     auto getJointPositionConstraint = [&](int index) {
@@ -380,6 +404,7 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
 
   // velocity limits
   if (activateVelocityLimits) {
+      std::cout << "---- activateVelocityLimits ----" << std::endl; 
       Eigen::Matrix<bool, Eigen::Dynamic, 1> jointVelocityActivationFlags(centroidalModelInfo_.actuatedDofNum);
       loadData::loadEigenMatrix(jointLimitsFile, "jointVelocityActivationFlags", jointVelocityActivationFlags);
       auto getJointVelocityConstraint = [&](int index) {
@@ -405,8 +430,10 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
   bool activateSelfCollision = false;
   loadData::loadCppDataType(taskFile, "selfCollision.activate",  activateSelfCollision);
   if (activateSelfCollision) {
+    std::cout << "---- activateSelfCollision ----" << std::endl;
     problemPtr_->stateSoftConstraintPtr->add(
         "selfCollision", getSelfCollisionConstraint(taskFile, urdfFile, "selfCollision"));
+    std::cout << "selfCollision constrain" << std::endl;
   }
   // Pre-computation
   if (!armEeHardConstraints) {      // soft constraint or locomotion, e.g. no hard constraint for arms
@@ -440,7 +467,7 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
   // Initialization
   constexpr bool extendNormalizedMomentum = true;
   initializerPtr_.reset(new LeggedRobotInitializer(centroidalModelInfo_, *referenceManagerPtr_, extendNormalizedMomentum));
-}
+  }
 
 /******************************************************************************************************/
 /******************************************************************************************************/
