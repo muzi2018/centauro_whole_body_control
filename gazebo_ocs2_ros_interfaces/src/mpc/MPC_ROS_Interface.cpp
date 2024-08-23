@@ -151,6 +151,9 @@ ocs2_msgs::mpc_flattened_controller MPC_ROS_Interface::createMpcPolicyMsg(const 
   // maximum length of the message
   const size_t N = primalSolution.timeTrajectory_.size();
 
+  // std::cout << "---- [createMpcPolicyMsg] ---" << std::endl;
+  // std::cout << "primalSolution N = " << N << std::endl;
+
   mpcPolicyMsg.timeTrajectory.clear();
   mpcPolicyMsg.timeTrajectory.reserve(N);
   mpcPolicyMsg.stateTrajectory.clear();

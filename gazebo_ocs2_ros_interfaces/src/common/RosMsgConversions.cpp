@@ -160,6 +160,7 @@ ocs2_msgs::mpc_target_trajectories createTargetTrajectoriesMsg(const TargetTraje
   const auto& inputTrajectory = targetTrajectories.inputTrajectory;
 
   // time and state
+  
   size_t N = stateTrajectory.size();
   targetTrajectoriesMsg.timeTrajectory.resize(N);
   targetTrajectoriesMsg.stateTrajectory.resize(N);
@@ -177,6 +178,35 @@ ocs2_msgs::mpc_target_trajectories createTargetTrajectoriesMsg(const TargetTraje
     targetTrajectoriesMsg.inputTrajectory[i].value =
         std::vector<float>(inputTrajectory[i].data(), inputTrajectory[i].data() + inputTrajectory[i].size());
   }  // end of i loop
+
+  if ( 0 )
+  {
+    std::cout << "---- [createTargetTrajectoriesMsg] ----" << std::endl;
+    std::cout << " the size is " << N << std::endl;
+    std::cout << "targetTrajectoriesMsg.timeTrajectory: " << std::endl;
+    for (size_t i = 0; i < targetTrajectoriesMsg.timeTrajectory.size(); i++)
+    {
+      /* code */
+      std::cout << targetTrajectoriesMsg.timeTrajectory[i] << ", ";
+    }
+    
+    std::cout << std::endl;
+    // std::cout << "targetTrajectoriesMsg.stateTrajectory: " << std::endl;
+    // for (size_t i = 0; i < targetTrajectoriesMsg.stateTrajectory.size(); i++)
+    // {
+    //   std::cout << targetTrajectoriesMsg.stateTrajectory[i] << ", ";
+    // }
+
+    // std::cout << std::endl;
+    // std::cout << "targetTrajectoriesMsg.inputTrajectory: " << std::endl;
+    // for (size_t i = 0; i < targetTrajectoriesMsg.inputTrajectory.size(); i++)
+    // {
+    //   std::cout << targetTrajectoriesMsg.inputTrajectory[i] << ", ";
+    // }
+    // std::cout << std::endl;
+
+  }
+
 
   return targetTrajectoriesMsg;
 }

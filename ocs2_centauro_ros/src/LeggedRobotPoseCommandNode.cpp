@@ -59,6 +59,20 @@ scalar_t estimateTimeToTarget(const vector_t& desiredBaseDisplacement) {
   const scalar_t rotationTime = std::abs(dyaw) / targetRotationVelocity;
   const scalar_t displacement = std::sqrt(dx * dx + dy * dy);
   const scalar_t displacementTime = displacement / targetDisplacementVelocity;
+
+  std::cout << "---- [ estimateTimeToTarget  ] ----" << std::endl;
+  std::cout << "dx Desired: " << dx << std::endl;
+  std::cout << "dy Desired: " << dy << std::endl;
+  std::cout << "dyaw Desired: " << dyaw << std::endl;
+  std::cout << "rotationTime Desired: " << rotationTime << std::endl;
+  std::cout << "displacement Desired: " << displacement << std::endl;
+  std::cout << "displacementTime Desired: " << displacementTime << std::endl;
+
+  std::cout << "targetRotationVelocity Desired: " << targetRotationVelocity << std::endl;
+  std::cout << "targetDisplacementVelocity Desired: " << targetDisplacementVelocity << std::endl;
+
+
+
   return std::max(rotationTime, displacementTime);
 }
 

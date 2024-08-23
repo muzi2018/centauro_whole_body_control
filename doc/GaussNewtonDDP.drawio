@@ -1,0 +1,141 @@
+<mxfile host="65bd71144e">
+    <diagram id="T0R6cjo5ugoNYDMbua_h" name="Page-1">
+        <mxGraphModel dx="2866" dy="740" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;GaussNewtonDDP&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;::&lt;/span&gt;&lt;span style=&quot;color: #dcdcaa;&quot;&gt;runImpl&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;scalar_t&lt;/span&gt; &lt;span style=&quot;color: #9a9a9a;&quot;&gt;initTime&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;const&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;vector_t&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&quot;color: #9a9a9a;&quot;&gt;initState&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;,&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;scalar_t&lt;/span&gt; &lt;span style=&quot;color: #9a9a9a;&quot;&gt;finalTime&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;)&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#A50040;fillColor=#d80073;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="-940" y="480" width="770" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="Table" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;" vertex="1" parent="1">
+                    <mxGeometry x="-940" y="510" width="720" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="35">
+                    <mxGeometry y="30" width="720" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #dadada;&quot;&gt;initializerRolloutPtr_&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="36">
+                    <mxGeometry width="720" height="40" as="geometry">
+                        <mxRectangle width="720" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="38" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="35">
+                    <mxGeometry y="70" width="720" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #dadada;&quot;&gt;optimalControlProblemStock_&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;.&lt;/span&gt;&lt;span style=&quot;color: #dcdcaa;&quot;&gt;reserve&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt;ddpSettings_&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;.&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt;nThreads_&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="38">
+                    <mxGeometry width="720" height="40" as="geometry">
+                        <mxRectangle width="720" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="40" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="35">
+                    <mxGeometry y="110" width="720" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="41" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #dadada;&quot;&gt;dynamicsForwardRolloutPtrStock_&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;.&lt;/span&gt;&lt;span style=&quot;color: #dcdcaa;&quot;&gt;reserve&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt;ddpSettings_&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;.&lt;/span&gt;&lt;span style=&quot;color: #dadada;&quot;&gt;nThreads_&lt;/span&gt;&lt;span style=&quot;color: #b4b4b4;&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="40">
+                    <mxGeometry width="720" height="40" as="geometry">
+                        <mxRectangle width="720" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="46" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="35">
+                    <mxGeometry y="150" width="720" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="47" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;&lt;br&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="46">
+                    <mxGeometry width="720" height="40" as="geometry">
+                        <mxRectangle width="720" height="40" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="48" value="search_strategy" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#d80073;fontColor=#ffffff;strokeColor=#FFFFFF;" vertex="1" parent="1">
+                    <mxGeometry x="-120" y="1570" width="880" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="51" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="48">
+                    <mxGeometry y="30" width="880" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="52" value="&lt;div style=&quot;background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;font color=&quot;#b5cea8&quot;&gt;type&lt;/font&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="51">
+                    <mxGeometry width="440" height="50" as="geometry">
+                        <mxRectangle width="440" height="50" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="53" value="&lt;span style=&quot;color: rgb(181, 206, 168); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 14px; background-color: rgb(30, 30, 30);&quot;&gt;LINE_SEARCH&lt;/span&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="51">
+                    <mxGeometry x="440" width="440" height="50" as="geometry">
+                        <mxRectangle width="440" height="50" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="54" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="48">
+                    <mxGeometry y="80" width="880" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="55" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;minRelCost = 1e-1&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="54">
+                    <mxGeometry width="440" height="50" as="geometry">
+                        <mxRectangle width="440" height="50" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="56" value="Termination condition based on the minimum relative changes of the cost." style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="54">
+                    <mxGeometry x="440" width="440" height="50" as="geometry">
+                        <mxRectangle width="440" height="50" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="57" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="48">
+                    <mxGeometry y="130" width="880" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="58" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;constraintTolerance&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="57">
+                    <mxGeometry width="440" height="50" as="geometry">
+                        <mxRectangle width="440" height="50" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="59" value="Tolerance of constraint's ISE (Integral of Square Error)." style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="57">
+                    <mxGeometry x="440" width="440" height="50" as="geometry">
+                        <mxRectangle width="440" height="50" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="64" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="48">
+                    <mxGeometry y="180" width="880" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="65" value="minStepLength=1e2; maxStepLength=1.0" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="64">
+                    <mxGeometry width="440" height="50" as="geometry">
+                        <mxRectangle width="440" height="50" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="66" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="64">
+                    <mxGeometry x="440" width="440" height="50" as="geometry">
+                        <mxRectangle width="440" height="50" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="67" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="48">
+                    <mxGeometry y="230" width="880" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="68" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;meritFunc&lt;/span&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="67">
+                    <mxGeometry width="440" height="50" as="geometry">
+                        <mxRectangle width="440" height="50" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="69" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" vertex="1" parent="67">
+                    <mxGeometry x="440" width="440" height="50" as="geometry">
+                        <mxRectangle width="440" height="50" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="61" value="search_strategy" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;strokeColor=#FFFFFF;" vertex="1" parent="1">
+                    <mxGeometry x="-120" y="1850" width="880" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="62" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;strokeColor=#FFFFFF;" vertex="1" parent="61">
+                    <mxGeometry y="30" width="880" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="63" value="find an appropriate step size for updating the control inputs and the corresponding state trajectory during the optimization process.The DDP algorithm involves iteratively improving a candidate solution for the control inputs and state trajectory. After computing a candidate update in the backward pass (where the optimal control adjustments are determined), the next step is to apply these updates to the control sequence and state trajectory. However, to ensure that the updates lead to an actual improvement in the cost function (i.e., reducing the total cost), a line search is often performed." style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;strokeColor=#FFFFFF;" vertex="1" parent="62">
+                    <mxGeometry width="880" height="140" as="geometry">
+                        <mxRectangle width="880" height="140" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="70" value="---- [rolling out initial trajectory] ----&lt;br&gt;timeTrajectory.size: 0&lt;br&gt;stateTrajectory.size: 0&lt;br&gt;inputTrajectory.size: 0&lt;br&gt;------------------------------------------&lt;br&gt;&lt;br&gt;&lt;div&gt;controllerAvailableTill = 2.664&lt;/div&gt;&lt;div&gt;controllerAvailableTill = 2.67&lt;/div&gt;&lt;div&gt;controllerAvailableTill = 2.678&lt;/div&gt;&lt;div&gt;controllerAvailableTill = 2.68&lt;/div&gt;&lt;div&gt;controllerAvailableTill = 2.688&lt;/div&gt;&lt;div&gt;controllerAvailableTill = 2.7&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;controllerRolloutFromTo = 1.278 to 2.27&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;[GaussNewtonDDP::rolloutInitialTrajectory] for t = [2.89, 3.89]&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;&#9;&lt;/span&gt;controller available till t = 3.88&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;&#9;&lt;/span&gt;will use controller for t = [2.89, 3.88]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;&#9;&lt;/span&gt;will use operating points for t = [3.88, 3.89]&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-960" y="930" width="480" height="310" as="geometry"/>
+                </mxCell>
+                <mxCell id="71" value="TimeTriggeredRollout" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;strokeColor=#FFFFFF;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="500" width="700" height="470" as="geometry"/>
+                </mxCell>
+                <mxCell id="72" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;strokeColor=#FFFFFF;" vertex="1" parent="71">
+                    <mxGeometry y="30" width="700" height="440" as="geometry"/>
+                </mxCell>
+                <mxCell id="73" value="&lt;div style=&quot;color: rgb(218, 218, 218); background-color: rgb(30, 30, 30); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #dcdcaa;&quot;&gt;run&lt;/span&gt;&lt;span style=&quot;color: rgb(220, 220, 170);&quot;&gt;run&lt;/span&gt;&lt;span style=&quot;color: rgb(220, 220, 170);&quot;&gt;run&lt;/span&gt;&lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;RolloutBase&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;background-color: rgb(30, 30, 30); line-height: 19px;&quot;&gt;&lt;font face=&quot;Droid Sans Mono, monospace, monospace&quot; color=&quot;#4ec9b0&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;maxNumSteps = 10000&lt;/span&gt;&lt;/font&gt;&lt;br&gt;&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;strokeColor=#FFFFFF;" vertex="1" parent="72">
+                    <mxGeometry width="700" height="440" as="geometry">
+                        <mxRectangle width="700" height="440" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
