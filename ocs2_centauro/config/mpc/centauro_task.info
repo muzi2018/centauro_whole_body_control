@@ -316,26 +316,26 @@ Q
   (12,12)  10.0   ; hip_yaw_1
   (13,13)  10.0   ; hip_pitch_1
   (14,14)  10.0   ; knee_pitch_1
-  (15,15)  50.0   ; ankle_pitch_1
-  (16,16)  50.0   ; ankle_yaw_1
+  (15,15)  10.0   ; ankle_pitch_1
+  (16,16)  10.0   ; ankle_yaw_1
   (17,17)  10.0   ; j_wheel_1 ;;
   (18,18)  10.0   ; hip_yaw_3
   (19,19)  10.0   ; hip_pitch_3
   (20,20)  10.0   ; knee_pitch_3
-  (21,21)  50.0   ; ankle_pitch_3
-  (22,22)  50.0   ; ankle_yaw_3
+  (21,21)  10.0   ; ankle_pitch_3
+  (22,22)  10.0   ; ankle_yaw_3
   (23,23)  10.0   ; j_wheel_3 ;;
   (24,24)  10.0   ; hip_yaw_2
   (25,25)  10.0   ; hip_pitch_2
   (26,26)  10.0   ; knee_pitch_2
-  (27,27)  50.0   ; ankle_pitch_2
-  (28,28)  50.0   ; ankle_yaw_2
+  (27,27)  10.0   ; ankle_pitch_2
+  (28,28)  10.0   ; ankle_yaw_2
   (29,29)  10.0   ; j_wheel_2 ;;
   (30,30)  10.0   ; hip_yaw_4
   (31,31)  10.0   ; hip_pitch_4
   (32,32)  10.0   ; knee_pitch_4
-  (33,33)  50.0   ; ankle_pitch_4
-  (34,34)  50.0   ; ankle_yaw_4
+  (33,33)  10.0   ; ankle_pitch_4
+  (34,34)  10.0   ; ankle_yaw_4
   (35,35)  10.0   ; j_wheel_4 ;;
   ;; Torso Joint Positions: [torso] ;;
   (36,36)  2.0e-1     ; torso_yaw
