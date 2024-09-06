@@ -152,7 +152,7 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   
 
   // Get step length for generating steps
-  const auto longStepLength = x_e * this->getConfig().longStepLength;
+  const auto longStepLength = this->getConfig().longStepLength;
   const auto lateralStepLength = this->getConfig().lateralStepLength;
   
   feet_array_t<scalar_array_t> targetEePosition = currentEePosition;
