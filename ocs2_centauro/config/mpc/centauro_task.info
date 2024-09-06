@@ -1,4 +1,4 @@
-centroidalModelType             1      // 0: FullCentroidalDynamics, 1: Single Rigid Body Dynamics
+centroidalModelType             0      // 0: FullCentroidalDynamics, 1: Single Rigid Body Dynamics
 
 legged_robot_interface
 {
@@ -313,18 +313,18 @@ Q
   (11,11) 1.0    ; theta_base_x
 
   ;; Leg Joint Positions: [contact_1, contact_3, contact_2, contact_4] ;;
-  (12,12)  20.0   ; hip_yaw_1
-  (13,13)  20.0   ; hip_pitch_1
-  (14,14)  20.0   ; knee_pitch_1
-  (15,15)  20.0   ; ankle_pitch_1
-  (16,16)  20.0   ; ankle_yaw_1
-  (17,17)  20.0   ; j_wheel_1
-  (18,18)  20.0   ; hip_yaw_2
-  (19,19)  20.0   ; hip_pitch_2
-  (20,20)  20.0   ; knee_pitch_2
-  (21,21)  20.0   ; ankle_pitch_2
-  (22,22)  20.0   ; ankle_yaw_2
-  (23,23)  20.0   ; j_wheel_2
+  (12,12)  2.0   ; hip_yaw_1
+  (13,13)  2.0   ; hip_pitch_1
+  (14,14)  2.0   ; knee_pitch_1
+  (15,15)  2.0   ; ankle_pitch_1
+  (16,16)  2.0   ; ankle_yaw_1
+  (17,17)  2.0   ; j_wheel_1
+  (18,18)  2.0   ; hip_yaw_2
+  (19,19)  2.0   ; hip_pitch_2
+  (20,20)  2.0   ; knee_pitch_2
+  (21,21)  2.0   ; ankle_pitch_2
+  (22,22)  2.0   ; ankle_yaw_2
+  (23,23)  2.0   ; j_wheel_2
   (24,24)  2.0   ; hip_yaw_3
   (25,25)  2.0   ; hip_pitch_3
   (26,26)  2.0   ; knee_pitch_3

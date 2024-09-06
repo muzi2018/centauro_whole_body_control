@@ -201,12 +201,12 @@ dynamic_walk
 {
   modeSequence
   {
-    [0]     LF_RF_RH
-    [1]     RF_RH
-    [2]     RF_LH_RH
-    [3]     LF_RF_LH
-    [4]     LF_LH
-    [5]     LF_LH_RH
+    [0]     LF_RF_RH ; 0.2s 0.4s
+    [1]     RF_RH ; 0.1s 
+    [2]     RF_LH_RH ; 0.2s 0.4s
+    [3]     LF_RF_LH ; 0.2s 0.4s
+    [4]     LF_LH ; 0.1s 
+    [5]     LF_LH_RH ; 0.2s 0.4s
   }
   switchingTimes
   {
