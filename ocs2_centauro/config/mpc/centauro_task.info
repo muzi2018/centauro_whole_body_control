@@ -35,7 +35,7 @@ swing_trajectory_config
 
   liftOffLongVelocity           0.0
   touchDownLongVelocity         0.0
-  longStepLength                0.2
+  longStepLength                0.1
 
   liftOffLateralVelocity           0.0
   touchDownLateralVelocity         0.0
@@ -205,8 +205,8 @@ mpc
 
 xbotcore
 {
-  xbotCoreRunning                     false                ; true if xbotcore is running so that initialState is received from there, false, true
-  xbotCoreFeedback                    false                ; true if it is to receive feedback from xbotcore
+  xbotCoreRunning                     true                ; true if xbotcore is running so that initialState is received from there, false, true
+  xbotCoreFeedback                    true                ; true if it is to receive feedback from xbotcore
 
   ; topic prefix to receive base pose and twist ;
   baseLinkTopicPrefix             /centauro_base_estimation/base_link     ;/xbotcore/link_state/pelvis
@@ -316,27 +316,27 @@ Q
   (12,12)  10.0   ; hip_yaw_1
   (13,13)  10.0   ; hip_pitch_1
   (14,14)  10.0   ; knee_pitch_1
-  (15,15)  10.0   ; ankle_pitch_1
-  (16,16)  10.0   ; ankle_yaw_1
-  (17,17)  10.0   ; j_wheel_1
+  (15,15)  50.0   ; ankle_pitch_1
+  (16,16)  50.0   ; ankle_yaw_1
+  (17,17)  10.0   ; j_wheel_1 ;;
   (18,18)  10.0   ; hip_yaw_3
   (19,19)  10.0   ; hip_pitch_3
   (20,20)  10.0   ; knee_pitch_3
-  (21,21)  10.0   ; ankle_pitch_3
-  (22,22)  10.0   ; ankle_yaw_3
-  (23,23)  10.0   ; j_wheel_3
+  (21,21)  50.0   ; ankle_pitch_3
+  (22,22)  50.0   ; ankle_yaw_3
+  (23,23)  10.0   ; j_wheel_3 ;;
   (24,24)  10.0   ; hip_yaw_2
   (25,25)  10.0   ; hip_pitch_2
   (26,26)  10.0   ; knee_pitch_2
-  (27,27)  10.0   ; ankle_pitch_2
-  (28,28)  10.0   ; ankle_yaw_2
-  (29,29)  10.0   ; j_wheel_2
+  (27,27)  50.0   ; ankle_pitch_2
+  (28,28)  50.0   ; ankle_yaw_2
+  (29,29)  10.0   ; j_wheel_2 ;;
   (30,30)  10.0   ; hip_yaw_4
   (31,31)  10.0   ; hip_pitch_4
   (32,32)  10.0   ; knee_pitch_4
-  (33,33)  10.0   ; ankle_pitch_4
-  (34,34)  10.0   ; ankle_yaw_4
-  (35,35)  10.0   ; j_wheel_4
+  (33,33)  50.0   ; ankle_pitch_4
+  (34,34)  50.0   ; ankle_yaw_4
+  (35,35)  10.0   ; j_wheel_4 ;;
   ;; Torso Joint Positions: [torso] ;;
   (36,36)  2.0e-1     ; torso_yaw
 

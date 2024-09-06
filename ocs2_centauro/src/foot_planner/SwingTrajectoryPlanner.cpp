@@ -144,7 +144,7 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   auto target_position = targetTrajectories.getDesiredState(initTime);
 
   // std::cout << "---- [SwingTrajectoryPlanner start x target] ----" << std::endl;
-  scalar_t x_e = target_position[6] - state[6] ;
+  // scalar_t x_e = target_position[6] - state[6] ;
   // std::cout << x_e << std::endl;
   // std::cout << target_position[6] << std::endl;
   // std::cout << state[6] << std::endl;
