@@ -2,8 +2,8 @@
 
 lower_body:
     p_gains: [30, 120, 200]
-    d_gains: [30, 60, 60]
+    d_gains: [30, 60, 60] # 30 60 60
 
 upper_body:
-    p_gains: [30, 120, 200]
-    d_gains: [30, 60, 60]
+    p_gains: [30, 120, 200] # 2000
+    d_gains: [30, 60, 60] # 100

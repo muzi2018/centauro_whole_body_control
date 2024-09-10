@@ -457,6 +457,7 @@ std::pair<vector_t, vector_t> XbotInterface::getJointImpedanceGains(const std::p
     vector_t stiffness(xbotJointNames_.size()), damping(xbotJointNames_.size());
 
     for (int i = 0; i < xbotJointNames_.size(); i++) {
+        
         // if joint is in lower body
         if (std::find(lowerBodyJoints.begin(), lowerBodyJoints.end(), xbotJointNames_[i]) != lowerBodyJoints.end()) {
             stiffness[i] = lowerBodyJointImpedanceGains.first[mapJointNameToMotorSizeIndex[xbotJointNames_[i]]];
@@ -465,6 +466,9 @@ std::pair<vector_t, vector_t> XbotInterface::getJointImpedanceGains(const std::p
             stiffness[i] = upperBodyJointImpedanceGains.first[mapJointNameToMotorSizeIndex[xbotJointNames_[i]]];
             damping[i] = upperBodyJointImpedanceGains.second[mapJointNameToMotorSizeIndex[xbotJointNames_[i]]];
         }
+        std::cout << "xbotJointNames_[" << i << "] = " <<  xbotJointNames_[i] << std::endl;
+        std::cout << "stiffness[" << i << "] = " << stiffness[i] << std::endl;
+        std::cout << "damping[" << i << "] = " << damping[i] << std::endl;
     }
 
     auto jointGains = std::make_pair(stiffness, damping);

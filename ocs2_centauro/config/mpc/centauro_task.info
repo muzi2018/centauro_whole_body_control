@@ -28,14 +28,14 @@ swing_trajectory_config
 
   liftOffVelocity               0.0
   touchDownVelocity             -0.0
-  swingHeight                   0.1
+  swingHeight                   0.2
 
   touchdownAfterHorizon         0.0
   swingTimeScale                0.15
 
   liftOffLongVelocity           0.0
   touchDownLongVelocity         0.0
-  longStepLength                0.1
+  longStepLength                0.15
 
   liftOffLateralVelocity           0.0
   touchDownLateralVelocity         0.0
@@ -313,29 +313,29 @@ Q
   (11,11) 1.0    ; theta_base_x
 
   ;; Leg Joint Positions: [contact_1, contact_3, contact_2, contact_4] ;;
-  (12,12)  2.0   ; hip_yaw_1
+  (12,12)  2.0e1   ; hip_yaw_1
   (13,13)  2.0   ; hip_pitch_1
   (14,14)  2.0   ; knee_pitch_1
   (15,15)  2.0   ; ankle_pitch_1
-  (16,16)  2.0   ; ankle_yaw_1
+  (16,16)  2.0e2   ; ankle_yaw_1
   (17,17)  2.0   ; j_wheel_1
-  (18,18)  2.0   ; hip_yaw_2
+  (18,18)  2.0e1   ; hip_yaw_2
   (19,19)  2.0   ; hip_pitch_2
   (20,20)  2.0   ; knee_pitch_2
   (21,21)  2.0   ; ankle_pitch_2
-  (22,22)  2.0   ; ankle_yaw_2
+  (22,22)  2.0e2   ; ankle_yaw_2
   (23,23)  2.0   ; j_wheel_2
-  (24,24)  2.0   ; hip_yaw_3
+  (24,24)  2.0e1   ; hip_yaw_3
   (25,25)  2.0   ; hip_pitch_3
   (26,26)  2.0   ; knee_pitch_3
   (27,27)  2.0   ; ankle_pitch_3
-  (28,28)  2.0   ; ankle_yaw_3
+  (28,28)  2.0e2   ; ankle_yaw_3
   (29,29)  2.0   ; j_wheel_3
-  (30,30)  2.0   ; hip_yaw_4
+  (30,30)  2.0e1   ; hip_yaw_4
   (31,31)  2.0   ; hip_pitch_4
   (32,32)  2.0   ; knee_pitch_4
   (33,33)  2.0   ; ankle_pitch_4
-  (34,34)  2.0   ; ankle_yaw_4
+  (34,34)  2.0e2   ; ankle_yaw_4
   (35,35)  2.0   ; j_wheel_4
 
   ;; Torso Joint Positions: [torso] ;;
@@ -441,12 +441,12 @@ R_taskspace
   (3,3)     1.0       ; right_front_velocity
   (4,4)     1.0       ; right_front_velocity
   (5,5)     1.0       ; right_front_velocity
-  (6,6)     10       ; left_hind_velocity
-  (7,7)     10       ; left_hind_velocity
-  (8,8)     10       ; left_hind_velocity
-  (9,9)     10       ; right_hind_velocity
-  (10,10)   10       ; right_hind_velocity
-  (11,11)   10       ; right_hind_velocity
+  (6,6)     1.0       ; left_hind_velocity
+  (7,7)     1.0       ; left_hind_velocity
+  (8,8)     1.0       ; left_hind_velocity
+  (9,9)     1.0       ; right_hind_velocity
+  (10,10)   1.0       ; right_hind_velocity
+  (11,11)   1.0       ; right_hind_velocity
 }
 
 armForceReferences              ; force references for arm EEs for quadratic state-input cost
