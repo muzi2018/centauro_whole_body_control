@@ -116,7 +116,7 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
 
 
 
-  const scalar_t terrainHeight = 0.0;
+  const scalar_t terrainHeight = 0.1;
 
   // Define eeCurrentPosition
   feet_array_t<scalar_array_t> eeCurrentPosition;
