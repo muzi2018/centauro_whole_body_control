@@ -136,10 +136,18 @@ scalar_t SwingTrajectoryPlanner::getYpositionConstraint(size_t leg, scalar_t tim
 /******************************************************************************************************/
 void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition, const TargetTrajectories& targetTrajectories, const vector_t& state) {
   const scalar_array_t terrainHeightSequence(modeSchedule.modeSequence.size(), terrainHeight);
+  // feet_array_t = std::array<T, 4>;
   feet_array_t<scalar_array_t> liftOffHeightSequence;
   liftOffHeightSequence.fill(terrainHeightSequence);
   feet_array_t<scalar_array_t> touchDownHeightSequence;
   touchDownHeightSequence.fill(terrainHeightSequence);
+  // std::cout << "liftOffHeightSequence first two rows: " << std::endl;
+  // for (size_t i = 0; i < touchDownHeightSequence[0].size(); i++){
+  //   // std::cout << liftOffHeightSequence[0][i] << " " << liftOffHeightSequence[1][i] << std::endl;
+  //   touchDownHeightSequence[0][i] = touchDownHeightSequence[0][i] + 0.08;
+  //   touchDownHeightSequence[1][i] = liftOffHeightSequence[1][i] + 0.08;
+  // }
+  
 
   auto target_position = targetTrajectories.getDesiredState(initTime);
 

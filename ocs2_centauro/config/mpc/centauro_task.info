@@ -35,7 +35,7 @@ swing_trajectory_config
 
   liftOffLongVelocity           0.0
   touchDownLongVelocity         0.0
-  longStepLength                0.3
+  longStepLength                0.2
 
   liftOffLateralVelocity           0.0
   touchDownLateralVelocity         0.0
