@@ -28,14 +28,14 @@ swing_trajectory_config
 
   liftOffVelocity               0.0
   touchDownVelocity             -0.0
-  swingHeight                   0.2
+  swingHeight                   0.15
 
   touchdownAfterHorizon         0.0
   swingTimeScale                0.15
 
   liftOffLongVelocity           0.0
   touchDownLongVelocity         0.0
-  longStepLength                0.2
+  longStepLength                0.15
 
   liftOffLateralVelocity           0.0
   touchDownLateralVelocity         0.0
@@ -317,19 +317,19 @@ Q
   (13,13)  2.0   ; hip_pitch_1
   (14,14)  2.0   ; knee_pitch_1
   (15,15)  2.0   ; ankle_pitch_1
-  (16,16)  2.0e2   ; ankle_yaw_1
+  (16,16)  2.0e3   ; ankle_yaw_1
   (17,17)  2.0   ; j_wheel_1
   (18,18)  2.0e1   ; hip_yaw_2
   (19,19)  2.0   ; hip_pitch_2
   (20,20)  2.0   ; knee_pitch_2
-  (21,21)  2.0   ; ankle_pitch_2
-  (22,22)  2.0e2   ; ankle_yaw_2
+  (21,21)  2.0e3   ; ankle_pitch_2
+  (22,22)  2.0e3   ; ankle_yaw_2
   (23,23)  2.0   ; j_wheel_2
   (24,24)  2.0e1   ; hip_yaw_3
   (25,25)  2.0   ; hip_pitch_3
   (26,26)  2.0   ; knee_pitch_3
   (27,27)  2.0   ; ankle_pitch_3
-  (28,28)  2.0e2   ; ankle_yaw_3
+  (28,28)  2.0e3   ; ankle_yaw_3
   (29,29)  2.0   ; j_wheel_3
   (30,30)  2.0e1   ; hip_yaw_4
   (31,31)  2.0   ; hip_pitch_4
@@ -438,9 +438,9 @@ R_taskspace
   (0,0)     1.0       ; left_front_velocity
   (1,1)     1.0       ; left_front_velocity
   (2,2)     1.0       ; left_front_velocity
-  (3,3)     1.0       ; right_front_velocity
-  (4,4)     1.0       ; right_front_velocity
-  (5,5)     1.0       ; right_front_velocity
+  (3,3)     5.0       ; right_front_velocity
+  (4,4)     5.0       ; right_front_velocity
+  (5,5)     5.0       ; right_front_velocity
   (6,6)     1.0       ; left_hind_velocity
   (7,7)     1.0       ; left_hind_velocity
   (8,8)     1.0       ; left_hind_velocity
