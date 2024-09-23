@@ -28,14 +28,14 @@ swing_trajectory_config
 
   liftOffVelocity               0.0
   touchDownVelocity             -0.0
-  swingHeight                   0.2
+  swingHeight                   0.15
 
   touchdownAfterHorizon         0.0
   swingTimeScale                0.15
 
   liftOffLongVelocity           0.0
   touchDownLongVelocity         0.0
-  longStepLength                0.2
+  longStepLength                0.3
 
   liftOffLateralVelocity           0.0
   touchDownLateralVelocity         0.0
