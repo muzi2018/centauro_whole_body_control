@@ -88,12 +88,12 @@
     <!-- <arg name="frame_name2"   default="arm2_8"/> -->
     <arg if="$(eval (arg('gripper') == 'dagana'))"   name="frame_name2"   value="dagana_2_tcp"/>
     
-    <node if="$(arg rviz)" pkg="ocs2_centauro_ros" type="legged_robot_arm_target" name="legged_robot_arm_target1" output="screen" launch-prefix="">
+    <!-- <node if="$(arg rviz)" pkg="ocs2_centauro_ros" type="legged_robot_arm_target" name="legged_robot_arm_target1" output="screen" launch-prefix="">
 	<param name="frame_name" value="arm1_8"/>
     </node>
     <node if="$(arg rviz)" pkg="ocs2_centauro_ros" type="legged_robot_arm_target" name="legged_robot_arm_target2" output="screen" launch-prefix="">
 	<param name="frame_name" value="$(arg frame_name2)"/>
-    </node>
+    </node> -->
 
     <!-- publish world identical to odom since it is needed from interactive arm target -->
     <!--node pkg="tf2_ros" type="static_transform_publisher" name="world_broadcast" args="0.0 0.0 0.0 0 0 0 1 world odom" /-->
