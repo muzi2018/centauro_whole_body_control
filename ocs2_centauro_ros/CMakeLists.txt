@@ -27,6 +27,9 @@ set(CATKIN_PACKAGE_DEPENDENCIES
   ocs2_msgs
   #ocs2_ros_interfaces
   ocs2_centauro
+  grid_map_core
+  grid_map_ros
+  grid_map_msgs
   xbot_msgs
   gazebo_ocs2_ros_interfaces
   ocs2_self_collision_visualization
@@ -211,6 +214,25 @@ target_link_libraries(legged_robot_gait_command
 )
 target_compile_options(legged_robot_gait_command PRIVATE ${OCS2_CXX_FLAGS})
 
+
+# gait scheduler node
+add_executable(legged_robot_gait_schedule
+  src/LeggedRobotGaitSchedule.cpp
+)
+add_dependencies(legged_robot_gait_schedule
+  ${PROJECT_NAME}
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(legged_robot_gait_schedule
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+target_compile_options(legged_robot_gait_schedule PRIVATE ${OCS2_CXX_FLAGS})
+
+
+
+
 # arm EE target node
 add_executable(legged_robot_arm_target
   src/LeggedRobotArmTarget.cpp
@@ -241,6 +263,7 @@ if(cmake_clang_tools_FOUND)
        legged_robot_dummy
        legged_robot_target
        legged_robot_gait_command
+       legged_robot_gait_schedule
      SOURCE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/include
      CT_HEADER_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include
      CF_WERROR
@@ -265,6 +288,7 @@ install(
     legged_robot_dummy
     legged_robot_target
     legged_robot_gait_command
+    legged_robot_gait_schedule
     legged_robot_arm_target
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
