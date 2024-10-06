@@ -36,6 +36,7 @@ list
   [29] la_push
   [30] locoma_standing_trot
   [31] locoma_standing_crawl
+  [32] centauro_walk_morestep
 }
 
 ; std::vector<scalar_t> switchingTimes;
@@ -252,19 +253,23 @@ centauro_walk
 }
 
 
-centauro_walk1
+centauro_walk_morestep
 {
-  ;LF, RF, LH, RH
+  ;LF, RF, LH, RH  -  LF_RF_LH_RH
   modeSequence
   {
-    [0]     LF_LH_RH; 11
-    [1]     STANCE; 15
-    [2]     RF_LH_RH; 7
-    [3]     STANCE; 15
-    [4]     LF_RF_RH; 13
-    [5]     STANCE; 15
-    [6]     LF_RF_LH; 14
-    [7]     STANCE; 15
+    [0]     LF_LH_RH;  RF
+    [1]     STANCE;  STANCE
+    [2]     RF_LH_RH;  LF
+    [3]     STANCE;  STANCE
+    [4]     LF_LH_RH;  RF
+    [5]     STANCE;  STANCE
+    [6]     RF_LH_RH;  LF
+    [7]     STANCE;  STANCE
+    [8]     LF_RF_RH; LH
+    [9]     STANCE; STANCE
+    [10]    LF_RF_LH; RH
+    [11]    STANCE; STANCE
   }
   switchingTimes
   {
@@ -277,6 +282,9 @@ centauro_walk1
       [6]     3.6
       [7]     4.2
       [8]     4.8
+      [9]     5.4
+      [10]    6.0
+      [11]    6.6
   }
 }
 
