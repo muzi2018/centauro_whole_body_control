@@ -2,7 +2,7 @@
 
 <launch>
     <!-- visualization config -->
-    <arg name="rviz"               default="false" />
+    <arg name="rviz"               default="true" />
     <arg name="global_frame"        default="odometry/world" />
     <arg name="description_name"   default="legged_robot_description"/>
     <arg name="multiplot"          default="false"/>
