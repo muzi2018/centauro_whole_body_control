@@ -13,6 +13,11 @@
 using namespace ocs2;
 using namespace legged_robot;
 int gait_mode = 0;
+double D_s1, D_s2;
+double L_s = 0.175;
+
+bool lock_mode = false;
+
 // Callback function to process the received Bool message
 void elevationMapCallback(const grid_map_msgs::GridMap& msg)
 {
@@ -35,11 +40,18 @@ void elevationMapCallback(const grid_map_msgs::GridMap& msg)
 
     double elevation_prin = elevation;
     elevation_prin = elevation_prin + 0.8 ;    
-    if ( elevation_prin > 0.08 && elevation_prin < 0.1)
+    if ( elevation_prin > 0.08 && elevation_prin < 0.09 )
     {
-      std::cout << "|--- x=" << position.x() << " y=" << position.y() << " z=" << elevation_prin << " --|" << std::endl; 
-      // ROS_INFO("Position (%f, %f): Elevation %f", position.x(), position.y(), elevation);
+      // std::cout << "|--- x=" << position.x() << " y=" << position.y() << " z=" << elevation_prin << " --|" << std::endl; 
+      D_s1 = position.x();
     }
+
+    if ( elevation_prin > 0.15 && elevation_prin < 0.16 )
+    {
+      // std::cout << "|--- x=" << position.x() << " y=" << position.y() << " z=" << elevation_prin << " --|" << std::endl; 
+      D_s2 = position.x();
+    }
+
   }
 }
 
@@ -72,19 +84,19 @@ int main(int argc, char* argv[]) {
         "LF_RF_RH",  // 
         "STANCE",  // 
         "LF_RF_LH",  // 
-        "STANCE"   // 
+        "STANCE"   //  
     };
 
     std::vector<scalar_t> switchingTimes = {
-        0.0,  // Time for LF_LH_RH
-        0.6,  // Time for STANCE
-        1.2,  // Time for RF_LH_RH
-        1.8,  // Time for STANCE
-        2.4,  // Time for LF_RF_RH
-        3.0,  // Time for STANCE
-        3.6,  // Time for LF_RF_LH
-        4.2,  // Time for STANCE
-        4.8   // Additional time if needed
+        0.0,  // Time for LF_LH_RH 1
+        0.6,  // Time for STANCE 2
+        1.2,  // Time for RF_LH_RH 3
+        1.8,  // Time for STANCE 4
+        2.4,  // Time for LF_RF_RH 5
+        3.0,  // Time for STANCE 6
+        3.6,  // Time for LF_RF_LH 7
+        4.2,  // Time for STANCE 8
+        4.8,  // Time for LF_LH_RH 9
     };
 
   // convert the mode name to mode enum
@@ -94,12 +106,17 @@ int main(int argc, char* argv[]) {
     modeSequence.push_back(string2ModeNumber(modeName));
   }
 
+  ros::Rate loop_rate(10); 
+
   ModeSequenceTemplate modeSequenceTemplate(switchingTimes, modeSequence);
-  if (1)
-  {
+  lock_mode = true;
+  //  while (ros::ok() && lock_mode)
+  // {
     std::cout << "modeSequenceTemplate" << std::endl;
     modeSequenceTemplatePublisher_.publish(createModeSequenceTemplateMsg(modeSequenceTemplate));
-  }
+    lock_mode = false;
+    // ros::spinOnce();loop_rate.sleep();
+  // }
   ros::spin();
   return 0;
 }

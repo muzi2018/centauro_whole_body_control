@@ -2,7 +2,7 @@
 
 <launch>
     <!-- visualization config -->
-    <arg name="rviz"               default="true" />
+    <arg name="rviz"               default="false" />
     <arg name="global_frame"        default="odometry/world" />
     <arg name="description_name"   default="legged_robot_description"/>
     <arg name="multiplot"          default="false"/>
@@ -96,7 +96,7 @@
     </node> -->
 
     <!-- publish world identical to odom since it is needed from interactive arm target -->
-    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="world_broadcast" args="0.0 0.0 0.0 0 0 0 1 world odom" /> -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="world_broadcast" args="0.0 0.0 0.0 0 0 0 1 world odom" />
     <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="world_broadcast" args="-0.12 0.0 -0.7 0 0 0 1 world $(arg global_frame)" /> -->
 </launch>
 
