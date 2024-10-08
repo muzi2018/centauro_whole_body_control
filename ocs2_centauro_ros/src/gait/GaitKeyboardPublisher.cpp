@@ -87,7 +87,7 @@ void GaitKeyboardPublisher::getKeyboardCommand() {
 
   try {
     ModeSequenceTemplate modeSequenceTemplate = gaitMap_.at(gaitCommand);
-    modeSequenceTemplatePublisher_.publish(createModeSequenceTemplateMsg(modeSequenceTemplate));
+    modeSequenceTemplatePublisher_.publish(createModeSequenceTemplateMsg(modeSequenceTemplate)); 
   } catch (const std::out_of_range& e) {
     std::cout << "Gait \"" << gaitCommand << "\" not found.\n";
     printGaitList(gaitList_);

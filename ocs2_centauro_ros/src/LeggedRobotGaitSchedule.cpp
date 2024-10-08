@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 
 //   GaitKeyboardPublisher gaitCommand(nodeHandle, gaitCommandFile, robotName, true);
   ros::Subscriber sub = nodeHandle.subscribe("/elevation_mapping/elevation_map", 1, elevationMapCallback);
-  ros::spin();
+  
   ros::Publisher modeSequenceTemplatePublisher_ = nodeHandle.advertise<ocs2_msgs::mode_schedule>(robotName + "_mpc_mode_schedule", 1, true);
 
     std::vector<std::string> modeSequenceString = {
@@ -97,11 +97,12 @@ int main(int argc, char* argv[]) {
   }
 
   ModeSequenceTemplate modeSequenceTemplate(switchingTimes, modeSequence);
-  if (gait_mode == 1)
+  if (1)
   {
+    std::cout << "modeSequenceTemplate" << std::endl;
     modeSequenceTemplatePublisher_.publish(createModeSequenceTemplateMsg(modeSequenceTemplate));
   }
-  
+  ros::spin();
   return 0;
 }
 

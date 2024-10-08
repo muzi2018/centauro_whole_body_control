@@ -53,6 +53,9 @@ GaitReceiver::GaitReceiver(ros::NodeHandle nodeHandle, std::shared_ptr<GaitSched
 void GaitReceiver::preSolverRun(scalar_t initTime, scalar_t finalTime, const vector_t& currentState,
                                 const ReferenceManagerInterface& referenceManager) {
   if (gaitUpdated_) {
+    std::cout << "GaitReceiver::preSolverRun initTime: "<< initTime << std::endl;
+    std::cout << "GaitReceiver::preSolverRun finalTime: "<< finalTime << std::endl;
+    std::cout << "GaitReceiver::preSolverRun receivedGait_.switchingTimes[0]: "<< receivedGait_.switchingTimes[0] << std::endl;
     std::lock_guard<std::mutex> lock(receivedGaitMutex_);
     // new gait will start at minimum finalTime and may be as well later if the modeSequence.switchingTimes[0] > 0
     const auto newGaitStartTime = finalTime + receivedGait_.switchingTimes[0];
