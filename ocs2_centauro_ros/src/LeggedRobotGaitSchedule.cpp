@@ -26,23 +26,21 @@ void elevationMapCallback(const grid_map_msgs::GridMap& msg)
     return;
   }
 
-//   for (grid_map::GridMapIterator iterator(map); !iterator.isPastEnd(); ++iterator) {
-//     const grid_map::Index index(*iterator);
-//     const float elevation = map.at("elevation", *iterator);
+  for (grid_map::GridMapIterator iterator(map); !iterator.isPastEnd(); ++iterator) {
+    const grid_map::Index index(*iterator);
+    const float elevation = map.at("elevation", *iterator);
 
-//     grid_map::Position position;
-//     map.getPosition(*iterator, position);
+    grid_map::Position position;
+    map.getPosition(*iterator, position);
 
-//     double elevation_prin = elevation;
-//     elevation_prin = elevation_prin + 0.8 ;    
-//     if ( elevation_prin > 0.08 && elevation_prin < 0.1)
-//     {
-//       std::cout << "|--- x=" << position.x() << " y=" << position.y() << " z=" << elevation_prin << " --|" << std::endl; 
-//       // ROS_INFO("Position (%f, %f): Elevation %f", position.x(), position.y(), elevation);
-//     }
-    
-//   }
-
+    double elevation_prin = elevation;
+    elevation_prin = elevation_prin + 0.8 ;    
+    if ( elevation_prin > 0.08 && elevation_prin < 0.1)
+    {
+      std::cout << "|--- x=" << position.x() << " y=" << position.y() << " z=" << elevation_prin << " --|" << std::endl; 
+      // ROS_INFO("Position (%f, %f): Elevation %f", position.x(), position.y(), elevation);
+    }
+  }
 }
 
 
