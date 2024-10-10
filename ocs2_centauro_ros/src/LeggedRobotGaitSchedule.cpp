@@ -20,18 +20,23 @@ double delta = 0.0;
 bool lock_mode = false;
 int mode_index = 0;
 
+int map_index = 0;
+
 // Callback function to process the received Bool message
 void elevationMapCallback(const grid_map_msgs::GridMap& msg)
 {
   grid_map::GridMap map;
   grid_map::GridMapRosConverter::fromMessage(msg, map);
   gait_mode = 1 ;  
-  std::cout << "elevationMapCallback1111......." << std::endl;
-
+  std::cout << "......elevationMapCallback......." << std::endl;
+  std::cout << "Length: " << map.getLength() << std::endl;
   if (!map.exists("elevation")) {
     ROS_WARN("Elevation layer not found in the map.");
     return;
   }
+  int cols = 0;
+  int rows = 0;
+
 
   for (grid_map::GridMapIterator iterator(map); !iterator.isPastEnd(); ++iterator) {
     const grid_map::Index index(*iterator);
@@ -41,39 +46,68 @@ void elevationMapCallback(const grid_map_msgs::GridMap& msg)
     map.getPosition(*iterator, position);
 
     double elevation_prin = elevation;
-    elevation_prin = elevation_prin + 0.8 ;    
-    if ( elevation_prin > 0.08 && elevation_prin < 0.09 )
-    {
-      // std::cout << "|--- x=" << position.x() << " y=" << position.y() << " z=" << elevation_prin << " --|" << std::endl; 
-      // std::cout << "D_s1 = " << D_s1 << std::endl;
-      if (position.x() != 0)
-      {
-        D_s1 = position.x();
-      }
-      
-      
-      // if (D_s1 > 1.35 || D_s1 < 1.35)
-      //   D_s1 = 1.35;
-    }
+    elevation_prin = elevation_prin + 0.8 ;  
+    
 
-    if ( elevation_prin > 0.13 && elevation_prin < 0.15 )
-    {
-      // std::cout << "|--- x=" << position.x() << " y=" << position.y() << " z=" << elevation_prin << " --|" << std::endl; 
-      // std::cout << "D_s2 = " << D_s2 << std::endl;
-      if (position.x() != 0)
-      {
-        D_s2 = position.x();
-      }
-    }
-    double foot_xoffset = 0.347;
-    double D_stage1 = D_s1 - foot_xoffset;
-    double D_stage2 = D_s2 - foot_xoffset; 
-    std::cout << "D_stage1 = " << D_stage1 << std::endl;
-    std::cout << "D_stage2 = " << D_stage2 << std::endl;
-    std::cout << "D_s1 = " << D_s1 << std::endl;
-    std::cout << "D_s2 = " << D_s2 << std::endl;
-    std::cout << "L_s = " << L_s << std::endl;
+    std::cout << "map_index = " << map_index << std::endl;
+    map_index++;
+    std::cout << "(" << position.x() << "," << position.y() << "," << elevation <<")" <<  " ";
+    // if ( map_index % 10 == 0 ){
+    //   rows ++ ;
+    //   std::cout << "map_index = " << map_index << std::endl;
+    //   std::cout << "The " << rows << " th row" << std::endl;
+    // }
+    // for (size_t i = 0; i < 1; i++)
+    // {
+    //   std::cout << "(" << position.x() << "," << position.y() << "," << elevation <<")" <<  " ";
+    // }
+    // std::cout << std::endl;
+    // map_index ++;
+
+    // std::cout << "resolution: " << map.getResolution() << std::endl;  
+    // std::cout << "length: " << map.getLength() << std::endl;  
+    // std::cout << "size: " << map.getSize() << std::endl;
+
+
+    
+    // if ( elevation_prin > 0.08 && elevation_prin < 0.09 )
+    // {
+    //   // std::cout << "|--- x=" << position.x() << " y=" << position.y() << " z=" << elevation_prin << " --|" << std::endl; 
+    //   // std::cout << "D_s1 = " << D_s1 << std::endl;
+    //   if (position.x() != 0)
+    //   {
+    //     D_s1 = position.x();
+    //   }
+      
+      
+    //   // if (D_s1 > 1.35 || D_s1 < 1.35)
+    //   //   D_s1 = 1.35;
+    // }
+
+    // if ( elevation_prin > 0.13 && elevation_prin < 0.15 )
+    // {
+    //   // std::cout << "|--- x=" << position.x() << " y=" << position.y() << " z=" << elevation_prin << " --|" << std::endl; 
+    //   // std::cout << "D_s2 = " << D_s2 << std::endl;
+    //   if (position.x() != 0)
+    //   {
+    //     D_s2 = position.x();
+    //   }
+    // }
+    // double foot_xoffset = 0.347;
+    // double D_stage1 = D_s1 - foot_xoffset;
+    // double D_stage2 = D_s2 - foot_xoffset; 
+    // std::cout << "D_stage1 = " << D_stage1 << std::endl;
+    // std::cout << "D_stage2 = " << D_stage2 << std::endl;
+    // std::cout << "D_s1 = " << D_s1 << std::endl;
+    // std::cout << "D_s2 = " << D_s2 << std::endl;
+    // std::cout << "position.x() = " << position.x() << std::endl;
+    // if (position.x() > 0.13 + foot_xoffset && position.x() < 0.16 + foot_xoffset)
+    //   std::cout << "elevation_prin = " << elevation_prin << std::endl;
   }
+  std::cout << "print over" << std::endl;
+  /** Print */
+  // std::cout << "----   elevation map index = " << map_index << std::endl; // 3600;
+
 }
 
 
@@ -187,10 +221,10 @@ int main(int argc, char* argv[]) {
 
   //the location of the frame wheel_2 in the frame pelvis : [0.347, -0.347, -0.686]
   
-  ros::spin();
+  
 
-  //  while (ros::ok())
-  // {
+   while (ros::ok())
+  {
   //   // calculate the distance between the stage1, the stage2 and the RH foot
   //   //// the second stage
   //   double D_stage1 = D_s1 - foot_xoffset;
@@ -235,7 +269,8 @@ int main(int argc, char* argv[]) {
   //   // lock_mode = false;
     
   //   // loop_rate.sleep(); ros::spin();
-  // }
+  ros::spin();
+  }
   
   return 0;
 }
