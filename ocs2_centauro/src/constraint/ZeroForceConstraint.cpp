@@ -49,7 +49,7 @@ ZeroForceConstraint::ZeroForceConstraint(const SwitchedModelReferenceManager& re
 /******************************************************************************************************/
 bool ZeroForceConstraint::isActive(scalar_t time) const {
 
-  // std::cout << "contact " << contactPointIndex_ << "in time = " << time << std::endl;
+  // std::cout << "contact = " << contactPointIndex_ << "in time = " << time << std::endl;
   // std::cout << "active = " <<  referenceManagerPtr_->getContactFlags(time)[contactPointIndex_] << std::endl;
   return !referenceManagerPtr_->getContactFlags(time)[contactPointIndex_];
 }

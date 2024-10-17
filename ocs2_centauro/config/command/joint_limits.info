@@ -1,35 +1,35 @@
 ; Joint Position Activation selector
 jointPositionActivationFlags
 {
-    (0,0)   false     ; hip_yaw_1
-    (1,0)   false     ; hip_pitch_1
-    (2,0)   false     ; knee_pitch_1
-    (3,0)   false     ; ankle_pitch_1
-    (4,0)   false     ; ankle_yaw_1
-    (5,0)   false     ; j_wheel_1
+    (0,0)   true     ; hip_yaw_1
+    (1,0)   true     ; hip_pitch_1
+    (2,0)   true     ; knee_pitch_1
+    (3,0)   true     ; ankle_pitch_1
+    (4,0)   true     ; ankle_yaw_1
+    (5,0)   true     ; j_wheel_1
 
-    (6,0)   false     ; hip_yaw_2
-    (7,0)   false     ; hip_pitch_2
-    (8,0)   false     ; knee_pitch_2
-    (9,0)   false     ; ankle_pitch_2
-    (10,0)  false     ; ankle_yaw_2
-    (11,0)  false     ; j_wheel_2
+    (6,0)   true     ; hip_yaw_2
+    (7,0)   true     ; hip_pitch_2
+    (8,0)   true     ; knee_pitch_2
+    (9,0)   true     ; ankle_pitch_2
+    (10,0)  true     ; ankle_yaw_2
+    (11,0)  true     ; j_wheel_2
 
-    (12,0)  false     ; hip_yaw_3
-    (13,0)  false     ; hip_pitch_3
-    (14,0)  false     ; knee_pitch_3
-    (15,0)  false     ; ankle_pitch_3
-    (16,0)  false     ; ankle_yaw_3
-    (17,0)  false     ; j_wheel_3
+    (12,0)  true     ; hip_yaw_3
+    (13,0)  true     ; hip_pitch_3
+    (14,0)  true     ; knee_pitch_3
+    (15,0)  true     ; ankle_pitch_3
+    (16,0)  true     ; ankle_yaw_3
+    (17,0)  true     ; j_wheel_3
 
-    (18,0)  false     ; hip_yaw_4
-    (19,0)  false     ; hip_pitch_4
-    (20,0)  false     ; knee_pitch_4
-    (21,0)  false     ; ankle_pitch_4
-    (22,0)  false     ; ankle_yaw_4
-    (23,0)  false     ; j_wheel_4
+    (18,0)  true     ; hip_yaw_4
+    (19,0)  true     ; hip_pitch_4
+    (20,0)  true     ; knee_pitch_4
+    (21,0)  true     ; ankle_pitch_4
+    (22,0)  true     ; ankle_yaw_4
+    (23,0)  true     ; j_wheel_4
 
-    (24,0)  false     ; torso_yaw
+    (24,0)  true     ; torso_yaw
 
     (25,0)  true     ; j_arm1_1
     (26,0)  true     ; j_arm1_2

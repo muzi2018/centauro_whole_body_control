@@ -518,7 +518,7 @@ maximumNormalForce          1000
 ; #############################################
 JointVelocityLimits
 {
-  activateVelocityLimits      false
+  activateVelocityLimits      true
   config
   {
     scale                       1e3               ; a penalty term \pho that acts as a scaling factor for the total penalty.
@@ -528,7 +528,7 @@ JointVelocityLimits
 
 JointPositionLimits
 {
-  activatePositionLimits      false
+  activatePositionLimits      true
   config
   {
     scale                       1e1               ; a penalty term \pho that acts as a scaling factor for the total penalty.
