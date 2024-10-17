@@ -13,7 +13,8 @@
 using namespace ocs2;
 using namespace legged_robot;
 int gait_mode = 0;
-double D_s1, D_s2;
+double D_s1 = std::numeric_limits<double>::infinity();
+double D_s2 = std::numeric_limits<double>::infinity();
 double L_s = 0.175;
 double delta = 0.0;
 
@@ -28,7 +29,7 @@ void elevationMapCallback(const grid_map_msgs::GridMap& msg)
   grid_map::GridMap map;
   grid_map::GridMapRosConverter::fromMessage(msg, map);
   gait_mode = 1 ;  
-  std::cout << "......elevationMapCallback......." << std::endl;
+  std::cout << "[DEBUG] elevationMapCallback" << std::endl;
   std::cout << "Length: " << map.getLength() << std::endl;
   if (!map.exists("elevation")) {
     ROS_WARN("Elevation layer not found in the map.");
@@ -45,13 +46,30 @@ void elevationMapCallback(const grid_map_msgs::GridMap& msg)
     grid_map::Position position;
     map.getPosition(*iterator, position);
 
-    double elevation_prin = elevation;
-    elevation_prin = elevation_prin + 0.8 ;  
+    double elevation_center = elevation;
+    elevation_center = elevation_center + 0.8 ;  
+    // the first step 
+    // std::cout << "x = " << position.x()  << ", y = " << position.y() << ", elevation_center = " << elevation_center << std::endl;    
+    // std::cout << "[DEBUG] the first step" << std::endl;
+    if (elevation_center > 0.08 && elevation_center < 0.13) {
+      double current_x = position.x();
+      if (current_x < D_s1) D_s1 = current_x;
+      std::cout << "current_x = " << current_x << std::endl;
+      std::cout << "elevation_center = " << elevation_center << std::endl;
+    }
     
+    if (elevation_center > 0.15 && elevation_center < 0.17) {
+      double current_x = position.x();
+      if (current_x < D_s2) D_s2 = current_x;
+      // std::cout << "current_x = " << current_x << std::endl;
+      // std::cout << "elevation_center = " << elevation_center << std::endl;
+    }
+    
+    // std::cout << "map_index = " << map_index << std::endl;
+    // map_index++;
 
-    std::cout << "map_index = " << map_index << std::endl;
-    map_index++;
-    std::cout << "(" << position.x() << "," << position.y() << "," << elevation <<")" <<  " ";
+    
+    
     // if ( map_index % 10 == 0 ){
     //   rows ++ ;
     //   std::cout << "map_index = " << map_index << std::endl;
@@ -104,6 +122,8 @@ void elevationMapCallback(const grid_map_msgs::GridMap& msg)
     // if (position.x() > 0.13 + foot_xoffset && position.x() < 0.16 + foot_xoffset)
     //   std::cout << "elevation_prin = " << elevation_prin << std::endl;
   }
+  std::cout << "[DEBUG] the first step = " << D_s1 << std::endl;
+  std::cout << "[DEBUG] the second step = " << D_s2 << std::endl;  
   std::cout << "print over" << std::endl;
   /** Print */
   // std::cout << "----   elevation map index = " << map_index << std::endl; // 3600;

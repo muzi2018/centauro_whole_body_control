@@ -110,10 +110,6 @@ vector_t EndEffectorLinearConstraint::getValue(
 
     
   }
-
-
-
-
   return f;
 }
 

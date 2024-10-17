@@ -100,7 +100,15 @@ vector_t CoordinateVelocityConstraintCppAd::getValue(scalar_t time, const vector
   switch (coordinateNumber_) {
   case 0:
       // std::cout << "getEeLongVelocityConstraintConfigs in " << contactPointIndex_ << "th foot" << std::endl;
-      eeLinearConstraintPtr_->configure(preCompLegged.getEeLongitVelocityConstraintConfigs()[contactPointIndex_]);
+      {
+        eeLinearConstraintPtr_->configure(preCompLegged.getEeLongitVelocityConstraintConfigs()[contactPointIndex_]);
+        const std::vector<EndEffectorLinearConstraint::Config>& EeLongConfigs =  preCompLegged.getEeLongitVelocityConstraintConfigs();
+        // std::cout << "EeLongConfigs[" << contactPointIndex_ << "] = " << std::endl << "Ax = " << EeLongConfigs[contactPointIndex_].Ax << std::endl << "Av = " << EeLongConfigs[contactPointIndex_].Av << std::endl 
+        // << "b = " << EeLongConfigs[contactPointIndex_].b << std::endl;
+      }
+      // auto EeLongitVelocityConstraintConfige = preCompLegged.getEeLongitVelocityConstraintConfigs()[contactPointIndex_];
+      // std::cout << "b = " << EeLongitVelocityConstraintConfige.b << std::endl;
+        // std::vector<EndEffectorLinearConstraint::Config> eeLongitVelConConfigs_;
       break;
   case 1:
       eeLinearConstraintPtr_->configure(preCompLegged.getEeLateralVelocityConstraintConfigs()[contactPointIndex_]);

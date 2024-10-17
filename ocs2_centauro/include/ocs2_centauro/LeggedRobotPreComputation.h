@@ -63,7 +63,9 @@ class LeggedRobotPreComputation : public PreComputation {
 
   const std::vector<EndEffectorLinearConstraint::Config>& getEeNormalVelocityConstraintConfigs() const { return eeNormalVelConConfigs_; }
   const std::vector<EndEffectorLinearConstraint::Config>& getEeLongitVelocityConstraintConfigs() const {
-    //  std::cout << "eeLongitVelConConfigs.size() = " << eeLongitVelConConfigs_.size()  <<std::endl;
+    //  std::cout << "eeLongitVelConConfigs_.size() = " << eeLongitVelConConfigs_.size()  <<std::endl;
+    //  std::cout << "--- eeLongitVelConConfigs leg ---" << std::endl << "b = " << std::endl << eeLongitVelConConfigs_[0].b << std::endl;
+    //  std::cout << "Ax = " << std::endl << eeLongitVelConConfigs_[0].Ax.size() << std::endl << "Av = " << std::endl << eeLongitVelConConfigs_[0].Av.size() << std::endl;
      return eeLongitVelConConfigs_; }
   const std::vector<EndEffectorLinearConstraint::Config>& getEeLateralVelocityConstraintConfigs() const { return eeLateralVelConConfigs_; }
   const std::vector<EndEffectorLinearConstraintAngularMotion::Config>& getEeRollVelocityConstraintConfigs() const { return eeRollXVelConConfigs_; }

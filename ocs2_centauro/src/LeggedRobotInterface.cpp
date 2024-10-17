@@ -291,6 +291,7 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
     // for arm contacts, zero force and velocity do not apply
     // TODO: keep only one name for the frame to be tracked either from contacts or from targetFrame
     else {
+        std::cout << footName << " is not contacted" << std::endl;
         problemPtr_->equalityConstraintPtr->add(footName + "_zeroForce", getZeroForceConstraint(i));
         problemPtr_->inequalityLagrangianPtr->add(footName + "_frictionCone", create(getFrictionConeConstraint(taskFile, i, verbose), getFrictionConePenalty()));
 
