@@ -91,10 +91,26 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   // std::cout << "finalTime: " << finalTime + timeHorizon << std::endl;
   // std::cout << "timeHorizon: " << timeHorizon << std::endl;
 
-  // const auto& modeSequence = modeSchedule.modeSequence;
+  const auto& modeSequence = modeSchedule.modeSequence;
   // std::cout << "modeSequence has size " << modeSequence.size() << std::endl;
+  //   // Print the contents of the vector
+  //   std::cout << "modeSequence: ";
+  //   for (size_t value : modeSequence) {
+  //       std::cout << value << " ";
+  //   }
+  //   std::cout << std::endl;
 
-  
+
+
+    //modeSequence: 15 11 15 7 15 13 15 14 15
+    std::vector<size_t> modeSequence_buff = {15, 11, 15, 7, 15, 13, 15, 14, 15};
+    // for (size_t& value : modeSequence) {
+    //     value *= 2; // Example modification: double each element
+    // }
+
+
+
+  //  15 15 15 11 15 7 15 13 15 14 15 15 
   // for (size_t i = 0; i < modeSequence.size(); i++)
   // {
   //   std::cout << "modeSequence [" << i << "]: " << modeSequence[i] << std::endl;
@@ -103,15 +119,15 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
 
 
   const auto& eventTimes = modeSchedule.eventTimes;
-  // if (eventTimes.back() == 6)
-  // {
+  // // if (eventTimes.back() == 6)
+  // // {
   //   std::cout << "eventTimes has size " << eventTimes.size() << std::endl;
   //   for (size_t i = 0; i < eventTimes.size(); i++)
   //   {
   //     std::cout << "eventTimes [" << i << "]: " << eventTimes[i] << std::endl;
   //   }
   //   std::cout << std::endl;
-  // }
+  // // }
   
 
 

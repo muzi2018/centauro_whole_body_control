@@ -84,6 +84,12 @@ ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upp
   auto& eventTimes = modeSchedule_.eventTimes;
   auto& modeSequence = modeSchedule_.modeSequence;
 
+  // std::cout << "evenTimes size__ = "  <<  eventTimes.size() << std::endl;
+  // for (size_t i = 0; i < eventTimes.size(); i++)
+  // {
+  //   std::cout << eventTimes[i] << std::endl;
+  // }
+
   const size_t index = std::lower_bound(eventTimes.begin(), eventTimes.end(), lowerBoundTime) - eventTimes.begin();
     // std::cout << "index: " << index << std::endl;
     // std::cout << "modeSequence size = " << modeSequence.size() << std::endl;
@@ -268,7 +274,7 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
   // add a initial time
   eventTimes.push_back(startTime);
 
-  // std::cout << "add a initial time" << std::endl;
+
   // std::cout << "eventTimes size = " << eventTimes.size() << std::endl;
   // for (const auto& elem : eventTimes) {
   //   std::cout << elem << " ";
@@ -300,7 +306,7 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
   //   std::cout << elem << " ";
   // }
 
-  // std::cout << std::endl << std::endl;
+
 
   // std::cout << "modeSequence size = " << modeSequence.size() << std::endl;
   // for (const auto& elem : modeSequence) {
