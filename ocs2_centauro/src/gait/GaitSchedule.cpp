@@ -286,13 +286,26 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
 
   // TODO: why finalTime is not the final time and is the duration of the horizon of the mpc?
   // concatenate from index
-  while (eventTimes.back() < finalTime) {
-    // std::cout << "when the final time in eventTimes < finalTime" << std::endl;
-    // std::cout << "finalTime = " << finalTime << std::endl;
-    // std::cout << "eventTimes.back() = " << eventTimes.back() << std::endl;
+  while (eventTimes.back() < finalTime && !stance_flag) {
+    stance_flag = true;
+    std::cout << "when the final time in eventTimes < finalTime" << std::endl;
+    std::cout << "finalTime = " << finalTime << std::endl;
+    std::cout << "eventTimes.back() = " << eventTimes.back() << std::endl;
     for (size_t i = 0; i < templateModeSequence.size(); i++) {
       modeSequence.push_back(templateModeSequence[i]);
       scalar_t deltaTime = templateTimes[i + 1] - templateTimes[i];
+      eventTimes.push_back(eventTimes.back() + deltaTime);
+    }  // end of i loop
+  }    // end of while loop
+
+
+  while (eventTimes.back() < finalTime) {
+    std::cout << "when the final time in eventTimes < finalTime" << std::endl;
+    std::cout << "finalTime = " << finalTime << std::endl;
+    std::cout << "eventTimes.back() = " << eventTimes.back() << std::endl;
+    for (size_t i = 0; i < templateModeSequence.size(); i++) {
+      modeSequence.push_back(ModeNumber::STANCE);
+      scalar_t deltaTime = 0.6;
       eventTimes.push_back(eventTimes.back() + deltaTime);
     }  // end of i loop
   }    // end of while loop

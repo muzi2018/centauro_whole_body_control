@@ -59,11 +59,11 @@ initialModeSchedule
   }
   eventTimes
   {
-    [0]  2.0
+    [0]  10.0
   }
 }
 
-defaultModeSequenceTemplate
+defaultModeSequenceTemplate2
 {
   modeSequence
   {
@@ -76,7 +76,7 @@ defaultModeSequenceTemplate
   }
 }
 
-defaultModeSequenceTemplate2
+defaultModeSequenceTemplate
  {
    modeSequence
    {

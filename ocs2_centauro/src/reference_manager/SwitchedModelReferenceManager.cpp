@@ -86,7 +86,7 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
     // std::cout << "timeHorizon: " << timeHorizon << std::endl;
   
 
-  modeSchedule = gaitSchedulePtr_->getModeSchedule(initTime, finalTime);
+  modeSchedule = gaitSchedulePtr_->getModeSchedule(initTime - timeHorizon, finalTime + timeHorizon);
   // std::cout << "initTime: " << initTime - timeHorizon << std::endl;
   // std::cout << "finalTime: " << finalTime + timeHorizon << std::endl;
   // std::cout << "timeHorizon: " << timeHorizon << std::endl;

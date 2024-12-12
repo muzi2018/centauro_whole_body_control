@@ -66,6 +66,8 @@ class GaitSchedule {
    */
   void tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTime);
 
+  bool stance_flag = false;
+
  private:
   ModeSchedule modeSchedule_;
   ModeSequenceTemplate modeSequenceTemplate_;
