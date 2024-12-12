@@ -86,19 +86,19 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
     // std::cout << "timeHorizon: " << timeHorizon << std::endl;
   
 
-  modeSchedule = gaitSchedulePtr_->getModeSchedule(initTime - timeHorizon, finalTime + timeHorizon);
+  modeSchedule = gaitSchedulePtr_->getModeSchedule(initTime, finalTime);
   // std::cout << "initTime: " << initTime - timeHorizon << std::endl;
   // std::cout << "finalTime: " << finalTime + timeHorizon << std::endl;
   // std::cout << "timeHorizon: " << timeHorizon << std::endl;
 
   const auto& modeSequence = modeSchedule.modeSequence;
-  // std::cout << "modeSequence has size " << modeSequence.size() << std::endl;
-  //   // Print the contents of the vector
-  //   std::cout << "modeSequence: ";
-  //   for (size_t value : modeSequence) {
-  //       std::cout << value << " ";
-  //   }
-  //   std::cout << std::endl;
+  std::cout << "modeSequence has size " << modeSequence.size() << std::endl;
+    // Print the contents of the vector
+    std::cout << "modeSequence: ";
+    for (size_t value : modeSequence) {
+        std::cout << value << " ";
+    }
+    std::cout << std::endl;
 
 
 
