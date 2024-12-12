@@ -35,7 +35,7 @@ swing_trajectory_config
 
   liftOffLongVelocity           0.0
   touchDownLongVelocity         0.0
-  longStepLength                0.175
+  longStepLength                0.1
 
   liftOffLateralVelocity           0.0
   touchDownLateralVelocity         0.0
@@ -209,7 +209,7 @@ xbotcore
   xbotCoreFeedback                    true              ; true if it is to receive feedback from xbotcore
 
   ; topic prefix to receive base pose and twist ;
-  baseLinkTopicPrefix                 /centauro_base_estimation/base_link     ; /xbotcore/link_state/pelvis 
+  baseLinkTopicPrefix                 /xbotcore/link_state/pelvis     ;/centauro_base_estimation/base_link  
 
   ; flag to clamp the commands within the urdf limits at the xbotcore control level
   clampTorqueCmd                      true
