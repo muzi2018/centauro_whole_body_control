@@ -110,7 +110,6 @@ int main(int argc, char** argv) {
 
 
 
-
   if (eeWrenchSensing) {      // Wrench receiver
       std::cout << "IIT Wrench receiver" << std::endl;
       auto wrenchesReceiverPtr =

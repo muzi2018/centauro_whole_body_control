@@ -186,11 +186,11 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   // std::cout << "initMode = " << initMode << std::endl;
 
   contact_flag_t initModeLegContactFlags = modeNumber2StanceLeg(initMode);      // Contact flags at initMode
-  // if (initMode == 7){
-  //   std::cout << "initModeLegContactFlags " << std::endl;
-  //   std::cout << initModeLegContactFlags[0] << " " << initModeLegContactFlags[1] << " " << initModeLegContactFlags[2] << " " << initModeLegContactFlags[3];
-  // }
-  // std::cout << std::endl;
+  if (initMode == 7){
+    std::cout << "initModeLegContactFlags " << std::endl;
+    std::cout << initModeLegContactFlags[0] << " " << initModeLegContactFlags[1] << " " << initModeLegContactFlags[2] << " " << initModeLegContactFlags[3];
+  }
+  std::cout << std::endl;
   int initModeContactFlagsSum = std::accumulate(initModeLegContactFlags.begin(), initModeLegContactFlags.end(), 0);     // sum contact flags
   // std::cout << "initModeContactFlagsSum = " << initModeContactFlagsSum << std::endl;
   // for (size_t i = 0; i < initModeLegContactFlags.size(); i++)
