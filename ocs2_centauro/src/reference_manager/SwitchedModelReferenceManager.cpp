@@ -121,12 +121,12 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   const auto& eventTimes = modeSchedule.eventTimes;
   // // if (eventTimes.back() == 6)
   // // {
-  //   std::cout << "eventTimes has size " << eventTimes.size() << std::endl;
-  //   for (size_t i = 0; i < eventTimes.size(); i++)
-  //   {
-  //     std::cout << "eventTimes [" << i << "]: " << eventTimes[i] << std::endl;
-  //   }
-  //   std::cout << std::endl;
+    std::cout << "eventTimes has size " << eventTimes.size() << std::endl;
+    for (size_t i = 0; i < eventTimes.size(); i++)
+    {
+      std::cout << "eventTimes [" << i << "]: " << eventTimes[i] << std::endl;
+    }
+    std::cout << std::endl;
   // // }
   
 

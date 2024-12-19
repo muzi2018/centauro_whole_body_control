@@ -105,7 +105,21 @@ int main(int argc, char** argv) {
   // MPC
   GaussNewtonDDP_MPC mpc(interface.mpcSettings(), interface.ddpSettings(), interface.getRollout(), interface.getOptimalControlProblem(),
                          interface.getInitializer());
+
+  /*referenceManagerPtr - rosReferenceManagerPtr
+      auto rosReferenceManagerPtr = std::make_shared<RosReferenceManager>(robotName, interface.getReferenceManagerPtr());
+  */
+  
   mpc.getSolverPtr()->setReferenceManager(rosReferenceManagerPtr);
+
+  /*SynchronizedModele - gaitReceiverPtr
+
+      auto gaitReceiverPtr =
+      std::make_shared<GaitReceiver>(nodeHandle, interface.getSwitchedModelReferenceManagerPtr()->getGaitSchedule(), robotName);
+        - preSolverRun(scalar_t initTime, scalar_t finalTime, const vector_t& currentState,const ReferenceManagerInterface& referenceManager)
+
+
+  */
   mpc.getSolverPtr()->addSynchronizedModule(gaitReceiverPtr);
 
 

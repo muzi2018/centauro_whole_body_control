@@ -63,7 +63,7 @@ initialModeSchedule
   }
 }
 
-defaultModeSequenceTemplate2
+defaultModeSequenceTemplate
 {
   modeSequence
   {
@@ -76,7 +76,7 @@ defaultModeSequenceTemplate2
   }
 }
 
-defaultModeSequenceTemplate
+defaultModeSequenceTemplate2
  {
    modeSequence
    {
