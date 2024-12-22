@@ -83,7 +83,7 @@ void GaitSchedule::insertModeSequenceTemplate(const ModeSequenceTemplate& modeSe
 ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) {
   auto& eventTimes = modeSchedule_.eventTimes;
   auto& modeSequence = modeSchedule_.modeSequence;
-
+  std::cout << "--- getModeSchedule ---" << std::endl;
   // std::cout << "evenTimes size__ = "  <<  eventTimes.size() << std::endl;
   // for (size_t i = 0; i < eventTimes.size(); i++)
   // {
@@ -91,7 +91,7 @@ ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upp
   // }
 
   const size_t index = std::lower_bound(eventTimes.begin(), eventTimes.end(), lowerBoundTime) - eventTimes.begin();
-    // std::cout << "index: " << index << std::endl;
+    std::cout << "time index: " << index << std::endl;
     // std::cout << "modeSequence size = " << modeSequence.size() << std::endl;
     std::cout << "lowerBoundTime: " << lowerBoundTime << " upperBoundTime: " << upperBoundTime << std::endl;
 
@@ -284,19 +284,19 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
 
 
 
-  // TODO: why finalTime is not the final time and is the duration of the horizon of the mpc?
-  // concatenate from index
-  while (eventTimes.back() < finalTime && !stance_flag) {
-    stance_flag = true;
-    std::cout << "when the final time in eventTimes < finalTime" << std::endl;
-    std::cout << "finalTime = " << finalTime << std::endl;
-    std::cout << "eventTimes.back() = " << eventTimes.back() << std::endl;
-    for (size_t i = 0; i < templateModeSequence.size(); i++) {
-      modeSequence.push_back(templateModeSequence[i]);
-      scalar_t deltaTime = templateTimes[i + 1] - templateTimes[i];
-      eventTimes.push_back(eventTimes.back() + deltaTime);
-    }  // end of i loop
-  }    // end of while loop
+  // // TODO: why finalTime is not the final time and is the duration of the horizon of the mpc?
+  // // concatenate from index
+  // while (eventTimes.back() < finalTime && !stance_flag) {
+  //   stance_flag = true;
+  //   std::cout << "when the final time in eventTimes < finalTime" << std::endl;
+  //   std::cout << "finalTime = " << finalTime << std::endl;
+  //   std::cout << "eventTimes.back() = " << eventTimes.back() << std::endl;
+  //   for (size_t i = 0; i < templateModeSequence.size(); i++) {
+  //     modeSequence.push_back(templateModeSequence[i]);
+  //     scalar_t deltaTime = templateTimes[i + 1] - templateTimes[i];
+  //     eventTimes.push_back(eventTimes.back() + deltaTime);
+  //   }  // end of i loop
+  // }    // end of while loop
 
 
   while (eventTimes.back() < finalTime) {
@@ -304,8 +304,8 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
     std::cout << "finalTime = " << finalTime << std::endl;
     std::cout << "eventTimes.back() = " << eventTimes.back() << std::endl;
     for (size_t i = 0; i < templateModeSequence.size(); i++) {
-      modeSequence.push_back(ModeNumber::STANCE);
-      scalar_t deltaTime = 0.6;
+      modeSequence.push_back(templateModeSequence[i]);
+      scalar_t deltaTime = templateTimes[i + 1] - templateTimes[i];
       eventTimes.push_back(eventTimes.back() + deltaTime);
     }  // end of i loop
   }    // end of while loop
