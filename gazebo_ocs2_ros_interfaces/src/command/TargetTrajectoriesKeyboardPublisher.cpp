@@ -87,18 +87,21 @@ void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::stri
 /******************************************************************************************************/
 /******************************************************************************************************/
 vector_t TargetTrajectoriesKeyboardPublisher::getCommandLine() {
-  // get command line as one long string
-  auto shouldTerminate = []() { return !ros::ok() || !ros::master::check(); };
-  const std::string line = getCommandLineString(shouldTerminate);
 
-  // a line to words
-  const std::vector<std::string> words = stringToWords(line);
-
-  const size_t targetCommandSize = targetCommandLimits_.size();
-  vector_t targetCommand = vector_t::Zero(targetCommandSize);
-  for (size_t i = 0; i < std::min(words.size(), targetCommandSize); i++) {
-    targetCommand(i) = static_cast<scalar_t>(stof(words[i]));
+  vector_t targetCommand = vector_t::Zero(4);
+  for (size_t i = 0; i < targetCommand.size(); ++i) {
+      targetCommand[i] = 1;
   }
+
+  std::cout << "targetCommand is " << std::endl;
+  std::cout << "[";
+  for (size_t i = 0; i < targetCommand.size(); ++i) {
+      std::cout << targetCommand[i];
+      if (i < targetCommand.size() - 1) {
+          std::cout << ", ";
+      }
+  }
+  std::cout << "]" << std::endl;
 
   return targetCommand;
 }
