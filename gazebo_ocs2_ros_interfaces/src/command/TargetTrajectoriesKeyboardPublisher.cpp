@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ocs2_core/misc/Display.h>
 #include <ocs2_msgs/mpc_observation.h>
 #include <gazebo_ocs2_ros_interfaces/common/RosMsgConversions.h>
-  
+
 namespace ocs2 {
 
 /******************************************************************************************************/
@@ -60,12 +60,12 @@ TargetTrajectoriesKeyboardPublisher::TargetTrajectoriesKeyboardPublisher(::ros::
 /******************************************************************************************************/
 void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::string& commadMsg) {
   while (ros::ok() && ros::master::check()) {
-    vector_t targetCommand = vector_t::Zero(4);
-    for (size_t i = 0; i < targetCommand.size(); ++i) {
-        targetCommand[i] = 1;
-    }
+    // get command line
+    std::cout << commadMsg << ": ";
+    const vector_t commandLineInput = getCommandLine().cwiseMin(targetCommandLimits_).cwiseMax(-targetCommandLimits_);
+
     // display
-    std::cout << "The following command is published !" << std::endl;
+    std::cout << "The following command is published: [" << toDelimitedString(commandLineInput) << "]\n\n";
 
     // get the latest observation
     ::ros::spinOnce();
@@ -76,7 +76,7 @@ void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::stri
     }
 
     // get TargetTrajectories
-    const auto targetTrajectories = commandLineToTargetTrajectoriesFun_(targetCommand, observation);
+    const auto targetTrajectories = commandLineToTargetTrajectoriesFun_(commandLineInput, observation);
 
     // publish TargetTrajectories
     targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
@@ -87,21 +87,18 @@ void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::stri
 /******************************************************************************************************/
 /******************************************************************************************************/
 vector_t TargetTrajectoriesKeyboardPublisher::getCommandLine() {
+  // get command line as one long string
+  auto shouldTerminate = []() { return !ros::ok() || !ros::master::check(); };
+  const std::string line = getCommandLineString(shouldTerminate);
 
-  vector_t targetCommand = vector_t::Zero(4);
-  for (size_t i = 0; i < targetCommand.size(); ++i) {
-      targetCommand[i] = 1;
-  }
+  // a line to words
+  const std::vector<std::string> words = stringToWords(line);
 
-  std::cout << "targetCommand is " << std::endl;
-  std::cout << "[";
-  for (size_t i = 0; i < targetCommand.size(); ++i) {
-      std::cout << targetCommand[i];
-      if (i < targetCommand.size() - 1) {
-          std::cout << ", ";
-      }
+  const size_t targetCommandSize = targetCommandLimits_.size();
+  vector_t targetCommand = vector_t::Zero(targetCommandSize);
+  for (size_t i = 0; i < std::min(words.size(), targetCommandSize); i++) {
+    targetCommand(i) = static_cast<scalar_t>(stof(words[i]));
   }
-  std::cout << "]" << std::endl;
 
   return targetCommand;
 }

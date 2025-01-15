@@ -68,7 +68,9 @@ scalar_t estimateTimeToTarget(const vector_t& desiredBaseDisplacement) {
  * @param [in] observation : the current observation
  */
 TargetTrajectories commandLineToTargetTrajectories(const vector_t& commadLineTarget, const SystemObservation& observation) {
+
   const vector_t currentPose = observation.state.segment<6>(6);
+
   const vector_t targetPose = [&]() {
     vector_t target(6);
     // base p_x, p_y are relative to current state
@@ -83,6 +85,8 @@ TargetTrajectories commandLineToTargetTrajectories(const vector_t& commadLineTar
     target(5) = currentPose(5);
     return target;
   }();
+
+  /** */
 
   // target reaching duration
   const scalar_t targetReachingTime = observation.time + estimateTimeToTarget(targetPose - currentPose);
@@ -130,13 +134,51 @@ int main(int argc, char* argv[]) {
       }
   }
 
-  // goalPose: [deltaX, deltaY, deltaZ, deltaYaw]
-  const scalar_array_t relativeBaseLimit{10.0, 10.0, 1.0, 360.0};
-  TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &commandLineToTargetTrajectories);
 
-  const std::string commandMsg = "Enter XYZ and Yaw (deg) displacements for the TORSO, separated by spaces";
-  
-  targetPoseCommand.publishKeyboardCommand(commandMsg);
+  std::unique_ptr<TargetTrajectoriesRosPublisher> targetTrajectoriesPublisherPtr_;
+  targetTrajectoriesPublisherPtr_.reset(new TargetTrajectoriesRosPublisher(nodeHandle, robotName));
+
+  // observation subscription
+  SystemObservation latestObservation_;
+  std::mutex latestObservationMutex_;
+  auto observationCallback = [&latestObservation_ = latestObservation_, &latestObservationMutex_ = latestObservationMutex_](const ocs2_msgs::mpc_observation::ConstPtr& msg) {
+      std::lock_guard<std::mutex> lock(latestObservationMutex_);
+      latestObservation_ = ros_msg_conversions::readObservationMsg(*msg);
+  };
+  ::ros::Subscriber observationSubscriber_;
+  observationSubscriber_ = nodeHandle.subscribe<ocs2_msgs::mpc_observation>(robotName + "_mpc_observation", 1, observationCallback);
+
+
+  SystemObservation observation;
+
+  ros::Rate loop_rate(1);
+  while (ros::ok() && ros::master::check()) {
+    ROS_INFO("Running the loop...");
+    {
+      std::lock_guard<std::mutex> lock(latestObservationMutex_);
+      observation = latestObservation_;
+    }
+    vector_t commandLineTarget = vector_t::Zero(4);
+    for (size_t i = 0; i < commandLineTarget.size(); i++)
+    {
+      commandLineTarget[i] = 1;
+    }
+    
+    ::ros::spinOnce();
+    std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
+    if (observation.state.size() != 0)
+    {
+      /* code */
+      TargetTrajectories targetTrajectories = commandLineToTargetTrajectories(commandLineTarget, observation) ;
+      // publish TargetTrajectories
+      std::cout << "publish TargetTraj" << std::endl;
+      targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
+    }
+    
+    loop_rate.sleep();
+  }  // end of while loop
+
+
 
   // Successful exit
   return 0;
