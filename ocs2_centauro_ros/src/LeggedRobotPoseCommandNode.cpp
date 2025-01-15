@@ -44,7 +44,7 @@ Additional modifications and contributions by Ioannis Dadiotis:
 #include <xbot_msgs/JointState.h>
 
 using namespace ocs2;
-
+  
 namespace {
 scalar_t targetDisplacementVelocity;
 scalar_t targetRotationVelocity;
