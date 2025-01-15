@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ocs2_core/misc/Display.h>
 #include <ocs2_msgs/mpc_observation.h>
 #include <gazebo_ocs2_ros_interfaces/common/RosMsgConversions.h>
-
+  
 namespace ocs2 {
 
 /******************************************************************************************************/
