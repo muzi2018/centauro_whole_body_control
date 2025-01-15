@@ -100,6 +100,16 @@ vector_t TargetTrajectoriesKeyboardPublisher::getCommandLine() {
     targetCommand(i) = static_cast<scalar_t>(stof(words[i]));
   }
 
+  std::cout << "targetCommand is " << std::endl;
+  std::cout << "[";
+  for (size_t i = 0; i < targetCommand.size(); ++i) {
+      std::cout << targetCommand[i];
+      if (i < targetCommand.size() - 1) {
+          std::cout << ", ";
+      }
+  }
+  std::cout << "]" << std::endl;
+
   return targetCommand;
 }
 
