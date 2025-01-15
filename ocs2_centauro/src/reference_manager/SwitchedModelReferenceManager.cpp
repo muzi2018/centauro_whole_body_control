@@ -73,8 +73,8 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   // TODO: if I increase the final time it can be useful for planning motion and contact switch later
   // std::cout << "************    foot gait   ***********" << std::endl;
     //   std::cout << "************    foot gait   ***********" << std::endl;
-    std::cout << "planning initTime: " << initTime << std::endl;
-    std::cout << "planning finalTime: " << finalTime << std::endl << std::endl;
+    // std::cout << "planning initTime: " << initTime << std::endl;
+    // std::cout << "planning finalTime: " << finalTime << std::endl << std::endl;
   if ( 0 ){
     /* code */
     std::cout << "************    foot gait   ***********" << std::endl;
@@ -92,13 +92,13 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   // std::cout << "timeHorizon: " << timeHorizon << std::endl;
 
   const auto& modeSequence = modeSchedule.modeSequence;
-  std::cout << "modeSequence has size " << modeSequence.size() << std::endl;
+  // std::cout << "modeSequence has size " << modeSequence.size() << std::endl;
     // Print the contents of the vector
-    std::cout << "modeSequence: ";
-    for (size_t value : modeSequence) {
-        std::cout << value << " ";
-    }
-    std::cout << std::endl;
+    // std::cout << "modeSequence: ";
+    // for (size_t value : modeSequence) {
+    //     std::cout << value << " ";
+    // }
+    // std::cout << std::endl;
 
 
 
@@ -121,12 +121,12 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   const auto& eventTimes = modeSchedule.eventTimes;
   // // if (eventTimes.back() == 6)
   // // {
-    std::cout << "eventTimes has size " << eventTimes.size() << std::endl;
-    for (size_t i = 0; i < eventTimes.size(); i++)
-    {
-      std::cout << "eventTimes [" << i << "]: " << eventTimes[i] << std::endl;
-    }
-    std::cout << std::endl;
+    // std::cout << "eventTimes has size " << eventTimes.size() << std::endl;
+    // for (size_t i = 0; i < eventTimes.size(); i++)
+    // {
+    //   std::cout << "eventTimes [" << i << "]: " << eventTimes[i] << std::endl;
+    // }
+    // std::cout << std::endl;
   // // }
   
 
