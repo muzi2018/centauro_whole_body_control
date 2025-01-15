@@ -46,10 +46,10 @@ int main(int argc, char* argv[]) {
   nodeHandle.getParam("/gaitCommandFile", gaitCommandFile);
   std::cerr << "Loading gait file: " << gaitCommandFile << std::endl;
 
-  // GaitKeyboardPublisher gaitCommand(nodeHandle, gaitCommandFile, robotName, true);
+  GaitKeyboardPublisher gaitCommand(nodeHandle, gaitCommandFile, robotName, true);
 
   while (ros::ok() && ros::master::check()) {
-    // gaitCommand.getKeyboardCommand();
+    gaitCommand.getKeyboardCommand();
   }
 
   // Successful exit
