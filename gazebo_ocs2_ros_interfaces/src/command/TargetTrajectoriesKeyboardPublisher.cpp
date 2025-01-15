@@ -60,12 +60,12 @@ TargetTrajectoriesKeyboardPublisher::TargetTrajectoriesKeyboardPublisher(::ros::
 /******************************************************************************************************/
 void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::string& commadMsg) {
   while (ros::ok() && ros::master::check()) {
-    // get command line
-    std::cout << commadMsg << ": ";
-    const vector_t commandLineInput = getCommandLine().cwiseMin(targetCommandLimits_).cwiseMax(-targetCommandLimits_);
-
+    vector_t targetCommand = vector_t::Zero(4);
+    for (size_t i = 0; i < targetCommand.size(); ++i) {
+        targetCommand[i] = 1;
+    }
     // display
-    std::cout << "The following command is published: [" << toDelimitedString(commandLineInput) << "]\n\n";
+    std::cout << "The following command is published !" << std::endl;
 
     // get the latest observation
     ::ros::spinOnce();
@@ -76,7 +76,7 @@ void TargetTrajectoriesKeyboardPublisher::publishKeyboardCommand(const std::stri
     }
 
     // get TargetTrajectories
-    const auto targetTrajectories = commandLineToTargetTrajectoriesFun_(commandLineInput, observation);
+    const auto targetTrajectories = commandLineToTargetTrajectoriesFun_(targetCommand, observation);
 
     // publish TargetTrajectories
     targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
