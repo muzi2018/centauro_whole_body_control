@@ -159,10 +159,10 @@ int main(int argc, char* argv[]) {
       observation = latestObservation_;
     }
     vector_t commandLineTarget = vector_t::Zero(4);
-    for (size_t i = 0; i < commandLineTarget.size(); i++)
-    {
-      commandLineTarget[i] = 1;
-    }
+    commandLineTarget[0] = 0;
+    commandLineTarget[1] = 0;
+    commandLineTarget[2] = 0;
+    commandLineTarget[3] = 0;
     
     ::ros::spinOnce();
     std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
