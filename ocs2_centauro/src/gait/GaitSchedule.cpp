@@ -83,7 +83,7 @@ void GaitSchedule::insertModeSequenceTemplate(const ModeSequenceTemplate& modeSe
 ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) {
   auto& eventTimes = modeSchedule_.eventTimes;
   auto& modeSequence = modeSchedule_.modeSequence;
-  std::cout << "--- getModeSchedule ---" << std::endl;
+  // std::cout << "--- getModeSchedule ---" << std::endl;
   // std::cout << "evenTimes size__ = "  <<  eventTimes.size() << std::endl;
   // for (size_t i = 0; i < eventTimes.size(); i++)
   // {
@@ -91,9 +91,9 @@ ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upp
   // }
 
   const size_t index = std::lower_bound(eventTimes.begin(), eventTimes.end(), lowerBoundTime) - eventTimes.begin();
-    std::cout << "time index: " << index << std::endl;
+    // std::cout << "time index: " << index << std::endl;
     // std::cout << "modeSequence size = " << modeSequence.size() << std::endl;
-    std::cout << "lowerBoundTime: " << lowerBoundTime << " upperBoundTime: " << upperBoundTime << std::endl;
+    // std::cout << "lowerBoundTime: " << lowerBoundTime << " upperBoundTime: " << upperBoundTime << std::endl;
 
 
   if ( 0 )
