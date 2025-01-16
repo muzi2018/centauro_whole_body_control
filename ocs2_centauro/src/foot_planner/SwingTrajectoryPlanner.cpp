@@ -153,8 +153,12 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
 
   // std::cout << "---- [SwingTrajectoryPlanner start x target] ----" << std::endl;
   scalar_t x_e = target_position[6] - state[6] ;
+  // std::cout << std::endl <<std::endl;
   // std::cout << "x_e = " << std::endl;
-  // std::cout << x_e << std::endl;
+  // std::cout << x_e << std::endl <<std::endl;
+
+
+  
   // std::cout << target_position[6] << std::endl;
   // std::cout << state[6] << std::endl;
   // std::cout << "target_position = " << std::endl << target_position << std::endl;
@@ -162,8 +166,16 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   
 
   // Get step length for generating steps
-  const auto longStepLength = this->getConfig().longStepLength;
-  const auto lateralStepLength = this->getConfig().lateralStepLength;
+  auto longStepLength = this->getConfig().longStepLength;
+  auto lateralStepLength = this->getConfig().lateralStepLength;
+
+  if (std::abs(x_e) < 0.1)
+  {
+    /* code */
+    longStepLength = 0;
+    lateralStepLength = 0;
+  }
+  
   
   feet_array_t<scalar_array_t> targetEePosition = currentEePosition;
 

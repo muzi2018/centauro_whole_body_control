@@ -71,7 +71,9 @@ std::pair<vector_t, vector_t> LeggedRobotStateInputQuadraticCost::getStateInputD
   // for (size_t i = 0; i < 1; i++)
   // {
   //   /* code */
-  //   std::cout << state_Deviation[6] << " ";
+  // std::cout << std::endl << std::endl;
+  // std::cout << state_Deviation[6] << " ";
+  // std::cout << std::endl << std::endl;
   // }
   // std::cout << std::endl;
 

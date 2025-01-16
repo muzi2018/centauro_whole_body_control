@@ -162,7 +162,7 @@ ddp
   backwardPassIntegratorType      ODE45     ; SLQ uses backwardpass for solving Riccati equation and ILQR uses it for discretizing LQ approximation.
 
   constraintPenaltyInitialValue   20.0      ; Initial coefficient of the quadratic penalty function in augmented Lagrangian method. It should be > 1.0
-  constraintPenaltyIncreaseRate   2.0       ; The rate that the coefficient of the quadratic penalty function in augmented Lagrangian method grows. It should be > 1.0
+  constraintPenaltyIncreaseRate   3.0       ; The rate that the coefficient of the quadratic penalty function in augmented Lagrangian method grows. It should be > 1.0
   inequalityConstraintMu          0.1       ; Inequality penalty relaxed barrier parameters (not used?)
   inequalityConstraintDelta       5.0       ; -----
 
