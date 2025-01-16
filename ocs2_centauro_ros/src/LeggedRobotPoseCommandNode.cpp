@@ -152,6 +152,7 @@ int main(int argc, char* argv[]) {
   SystemObservation observation;
 
   ros::Rate loop_rate(1);
+  bool send_flag = true;
   while (ros::ok() && ros::master::check()) {
     ROS_INFO("Running the loop...");
     {
@@ -166,13 +167,14 @@ int main(int argc, char* argv[]) {
     
     ::ros::spinOnce();
     std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
-    if (observation.state.size() != 0)
+    if (observation.state.size() != 0 && send_flag)
     {
       /* code */
       TargetTrajectories targetTrajectories = commandLineToTargetTrajectories(commandLineTarget, observation) ;
       // publish TargetTrajectories
       std::cout << "publish TargetTraj" << std::endl;
       targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
+      send_flag = false;
     }
     
     loop_rate.sleep();
