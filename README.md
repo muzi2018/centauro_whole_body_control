@@ -1,6 +1,6 @@
 # centauro_whole_body_control
 
-## Introduction
+## Introduction111
 
 This repo implements Model Predictive Control (MPC) on CENTAURO, which is a dual-arm quadrupedal legged manipulator. The focus is on achieving:
 
@@ -68,7 +68,6 @@ Deployment on the Gazebo simulator as well as on the real robot has been achieve
 **No instantaneous WBC** is used at the low-level since the MPC optimizes whole-body motions.
 
 <img src="https://github.com/IoannisDadiotis/ocs2_hhcm/assets/75118133/5c07d1e4-dab8-49a3-852f-6334b7c6a0c9" alt="relax_example" width="650" height="150">
-
 
 ## Reference
 
