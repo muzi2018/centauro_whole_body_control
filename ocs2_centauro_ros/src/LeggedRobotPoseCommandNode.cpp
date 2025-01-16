@@ -35,7 +35,8 @@ Additional modifications and contributions by Ioannis Dadiotis:
 
 #include <ros/init.h>
 #include <ros/package.h>
-
+#include <nav_msgs/Path.h>
+#include <geometry_msgs/PoseStamped.h>
 #include <ocs2_core/Types.h>
 #include <ocs2_core/misc/LoadData.h>
 #include <gazebo_ocs2_ros_interfaces/command/TargetTrajectoriesKeyboardPublisher.h>
@@ -51,6 +52,26 @@ scalar_t targetRotationVelocity;
 scalar_t comHeight;
 vector_t defaultJointState;
 }  // namespace
+std::vector<geometry_msgs::Point> path_points;
+
+// Callback function for the /path topic
+void pathCallback(const nav_msgs::Path::ConstPtr& msg) {
+    // Clear the previous points
+    path_points.clear();
+
+    ROS_INFO("Received Path message with %lu poses", msg->poses.size());
+
+    // Extract positions from poses
+    for (const auto& poseStamped : msg->poses) {
+        geometry_msgs::Point position = poseStamped.pose.position;
+
+        // Store the position in the global vector
+        path_points.push_back(position);
+
+        // Log the position for verification
+        ROS_INFO("Position: x=%.2f, y=%.2f, z=%.2f", position.x, position.y, position.z);
+    }
+}
 
 scalar_t estimateTimeToTarget(const vector_t& desiredBaseDisplacement) {
   const scalar_t& dx = desiredBaseDisplacement(0);
@@ -116,6 +137,9 @@ int main(int argc, char* argv[]) {
   legged_robot::ModelSettings modelSettings = legged_robot::loadModelSettings(taskFile, "model_settings", false);
   defaultJointState.resize(modelSettings.jointNames.size());    // resize defaultJointState vector
 
+  ros::Subscriber pathSubscriber = nodeHandle.subscribe("/path", 10, pathCallback);
+  
+
   loadData::loadCppDataType(referenceFile, "comHeight", comHeight);
   loadData::loadEigenMatrix(referenceFile, "defaultJointState", defaultJointState);
   loadData::loadCppDataType(referenceFile, "targetRotationVelocity", targetRotationVelocity);
@@ -150,9 +174,10 @@ int main(int argc, char* argv[]) {
 
 
   SystemObservation observation;
-
+  vector_t commandLineTarget = vector_t::Zero(4);
   ros::Rate loop_rate(1);
-  bool send_flag = true;
+  bool get_path = false;
+  bool send_path = true;
   while (ros::ok() && ros::master::check()) {
     ROS_INFO("Running the loop...");
     {
@@ -160,21 +185,30 @@ int main(int argc, char* argv[]) {
       observation = latestObservation_;
     }
     vector_t commandLineTarget = vector_t::Zero(4);
-    commandLineTarget[0] = 0.5;
-    commandLineTarget[1] = 0;
-    commandLineTarget[2] = 0;
-    commandLineTarget[3] = 0;
+    std::cout << "path_points.size=" << path_points.size() << std::endl;
+
+    if (path_points.size() != 0 && !get_path)
+    {
+      std::cout << "path_points is not empty" << std::endl;
+      commandLineTarget[0] = path_points[1].x;
+      commandLineTarget[1] = path_points[1].y;
+      commandLineTarget[2] = 0;
+      commandLineTarget[3] = 0;
+      get_path = true;
+    }
     
+
+    std::cout << "commandLineTarget[0] = " << commandLineTarget[0] << std::endl;
     ::ros::spinOnce();
     std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
-    if (observation.state.size() != 0 && send_flag)
+    if (observation.state.size() != 0 && send_path && get_path )
     {
       /* code */
       TargetTrajectories targetTrajectories = commandLineToTargetTrajectories(commandLineTarget, observation) ;
       // publish TargetTrajectories
       std::cout << "publish TargetTraj" << std::endl;
       targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
-      send_flag = false;
+      send_path = false;
     }
     
     loop_rate.sleep();

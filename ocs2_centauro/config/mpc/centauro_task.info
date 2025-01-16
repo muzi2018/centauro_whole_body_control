@@ -39,7 +39,7 @@ swing_trajectory_config
 
   liftOffLateralVelocity           0.0
   touchDownLateralVelocity         0.0
-  lateralStepLength                0.0
+  lateralStepLength                0.1
 }
 
 arm_swing_trajectory_config
