@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
       observation = latestObservation_;
     }
     vector_t commandLineTarget = vector_t::Zero(4);
-    commandLineTarget[0] = 0;
+    commandLineTarget[0] = 0.5;
     commandLineTarget[1] = 0;
     commandLineTarget[2] = 0;
     commandLineTarget[3] = 0;
