@@ -190,7 +190,7 @@ int main(int argc, char* argv[]) {
     if (path_points.size() != 0 && !get_path)
     {
       std::cout << "path_points is not empty" << std::endl;
-      commandLineTarget[0] = path_points[1].x;
+      commandLineTarget[0] = path_points[1].x; // 0.75, 0.75
       commandLineTarget[1] = path_points[1].y;
       commandLineTarget[2] = 0;
       commandLineTarget[3] = 0;

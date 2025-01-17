@@ -250,15 +250,33 @@ void MPC_ROS_Interface::copyToBuffer(const SystemObservation& mpcInitObservation
   bufferCommandPtr_->mpcInitObservation_ = mpcInitObservation;
   bufferCommandPtr_->mpcTargetTrajectories_ = mpc_.getSolverPtr()->getReferenceManager().getTargetTrajectories();
 
-  std::cout << "MPC TargetTrajectories" << std::endl;
-  auto timeTrajectory = bufferCommandPtr_->mpcTargetTrajectories_.timeTrajectory;
+  // std::cout << "MPC TargetTrajectories" << std::endl;
+  // auto timeTrajectory = bufferCommandPtr_->mpcTargetTrajectories_.timeTrajectory;
+  // auto stateTrajectory = bufferCommandPtr_->mpcTargetTrajectories_.stateTrajectory;
+  // auto inputTrajectory = bufferCommandPtr_->mpcTargetTrajectories_.inputTrajectory;
 
-  std::cout << "=== timeTrajectory ===" << std::endl;
-  int index = 0;
-  for (const scalar_t& value : timeTrajectory) {
-      std::cout << "value " << index << ": " << value << std::endl;
-      ++index;
-  }
+  // std::cout << "=== timeTrajectory ===" << std::endl;
+  // int index = 0;
+  // for (const scalar_t& value : timeTrajectory) {
+  //     std::cout << "value " << index << ": " << value << std::endl;
+  //     ++index;
+  // }
+
+  // std::cout << "=== stateTrajectory ===" << std::endl;
+  // for (size_t i = 0; i < stateTrajectory.size(); ++i) {
+  //     std::cout << "Vector " << i << ":\n";
+  //     for (size_t j = 0; j < stateTrajectory[i].size(); ++j) {
+  //         std::cout << "  Element " << j << ": " << stateTrajectory[i][j] << std::endl;
+  //     }
+  // }
+
+  // std::cout << "=== inputTrajectory ===" << std::endl;
+  // for (size_t i = 0; i < inputTrajectory.size(); ++i) {
+  //     std::cout << "Vector " << i << ":\n";
+  //     for (size_t j = 0; j < inputTrajectory[i].size(); ++j) {
+  //         std::cout << "  Element " << j << ": " << inputTrajectory[i][j] << std::endl;
+  //     }
+  // }
 
   // performance indices
   *bufferPerformanceIndicesPtr_ = mpc_.getSolverPtr()->getPerformanceIndeces();
