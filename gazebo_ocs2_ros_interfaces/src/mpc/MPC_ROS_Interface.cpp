@@ -250,6 +250,16 @@ void MPC_ROS_Interface::copyToBuffer(const SystemObservation& mpcInitObservation
   bufferCommandPtr_->mpcInitObservation_ = mpcInitObservation;
   bufferCommandPtr_->mpcTargetTrajectories_ = mpc_.getSolverPtr()->getReferenceManager().getTargetTrajectories();
 
+  std::cout << "MPC TargetTrajectories" << std::endl;
+  auto timeTrajectory = bufferCommandPtr_->mpcTargetTrajectories_.timeTrajectory;
+
+  std::cout << "=== timeTrajectory ===" << std::endl;
+  int index = 0;
+  for (const scalar_t& value : timeTrajectory) {
+      std::cout << "value " << index << ": " << value << std::endl;
+      ++index;
+  }
+
   // performance indices
   *bufferPerformanceIndicesPtr_ = mpc_.getSolverPtr()->getPerformanceIndeces();
 }

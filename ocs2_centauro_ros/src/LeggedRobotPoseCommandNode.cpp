@@ -89,7 +89,7 @@ scalar_t estimateTimeToTarget(const vector_t& desiredBaseDisplacement) {
  * @param [in] observation : the current observation
  */
 TargetTrajectories commandLineToTargetTrajectories(const vector_t& commadLineTarget, const SystemObservation& observation) {
-
+  std::cout << "only once publish" << std::endl;
   const vector_t currentPose = observation.state.segment<6>(6);
 
   const vector_t targetPose = [&]() {
