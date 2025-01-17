@@ -169,12 +169,12 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   auto longStepLength = this->getConfig().longStepLength;
   auto lateralStepLength = this->getConfig().lateralStepLength;
   // std::cout << "x_e = " << x_e << std::endl;
-  if (std::abs(x_e) < 0.3)
-  {
-    /* code */
-    longStepLength = 0;
-    lateralStepLength = 0;
-  }
+  // if (std::abs(x_e) < 0.3)
+  // {
+  //   /* code */
+  //   longStepLength = 0;
+  //   lateralStepLength = 0;
+  // }
   
   
   feet_array_t<scalar_array_t> targetEePosition = currentEePosition;
