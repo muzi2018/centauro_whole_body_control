@@ -153,7 +153,7 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
 
   // std::cout << "---- [SwingTrajectoryPlanner start x target] ----" << std::endl;
   scalar_t x_e = target_position[6] - state[6] ;
-  // std::cout << std::endl <<std::endl;
+  // std::cout << target_position[6] <<std::endl;
   // std::cout << "x_e = " << std::endl;
   // std::cout << x_e << std::endl <<std::endl;
 
@@ -168,7 +168,7 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   // Get step length for generating steps
   auto longStepLength = this->getConfig().longStepLength;
   auto lateralStepLength = this->getConfig().lateralStepLength;
-  std::cout << "x_e = " << x_e << std::endl;
+  // std::cout << "x_e = " << x_e << std::endl;
   if (std::abs(x_e) < 0.3)
   {
     /* code */

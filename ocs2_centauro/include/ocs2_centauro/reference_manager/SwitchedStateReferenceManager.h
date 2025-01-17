@@ -69,8 +69,7 @@ class SwitchedStateReferenceManager : public ReferenceManager {
    * @param [in] modeSchedule : Sequence of modes separated by event times.
    * Called inside ReferenceManager::preSolverRun
    */
-  void modifyReferences(scalar_t initTime, scalar_t finalTime, const vector_t& initState, TargetTrajectories& targetTrajectories,
-                        ModeSchedule& modeSchedule) override;
+  void modifyReferences(scalar_t initTime, scalar_t finalTime, const vector_t& initState, TargetTrajectories& targetTrajectories, ModeSchedule& modeSchedule) override;
 
 };
 
