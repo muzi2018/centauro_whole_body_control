@@ -168,8 +168,8 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   // Get step length for generating steps
   auto longStepLength = this->getConfig().longStepLength;
   auto lateralStepLength = this->getConfig().lateralStepLength;
-
-  if (std::abs(x_e) < 0.1)
+  std::cout << "x_e = " << x_e << std::endl;
+  if (std::abs(x_e) < 0.3)
   {
     /* code */
     longStepLength = 0;
