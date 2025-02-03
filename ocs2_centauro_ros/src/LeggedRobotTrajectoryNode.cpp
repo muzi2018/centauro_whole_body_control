@@ -104,7 +104,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
   }
 
   // desired state trajectory
-  // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 13 +2
+  // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 6 + 12 + 1 + 2 = 22
   vector_array_t stateTrajectory(buffer_size, vector_t::Zero(observation.state.size()));
   int j = 0;
   for (size_t i = 0; i < buffer_size; i++)
@@ -127,8 +127,12 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
     desireJointState[36] = doubleData[j][18];
     /* code */
     stateTrajectory[i] << vector_t::Zero(6), currentPose, desireJointState;
-    j++;
+    j = j + 10;
+    if (j >= 57)
+      j = 57;
   }
+
+  std::cout << "the " << j << " th" << " right arm joint = " << doubleData[j][18] << std::endl;
   
   // desired input trajectory (just right dimensions, they are not used)
   const vector_array_t inputTrajectory(buffer_size, vector_t::Zero(observation.state.size()));
@@ -215,7 +219,9 @@ int main(int argc, char* argv[]) {
 
 
 
-  ifstream file("/home/wang/catkin_ws_1/src/centauro_whole_body_control/ocs2_centauro_ros/data/output.txt");
+  ifstream file("/home/wang/catkin_ws_multi_task/src/Centauro_Hyper/centauro_whole_body_control/ocs2_centauro_ros/data/output.txt");
+  // ifstream file("/home/wang/catkin_ws_multi_task/src/Centauro_Hyper/centauro_whole_body_control/ocs2_centauro_ros/data/door.txt");
+
   if (!file) {
       cerr << "Unable to open file!" << endl;
   }
@@ -236,6 +242,7 @@ int main(int argc, char* argv[]) {
   for (const auto& line : lines) {
       doubleData.push_back(parseDoubles(line));
   }
+  // std::cout << "doubleData = " << doubleData.size() << "x" << doubleData[0].size() << std::endl;
 
   ros::Rate r(10);
   while (ros::ok() && ros::master::check()) {
@@ -256,6 +263,7 @@ int main(int argc, char* argv[]) {
           std::cout << "observation.state.size() = " << observation.state.size() << std::endl;
           const auto targetTrajectories = jointRefToTargetTrajectories(observation);
           targetTrajectoriesPublisherPtr_->publishTargetTrajectories(targetTrajectories);
+          std::cout << "publish arm trajectory" << std::endl;
           // arm_rl_bool = !arm_rl_bool;
         }
       }
