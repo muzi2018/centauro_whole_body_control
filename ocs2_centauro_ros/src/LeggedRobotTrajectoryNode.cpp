@@ -105,6 +105,9 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
 
   // desired state trajectory
   // 6 base , 6 left arm, 6 right arm, 1 grippers + 2 = 6 + 12 + 1 + 2 = 22
+  double target_position = 10 ;
+
+
   vector_array_t stateTrajectory(buffer_size, vector_t::Zero(observation.state.size()));
   int j = 0;
   for (size_t i = 0; i < buffer_size; i++)
@@ -118,7 +121,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
     desireJointState[28] = doubleData[j][10]; 
     desireJointState[29] = doubleData[j][11]; 
     desireJointState[30] = doubleData[j][12];
-    //right arm
+      //right arm
     desireJointState[31] = doubleData[j][13]; 
     desireJointState[32] = doubleData[j][14];
     desireJointState[33] = doubleData[j][15];
@@ -126,7 +129,7 @@ TargetTrajectories jointRefToTargetTrajectories(const SystemObservation& observa
     desireJointState[35] = doubleData[j][17];
     desireJointState[36] = doubleData[j][18];
     /* code */
-    stateTrajectory[i] << vector_t::Zero(6), currentPose, desireJointState;
+    stateTrajectory[i] << vector_t::Zero(6), currentPose[0] + target_position / (i+1), currentPose.segment(1, 5),desireJointState;
     j = j + 10;
     if (j >= 57)
       j = 57;
