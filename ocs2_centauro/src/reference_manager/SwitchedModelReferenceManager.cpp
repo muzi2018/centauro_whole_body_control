@@ -67,7 +67,7 @@ locoma_contact_flag_t SwitchedModelReferenceManager::getContactFlags(scalar_t ti
 /******************************************************************************************************/
 /******************************************************************************************************/
 void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t finalTime, const vector_t& initState,
-                                                     TargetTrajectories& targetTrajectories, ModeSchedule& modeSchedule, int i) {
+                                                     TargetTrajectories& targetTrajectories, ModeSchedule& modeSchedule) {
   const auto timeHorizon = finalTime - initTime;
 
   // TODO: if I increase the final time it can be useful for planning motion and contact switch later
