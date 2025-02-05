@@ -92,7 +92,7 @@ class SwitchedModelReferenceManager : public ReferenceManager {
    * Called inside ReferenceManager::preSolverRun
    */
   void modifyReferences(scalar_t initTime, scalar_t finalTime, const vector_t& initState, TargetTrajectories& targetTrajectories,
-                        ModeSchedule& modeSchedule) override;
+                        ModeSchedule& modeSchedule, int i) override;
 
   std::shared_ptr<GaitSchedule> gaitSchedulePtr_;
   std::shared_ptr<ForceTorqueSensing> forceTorqueSensingPtr_ = nullptr;     // nullptr since it is not used in all cases
