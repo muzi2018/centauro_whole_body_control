@@ -65,6 +65,9 @@ int main(int argc, char** argv) {
   // xbotcore configuration and initial state
   xbot_interface::XbotInterface::Config xbotConfig(false, false, "/xbotcore/link_state/pelvis", false, false, false);
   vector_t initialState(interface.getCentroidalModelInfo().stateDim);
+
+  std::cout << "IIT stateDim = " << interface.getCentroidalModelInfo().stateDim << std::endl;
+
   loadData::loadCppDataType(taskFile, "xbotcore.xbotCoreRunning", xbotConfig.xbotCoreRunning);
   if (!xbotConfig.xbotCoreRunning) {
     std::cout << "MPC node will get initial state from .info file." << std::endl;
