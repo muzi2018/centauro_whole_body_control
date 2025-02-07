@@ -80,9 +80,7 @@ void GaitSchedule::insertModeSequenceTemplate(const ModeSequenceTemplate& modeSe
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) {
-  lowerBoundTime = lowerBoundTime + 1;
-  upperBoundTime = upperBoundTime - 1;
+ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) { // lowerBoundTime = -1 upperBoundTime = 1
   auto& eventTimes = modeSchedule_.eventTimes; // evenTimes: 2.0 
   auto& modeSequence = modeSchedule_.modeSequence; // modeSequence: STANCE STANCE
 
