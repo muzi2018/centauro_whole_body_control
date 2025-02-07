@@ -83,6 +83,7 @@ void GaitSchedule::insertModeSequenceTemplate(const ModeSequenceTemplate& modeSe
 /**
  * 1. eventTimes = 2.0, modeSequence: STANCE STANCE
  * 2. eventTimes = 2.0 6.0, modeSequence: STANCE STANCE STANCE
+<<<<<<< HEAD
  * 3. currenttime = 2.0 lowerBoundTime = 1.0 upperBoundTime = 3.0 => eventTimes = 6.0, modeSequence: STANCE STANCE
  * 4. 
  */
@@ -90,6 +91,13 @@ void GaitSchedule::insertModeSequenceTemplate(const ModeSequenceTemplate& modeSe
 ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) { // currenttime = 2.0 lowerBoundTime = 1.0 upperBoundTime = 3.0
   auto& eventTimes = modeSchedule_.eventTimes; // evenTimes: 2.0 6.0
   auto& modeSequence = modeSchedule_.modeSequence; // modeSequence: STANCE STANCE STANCE
+=======
+ */
+
+ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) { // currenttime = 1.5 lowerBoundTime = 0.5 upperBoundTime = 2.5
+  auto& eventTimes = modeSchedule_.eventTimes; // evenTimes: 2.0
+  auto& modeSequence = modeSchedule_.modeSequence; // modeSequence: STANCE STANCE
+>>>>>>> 34bcb86f5387a5fb2371a49bb3429416eb106bf9
 
 
   const size_t index = std::lower_bound(eventTimes.begin(), eventTimes.end(), lowerBoundTime) - eventTimes.begin();
@@ -98,18 +106,33 @@ ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upp
     modeSequence.erase(modeSequence.begin(), modeSequence.begin() + index - 1);  // modeSequence: STANCE STANCE
     modeSequence.front() = ModeNumber::STANCE; // modeSequence: STANCE STANCE STANCE
   }
+<<<<<<< HEAD
   const auto tilingStartTime = eventTimes.empty() ? upperBoundTime : eventTimes.back(); // tilingStartTime = 6.0
   eventTimes.erase(eventTimes.end() - 1, eventTimes.end()); // eventTimes: Nan
   modeSequence.erase(modeSequence.end() - 1, modeSequence.end()); // modeSequence: STANCE
 
   tileModeSequenceTemplate(tilingStartTime, upperBoundTime); // tilingStartTime = 6.0, upperBoundTime = 3.0
   return modeSchedule_;// eventTimes = 6.0, modeSequence: STANCE STANCE
+=======
+  // Start tiling at time
+  const auto tilingStartTime = eventTimes.empty() ? upperBoundTime : eventTimes.back(); // tilingStartTime = 2.0
+  // delete the last default stance phase
+  eventTimes.erase(eventTimes.end() - 1, eventTimes.end()); // eventTimes: Nan
+  modeSequence.erase(modeSequence.end() - 1, modeSequence.end()); // modeSequence: STANCE
+
+  tileModeSequenceTemplate(tilingStartTime, upperBoundTime); // tilingStartTime = 2.0, upperBoundTime = 2.5
+  return modeSchedule_;// eventTimes = 2.0 6.0, modeSequence: STANCE STANCE STANCE
+>>>>>>> 34bcb86f5387a5fb2371a49bb3429416eb106bf9
 }
 
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
+<<<<<<< HEAD
 void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTime) { // startTime =6.0 finalTime = 3.0
+=======
+void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTime) { // startTime =2.0 finalTime = 2.5
+>>>>>>> 34bcb86f5387a5fb2371a49bb3429416eb106bf9
   auto& eventTimes = modeSchedule_.eventTimes; // eventTimes = Nan 
   auto& modeSequence = modeSchedule_.modeSequence;// modeSequence: STANCE
   const auto& templateTimes = modeSequenceTemplate_.switchingTimes;// templateTimes: 0.0 4.0
@@ -136,7 +159,7 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
   }    // end of while loop
 
   // default final phase
-  modeSequence.push_back(ModeNumber::STANCE);// modeSequence: STANCE STANCE
+  modeSequence.push_back(ModeNumber::STANCE);// modeSequence: STANCE STANCE STANCE
 }
 
 }  // namespace legged_robot
