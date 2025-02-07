@@ -75,12 +75,6 @@
 
 
 
-    <node pkg="ocs2_centauro_ros" type="centauro_arm_target" name="centauro_arm_target"
-        output="screen" launch-prefix="gnome-terminal --"/>
-
-    <node pkg="ocs2_centauro_ros" type="legged_robot_target" name="legged_robot_target"
-        output="screen" launch-prefix="gnome-terminal --"/>
-
     <node pkg="ocs2_centauro_ros" type="legged_robot_gait_command" name="legged_robot_gait_command"
           output="screen" launch-prefix="gnome-terminal --"/> 
 
