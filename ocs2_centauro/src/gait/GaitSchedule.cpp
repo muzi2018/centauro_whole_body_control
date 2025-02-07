@@ -116,12 +116,9 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
   auto& eventTimes = modeSchedule_.eventTimes; // eventTimes = Nan 
   auto& modeSequence = modeSchedule_.modeSequence;// modeSequence: STANCE
   const auto& templateTimes = modeSequenceTemplate_.switchingTimes;// templateTimes: 0.0 4.0
-  const auto& templateModeSequence = modeSequenceTemplate_.modeSequence;// templateModeSequence: STANCE
-  const size_t numTemplateSubsystems = modeSequenceTemplate_.modeSequence.size();// numTemplateSubsystems: 2
-
-  if (numTemplateSubsystems == 0) {
-    return;
-  }
+  // const auto& templateModeSequence = modeSequenceTemplate_.modeSequence;// templateModeSequence: STANCE
+  std::vector<size_t> templateModeSequence;
+  templateModeSequence.push_back(ModeNumber::LF_LH_RH);
 
   if (!eventTimes.empty() && startTime <= eventTimes.back()) {
     throw std::runtime_error("The initial time for template-tiling is not greater than the last event time.");
@@ -133,7 +130,7 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
   while (eventTimes.back() < finalTime) {
     for (size_t i = 0; i < templateModeSequence.size(); i++) { // 1
       modeSequence.push_back(templateModeSequence[i]); // modeSequence: STANCE STANCE
-      scalar_t deltaTime = templateTimes[i + 1] - templateTimes[i]; // deltaTime: 4.0
+      scalar_t deltaTime = 0.8; // deltaTime: 4.0
       eventTimes.push_back(eventTimes.back() + deltaTime); // evnetTimes: 6.0 10.0
     }  // end of i loop
   }    // end of while loop
