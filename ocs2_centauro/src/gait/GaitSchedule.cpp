@@ -81,63 +81,88 @@ void GaitSchedule::insertModeSequenceTemplate(const ModeSequenceTemplate& modeSe
 /******************************************************************************************************/
 /******************************************************************************************************/
 /**
- * 1. currenttime = 0.0 lowerBoundTime = -1.0 upperBoundTime = 1.0 => eventTimes = 2.0, modeSequence: STANCE STANCE
- * 2. currenttime = 2.0 lowerBoundTime = 1.0 upperBoundTime = 3.0 => eventTimes = 2.0 6.0, modeSequence: STANCE STANCE STANCE 
- * 3. currenttime = 6.0 lowerBoundTime = 5.0 upperBoundTime = 7.0 => eventTimes = 6.0, 10.0, modeSequence: STANCE STANCE STANCE
- * 
- */
+ * templateModeSequence: modeSequence = {11 15}, switchingTimes = {0 0.8 1.6} 
+ * 1. currentTime=initTime = 0.0    finalTime = 1.0   lowerBoundTime = -1.0       upperBoundTime = 2.0      => eventTimes = 2,                            modeSequence = 15 15 
+ * 2. currentTime=initTime = 0.002  finalTime = 1.002 lowerBoundTime = -0.998     upperBoundTime = /2.002/  => eventTimes = 2 2.8 3.6,                    modeSequence = 15 11 15 15
+ * 3. currentTime=initTime = 1.608  finalTime = 2.608 lowerBoundTime = 0.608      upperBoundTime = /3.608/  => eventTimes = 2 2.8 3.6,4.4,5.2,            modeSequence = 15 11 15 11 15 15
+ * 4. currentTime=initTime = 3.206  finalTime = 4.206 lowerBoundTime = 2.206      upperBoundTime = /5.206/  => eventTimes = 2 2.8 3.6,4.4,5.2,6.0,6.8     modeSequence = 15 11 15 11 15 11 15 15
+ * 5. currentTime=initTime = 3.812  finalTime = 4.812 lowerBoundTime = /2.812/    upperBoundTime = 5.812    => eventTimes = 2.8 3.6,4.4,5.2,6.0,6.8       modeSequence = 15 15 11 15 11 15 15
+ * 6. currentTime=initTime = 4.608  finalTime = 5.608 lowerBoundTime = /3.608/    upperBoundTime = 6.608    => eventTimes = 3.6 4.4 5.2 6 6.8             modeSequence = 15 11 15 11 15 15
+ *                                                                                                                                                        modeSequence = 15 11 15 11 15 11 15 15
+ *                                                                                                                                                        modeSequence = 15 15 11 15 11 15 15
+ *                                                                                                                                                        modeSequence = 15 11 15 11 15 15
+ *                                                                                                                                                        modeSequence = 15 11 15 11 15 11 15 15
+ *                                                                                                                                                        modeSequence = 15 15 11 15 11 15 15
+*/
 
-ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) { // currenttime = 6.0 lowerBoundTime = 5.0 upperBoundTime = 7.0
-  auto& eventTimes = modeSchedule_.eventTimes; // evenTimes: 2.0 6.0
-  auto& modeSequence = modeSchedule_.modeSequence; // modeSequence: STANCE STANCE STANCE
+ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) { // lowerBoundTime = 2.0 upperBoundTime = 1.0
+  auto& eventTimes = modeSchedule_.eventTimes; // evenTimes: 2.0
+  auto& modeSequence = modeSchedule_.modeSequence; // modeSequence: STANCE STANCE
+  
+  std::cout << "lowerBoundTime = " << lowerBoundTime << std::endl;
+  std::cout << "upperBoundTime = " << upperBoundTime << std::endl;
+  std::cout << "eventTimes =" ;
+  for (size_t i = 0; i < eventTimes.size(); i++)
+  {
+    std::cout << eventTimes[i] << " " ;
+  }
+  std::cout << std::endl;
+  std::cout << "modeSequence =" ;
+  for (size_t i = 0; i < modeSequence.size(); i++)
+  {
+    std::cout << modeSequence[i] << " " ;
+  }
+  std::cout << std::endl;
 
 
 
-  const size_t index = std::lower_bound(eventTimes.begin(), eventTimes.end(), lowerBoundTime) - eventTimes.begin();
-  if (index > 0) { // index = 1 
-    eventTimes.erase(eventTimes.begin(), eventTimes.begin() + index - 1); // eventTimes = 6.0  
-    modeSequence.erase(modeSequence.begin(), modeSequence.begin() + index - 1);  // modeSequence = STANCE STANCE
-    modeSequence.front() = ModeNumber::STANCE; // modeSequence = STANCE STANCE STANCE
+
+  const size_t index = std::lower_bound(eventTimes.begin(), eventTimes.end(), lowerBoundTime) - eventTimes.begin(); // index = 0
+
+  if (index > 0) { 
+    eventTimes.erase(eventTimes.begin(), eventTimes.begin() + index - 1);   
+    modeSequence.erase(modeSequence.begin(), modeSequence.begin() + index - 1);  
+    modeSequence.front() = ModeNumber::STANCE; 
   }
 
-  const auto tilingStartTime = eventTimes.empty() ? upperBoundTime : eventTimes.back(); // tilingStartTime = 6.0
+  const auto tilingStartTime = eventTimes.empty() ? upperBoundTime : eventTimes.back(); // tilingStartTime = 2.0
   eventTimes.erase(eventTimes.end() - 1, eventTimes.end()); // eventTimes: Nan
   modeSequence.erase(modeSequence.end() - 1, modeSequence.end()); // modeSequence: STANCE
 
-  tileModeSequenceTemplate(tilingStartTime, upperBoundTime); // tilingStartTime = 6.0, upperBoundTime = 7.0
-  return modeSchedule_;// eventTimes = 6.0, 10.0 modeSequence: STANCE STANCE STANCE
+  tileModeSequenceTemplate(tilingStartTime, upperBoundTime); 
+  // std::cout << "lowerBoundTime = " << lowerBoundTime << std::endl;
+
+  
+  return modeSchedule_;// eventTimes: 2.0 2.8 3.6, 10.0 modeSequence: STANCE LF_LH_RH STANCE STANCE
 
 }
 
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTime) { // startTime = 6.0 finalTime = 7.0
+void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTime) { // startTime = 2.0 finalTime = 3.0
   auto& eventTimes = modeSchedule_.eventTimes; // eventTimes = Nan 
   auto& modeSequence = modeSchedule_.modeSequence;// modeSequence: STANCE
-  const auto& templateTimes = modeSequenceTemplate_.switchingTimes;// templateTimes: 0.0 4.0
-  // const auto& templateModeSequence = modeSequenceTemplate_.modeSequence;// templateModeSequence: STANCE
   std::vector<size_t> templateModeSequence;
   templateModeSequence.push_back(ModeNumber::LF_LH_RH);
-  templateModeSequence.push_back(ModeNumber::STANCE);
+  templateModeSequence.push_back(ModeNumber::STANCE); // templateModeSequence: LF_LH_RH, STANCE
 
   if (!eventTimes.empty() && startTime <= eventTimes.back()) {
     throw std::runtime_error("The initial time for template-tiling is not greater than the last event time.");
   }
 
   // add a initial time
-  eventTimes.push_back(startTime); // eventTimes:6.0
- //ss
+  eventTimes.push_back(startTime); // eventTimes:2.0
+ 
   while (eventTimes.back() < finalTime) {
-    for (size_t i = 0; i < templateModeSequence.size(); i++) { // 1
-      modeSequence.push_back(templateModeSequence[i]); // modeSequence: STANCE STANCE
-      scalar_t deltaTime = 0.8; // deltaTime: 4.0
-      eventTimes.push_back(eventTimes.back() + deltaTime); // evnetTimes: 6.0 10.0
-    }  // end of i loop
-  }    // end of while loop
+    for (size_t i = 0; i < templateModeSequence.size(); i++) { //size : 2 
+      modeSequence.push_back(templateModeSequence[i]); // modeSequence: STANCE LF_LH_RH STANCE
+      scalar_t deltaTime = 0.8; 
+      eventTimes.push_back(eventTimes.back() + deltaTime); // eventTimes: 2.0 2.8 3.6
+    }  
+  }    
 
-  // default final phase
-  modeSequence.push_back(ModeNumber::STANCE);// modeSequence: STANCE STANCE STANCE
+  modeSequence.push_back(ModeNumber::STANCE);// modeSequence: STANCE LF_LH_RH STANCE STANCE
 }
 
 }  // namespace legged_robot
