@@ -80,33 +80,36 @@ void GaitSchedule::insertModeSequenceTemplate(const ModeSequenceTemplate& modeSe
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) { // lowerBoundTime = -1 upperBoundTime = 1
-  auto& eventTimes = modeSchedule_.eventTimes; // evenTimes: 2.0 
-  auto& modeSequence = modeSchedule_.modeSequence; // modeSequence: STANCE STANCE
+/**
+ * 1. eventTimes = 2.0, modeSequence: STANCE STANCE
+ * 2. eventTimes = 2.0 6.0, modeSequence: STANCE STANCE STANCE
+ * 3. currenttime = 2.0 lowerBoundTime = 1.0 upperBoundTime = 3.0 => eventTimes = 6.0, modeSequence: STANCE STANCE
+ * 4. 
+ */
+
+ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) { // currenttime = 2.0 lowerBoundTime = 1.0 upperBoundTime = 3.0
+  auto& eventTimes = modeSchedule_.eventTimes; // evenTimes: 2.0 6.0
+  auto& modeSequence = modeSchedule_.modeSequence; // modeSequence: STANCE STANCE STANCE
 
 
   const size_t index = std::lower_bound(eventTimes.begin(), eventTimes.end(), lowerBoundTime) - eventTimes.begin();
-  if (index > 0) {
-    // delete the old logic from index and set the default start phase to stance
-    eventTimes.erase(eventTimes.begin(), eventTimes.begin() + index - 1);  // keep the one before the last to make it stance
-    modeSequence.erase(modeSequence.begin(), modeSequence.begin() + index - 1);    
-    // set the default initial phase
-    modeSequence.front() = ModeNumber::STANCE;
+  if (index > 0) { // index =1
+    eventTimes.erase(eventTimes.begin(), eventTimes.begin() + index - 1);  // eventTimes: 6.0
+    modeSequence.erase(modeSequence.begin(), modeSequence.begin() + index - 1);  // modeSequence: STANCE STANCE
+    modeSequence.front() = ModeNumber::STANCE; // modeSequence: STANCE STANCE STANCE
   }
-  // Start tiling at time
-  const auto tilingStartTime = eventTimes.empty() ? upperBoundTime : eventTimes.back(); // eventTimes = 2.0
-  // delete the last default stance phase
+  const auto tilingStartTime = eventTimes.empty() ? upperBoundTime : eventTimes.back(); // tilingStartTime = 6.0
   eventTimes.erase(eventTimes.end() - 1, eventTimes.end()); // eventTimes: Nan
   modeSequence.erase(modeSequence.end() - 1, modeSequence.end()); // modeSequence: STANCE
 
-  tileModeSequenceTemplate(tilingStartTime, upperBoundTime); // tilingStartTime = 2.0, upperBoundTime = 1.0
-  return modeSchedule_;// eventTimes = 2, modeSequence: STANCE STANCE
+  tileModeSequenceTemplate(tilingStartTime, upperBoundTime); // tilingStartTime = 6.0, upperBoundTime = 3.0
+  return modeSchedule_;// eventTimes = 6.0, modeSequence: STANCE STANCE
 }
 
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTime) { // 2.0 1.0
+void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTime) { // startTime =6.0 finalTime = 3.0
   auto& eventTimes = modeSchedule_.eventTimes; // eventTimes = Nan 
   auto& modeSequence = modeSchedule_.modeSequence;// modeSequence: STANCE
   const auto& templateTimes = modeSequenceTemplate_.switchingTimes;// templateTimes: 0.0 4.0
@@ -122,13 +125,13 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
   }
 
   // add a initial time
-  eventTimes.push_back(startTime); // eventTimes:2.0
+  eventTimes.push_back(startTime); // eventTimes:6.0
   
   while (eventTimes.back() < finalTime) {
-    for (size_t i = 0; i < templateModeSequence.size(); i++) {
-      modeSequence.push_back(templateModeSequence[i]);
-      scalar_t deltaTime = templateTimes[i + 1] - templateTimes[i];
-      eventTimes.push_back(eventTimes.back() + deltaTime);
+    for (size_t i = 0; i < templateModeSequence.size(); i++) { // templateModeSequence.size = 1
+      modeSequence.push_back(templateModeSequence[i]); // modeSequence: STANCE STANCE
+      scalar_t deltaTime = templateTimes[i + 1] - templateTimes[i]; // deltaTime = 4s
+      eventTimes.push_back(eventTimes.back() + deltaTime); // evenTimes = 2.0 6.0
     }  // end of i loop
   }    // end of while loop
 
