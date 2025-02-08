@@ -138,6 +138,8 @@ scalar_t SwingTrajectoryPlanner::getYpositionConstraint(size_t leg, scalar_t tim
 
 void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t initTime, scalar_t terrainHeight, feet_array_t<scalar_array_t> currentEePosition, const TargetTrajectories& targetTrajectories, const vector_t& state) {
   const scalar_array_t terrainHeightSequence(modeSchedule.modeSequence.size(), terrainHeight); // terrainHeightSequence(4, 0)
+
+  
   feet_array_t<scalar_array_t> liftOffHeightSequence; // liftOffHeightSequence(4, vector)
   liftOffHeightSequence.fill(terrainHeightSequence); // liftOffHeightSequence(4, vector(4,0)), -leg1(mode(terrain)):15(0) 11(0) 15(0) 15(0); -leg2:15(0) 11(0) 15(0) 15(0); -leg3:15(0) 11(0) 15(0) 15(0); -leg4:15(0) 11(0) 15(0) 15(0)
   feet_array_t<scalar_array_t> touchDownHeightSequence;
@@ -161,8 +163,35 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
                                                                                      modeSchedule.modeAtTime(initTime))); // currentModeIndex = 1
     int CurrentSwingLegId = std::distance(initModeLegContactFlags.begin(),
                                           std::find(initModeLegContactFlags.begin(), initModeLegContactFlags.end(), false)); // CurrentSwingLegId =  LF_LH_RH, 2RF
-    const auto CurrentSwingLegContactFlags = extractContactFlags(modeSchedule.modeSequence)[CurrentSwingLegId]; // CurrentSwingLegContactFlags(4, vecotr(bool))
+    const auto CurrentSwingLegContactFlags = 
+    extractContactFlags(modeSchedule.modeSequence) // 
+    [CurrentSwingLegId]; // CurrentSwingLegContactFlags(4, vecotr(bool))
 
+    std::cout << "modeSchedule.modeSequence.size() = " << modeSchedule.modeSequence.size() << std::endl;
+
+    if (modeSchedule.modeSequence.size() == 4)
+    {
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << "initModeLegContactFlags = " ;
+      for (size_t i = 0; i < initModeLegContactFlags.size(); i++)
+      {
+        std::cout << initModeLegContactFlags[i] << " ";
+      }
+      std::cout << std::endl;
+
+      std::cout << "currentModeIndex = " << currentModeIndex << std::endl;
+
+      for (size_t i = 0; i < CurrentSwingLegContactFlags.size(); i++)
+      {
+        std::cout << "leg " << i << " contactflags = " << CurrentSwingLegContactFlags[i] << std::endl;
+      }
+      std::cout << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+      
+    }
 
     // find the startTime and finalTime indices (e.g. eventTimes[startTimeIndex]) for swing lift off and touch down times
     int startTimeIndex = 0;
