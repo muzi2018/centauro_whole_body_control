@@ -70,101 +70,22 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
                                                      TargetTrajectories& targetTrajectories, ModeSchedule& modeSchedule) {
   
   const auto timeHorizon = finalTime - initTime;
-  std::cout << "#===========================#" << std::endl;
-  std::cout << "finalTime = " << finalTime << std::endl;
-  std::cout << "initTime = " << initTime << std::endl;
-  // TODO: if I increase the final time it can be useful for planning motion and contact switch later
-  // std::cout << "************    foot gait   ***********" << std::endl;
-    //   std::cout << "************    foot gait   ***********" << std::endl;
-    // std::cout << "planning initTime: " << initTime << std::endl;
-    // std::cout << "planning finalTime: " << finalTime << std::endl << std::endl;
-  if ( 0 ){
-    /* code */
-    std::cout << "************    foot gait   ***********" << std::endl;
-    std::cout << "planning initTime: " << initTime << std::endl;
-    std::cout << "planning finalTime: " << finalTime << std::endl << std::endl;
-    std::cout << "-: enter getModeSchedule(scalar_t lowerBoundTime, scalar_t upperBoundTime) " << std::endl;
-  }
-
-    // std::cout << "timeHorizon: " << timeHorizon << std::endl;
-  
-
   modeSchedule = gaitSchedulePtr_->getModeSchedule(initTime - timeHorizon, finalTime + timeHorizon);
-  // std::cout << "initTime: " << initTime - timeHorizon << std::endl;
-  // std::cout << "finalTime: " << finalTime + timeHorizon << std::endl;
-  // std::cout << "timeHorizon: " << timeHorizon << std::endl;
-
   const auto& modeSequence = modeSchedule.modeSequence;
-  // std::cout << "modeSequence has size " << modeSequence.size() << std::endl;
-    // Print the contents of the vector
-    // std::cout << "modeSequence: ";
-    // for (size_t value : modeSequence) {
-    //     std::cout << value << " ";
-    // }
-    // std::cout << std::endl;
-
-
-
-    //modeSequence: 15 11 15 7 15 13 15 14 15
-    std::vector<size_t> modeSequence_buff = {15, 11, 15, 7, 15, 13, 15, 14, 15};
-    // for (size_t& value : modeSequence) {
-    //     value *= 2; // Example modification: double each element
-    // }
-
-
-
-  //  15 15 15 11 15 7 15 13 15 14 15 15 
-  // for (size_t i = 0; i < modeSequence.size(); i++)
-  // {
-  //   std::cout << "modeSequence [" << i << "]: " << modeSequence[i] << std::endl;
-  // }
-  // std::cout << std::endl;
-
-
   const auto& eventTimes = modeSchedule.eventTimes;
-  // // if (eventTimes.back() == 6)
-  // // {
-    // std::cout << "eventTimes has size " << eventTimes.size() << std::endl;
-    // for (size_t i = 0; i < eventTimes.size(); i++)
-    // {
-    //   std::cout << "eventTimes [" << i << "]: " << eventTimes[i] << std::endl;
-    // }
-    // std::cout << std::endl;
-  // // }
-  
-
-
-
   const scalar_t terrainHeight = 0.00;
 
-  // Define eeCurrentPosition
   feet_array_t<scalar_array_t> eeCurrentPosition;
   arms_array_t<scalar_array_t> armEeCurrentPosition, armEeCurrentOrientation;
 
-
-
-
-  // Receive eeKinematicsPosition from Kinematics pointer objects
   for (int i = 0; i< eeKinematicsPtrArray_.size(); i++){
       auto eeKinematicsPosition = eeKinematicsPtrArray_.at(i)->getPosition(initState);      // get EE position at initial state
-      // std::cout << eeKinematicsPosition.size() << std::endl;
+      
       for (int j = 0; j < eeKinematicsPosition.size(); j++) {
-          // set values to eeCurrentPosition, from eigen::matrix to std::vector
-          // std::cout << eeKinematicsPosition.at(j).rows() << std::endl;
           eeCurrentPosition[i].assign(eeKinematicsPosition.at(j).data(),
                                     eeKinematicsPosition.at(j).data() + eeKinematicsPosition.at(j).rows() * eeKinematicsPosition.at(j).cols());
-          
-          // Debug
-//          std::cout << "[Yiannis] Contact position: " << eeKinematicsPosition.at(j).transpose() << std::endl;
       }
   }
-  // std::cout << "eeCurrentPosition1: " << eeCurrentPosition.size() << std::endl;
-  // std::cout << "eeCurrentPosition2: " << eeCurrentPosition[1].size() << std::endl;
-
-  // if (eventTimes.back() == 4){
-  //   std::cout << "initTime: " << initTime << std::endl;
-  //   std::cout << "terrainHeight: " << terrainHeight << std::endl;
-  // }
 
 
   swingTrajectoryPtr_->update(modeSchedule, initTime, terrainHeight, eeCurrentPosition, targetTrajectories, initState);  // pass the current ee position
