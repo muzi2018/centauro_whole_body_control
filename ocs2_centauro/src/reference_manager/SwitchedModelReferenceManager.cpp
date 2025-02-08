@@ -66,6 +66,11 @@ locoma_contact_flag_t SwitchedModelReferenceManager::getContactFlags(scalar_t ti
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
+
+/*
+  eeCurrentPosition : {foot1[x, y, z], foot2[x, y, z], foot3[x, y, z], foot4[x, y, z]}
+
+*/
 void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t finalTime, const vector_t& initState,
                                                      TargetTrajectories& targetTrajectories, ModeSchedule& modeSchedule) {
   
@@ -75,19 +80,19 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   const auto& eventTimes = modeSchedule.eventTimes;
   const scalar_t terrainHeight = 0.00;
 
-  feet_array_t<scalar_array_t> eeCurrentPosition;
+  feet_array_t<scalar_array_t> eeCurrentPosition; 
   arms_array_t<scalar_array_t> armEeCurrentPosition, armEeCurrentOrientation;
 
   for (int i = 0; i< eeKinematicsPtrArray_.size(); i++){
       auto eeKinematicsPosition = eeKinematicsPtrArray_.at(i)->getPosition(initState);      // get EE position at initial state
-      
+      // std::cout << "eeKinematicsPosition.size = " << eeKinematicsPosition[0].size()<< std::endl;
       for (int j = 0; j < eeKinematicsPosition.size(); j++) {
-          eeCurrentPosition[i].assign(eeKinematicsPosition.at(j).data(),
-                                    eeKinematicsPosition.at(j).data() + eeKinematicsPosition.at(j).rows() * eeKinematicsPosition.at(j).cols());
+          eeCurrentPosition[i].assign(eeKinematicsPosition.at(j).data(), eeKinematicsPosition.at(j).data() + eeKinematicsPosition.at(j).rows() * eeKinematicsPosition.at(j).cols());
       }
   }
 
-
+  /*
+  */
   swingTrajectoryPtr_->update(modeSchedule, initTime, terrainHeight, eeCurrentPosition, targetTrajectories, initState);  // pass the current ee position
   if (armSwingTrajectoryPtr_ != nullptr) {      // if arm trajectories have to be planned
       // receive current arm ee position
@@ -108,6 +113,7 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
       armSwingTrajectoryPtr_->update(modeSchedule, initTime, armEeCurrentPosition, armEeCurrentOrientation,
                                      {std::move(getFrameTargetTrajectories(0)), std::move(getFrameTargetTrajectories(1))});
   }
+
 }
 
 }  // namespace legged_robot

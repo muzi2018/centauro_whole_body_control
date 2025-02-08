@@ -99,20 +99,25 @@ ModeSchedule GaitSchedule::getModeSchedule(scalar_t lowerBoundTime, scalar_t upp
   auto& eventTimes = modeSchedule_.eventTimes; // evenTimes: 2.0
   auto& modeSequence = modeSchedule_.modeSequence; // modeSequence: STANCE STANCE
   
-  std::cout << "lowerBoundTime = " << lowerBoundTime << std::endl;
-  std::cout << "upperBoundTime = " << upperBoundTime << std::endl;
-  std::cout << "eventTimes =" ;
-  for (size_t i = 0; i < eventTimes.size(); i++)
+  if ( 0 )
   {
-    std::cout << eventTimes[i] << " " ;
+    std::cout << "lowerBoundTime = " << lowerBoundTime << std::endl;
+    std::cout << "upperBoundTime = " << upperBoundTime << std::endl;
+    std::cout << "eventTimes =" ;
+    for (size_t i = 0; i < eventTimes.size(); i++)
+    {
+      std::cout << eventTimes[i] << " " ;
+    }
+    std::cout << std::endl;
+    std::cout << "modeSequence =" ;
+    for (size_t i = 0; i < modeSequence.size(); i++)
+    {
+      std::cout << modeSequence[i] << " " ;
+    }
+    std::cout << std::endl;
   }
-  std::cout << std::endl;
-  std::cout << "modeSequence =" ;
-  for (size_t i = 0; i < modeSequence.size(); i++)
-  {
-    std::cout << modeSequence[i] << " " ;
-  }
-  std::cout << std::endl;
+  
+
 
 
 
