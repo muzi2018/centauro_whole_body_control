@@ -70,9 +70,32 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
                                                      TargetTrajectories& targetTrajectories, ModeSchedule& modeSchedule) {
   
   const auto timeHorizon = finalTime - initTime;
-  modeSchedule = gaitSchedulePtr_->getModeSchedule(initTime - timeHorizon, finalTime + timeHorizon);
+  modeSchedule = gaitSchedulePtr_->getModeSchedule(initTime, finalTime);
   const auto& modeSequence = modeSchedule.modeSequence;
   const auto& eventTimes = modeSchedule.eventTimes;
+
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+
+  std::cout << "=====================" << std::endl;
+  std::cout << "current time = " << initTime << std::endl;
+  std::cout << "final time = " << finalTime << std::endl;
+  std::cout << "=====================" << std::endl;
+
+  std::cout << "modeSequence & eventTimes " << std::endl;
+  for (size_t i = 0; i < modeSequence.size(); i++)
+  {
+    std::cout << modeSequence[i] << " ";
+  }
+  std::cout << std::endl;
+  for (size_t i = 0; i < eventTimes.size(); i++)
+  {
+    std::cout << eventTimes[i] << " ";
+  }
+  std::cout << std::endl;
+  
+
   const scalar_t terrainHeight = 0.00;
 
   feet_array_t<scalar_array_t> eeCurrentPosition;
