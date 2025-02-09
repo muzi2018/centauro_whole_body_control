@@ -6,3 +6,57 @@
 
 
 
+---------------------------------------
+*       current time =0         
+*       final time =1 
+*      *****--- | ------ 
+*           2       
+*  mode: STANCE    STANCE
+---------------------------------------
+
+
+Reach the end of timeline: Add 1 gaitSchedule
+---------------------------------------
+*       current time = 1.002         
+*       final time = 2.002 
+*      ---**** | ------ | ------ | ------ 
+*           2      2.8      3.6 
+*  mode: STANCE    RF      STANCE   STANCE
+---------------------------------------
+
+
+Reach the end of timeline: Add 1 gaitSchedule
+---------------------------------------
+*       current time = 2.606         
+*       final time = 3.606 
+*      ------ | ----*** | ****** | ------ | ------ | ------  
+*           2      2.8      3.6      4.4       5.2
+*  mode: STANCE    RF     STANCE      RF     STANCE    STANCE
+---------------------------------------
+
+
+Leave the first of timeline: delete 1 element of 1th gaitSchedule
+---------------------------------------
+*       current time = 2.812         
+*       final time = 3.812 
+*      ------ | ****** | ***--- | ------ | ------  
+*         2.8      3.6      4.4     5.2
+*  mode: STANCE   STANCE    RF     STANCE   STANCE
+---------------------------------------
+
+
+Leave the second of timeline: delete 1 element of 2th gaitSchedule
+---------------------------------------
+*       current time = 3.606         
+*       final time = 4.606 
+*      ------ | ****** | ***--- | ------  
+*         3.6      4.4     5.2
+*  mode: STANCE    RF     STANCE   STANCE
+---------------------------------------
+
+
+
+
+
+
+
