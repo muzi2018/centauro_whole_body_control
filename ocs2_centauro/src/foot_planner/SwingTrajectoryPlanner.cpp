@@ -513,16 +513,11 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule,
 
       // **********  high
         const scalar_t scaling = swingTrajectoryScaling(swingStartTime, swingFinalTime, config_.swingTimeScale);
-        // std::cout << "[SwingTrajectoryPlanner::update] scaling = " << scaling << std::endl;
         const CubicSpline::Node liftOff{swingStartTime, liftOffHeightSequence[j][p], scaling * config_.liftOffVelocity};
         const CubicSpline::Node touchDown{swingFinalTime, touchDownHeightSequence[j][p], scaling * config_.touchDownVelocity};
         const scalar_t midHeight = std::min(liftOffHeightSequence[j][p], touchDownHeightSequence[j][p]) + scaling * config_.swingHeight;
-        // std::cout << "[SwingTrajectoryPlanner::update] = " << liftOffHeightSequence[j][p] << std::endl;
-
-
-
-
         const CubicSpline::Node midSwingVertical{(liftOff.time + touchDown.time) / 2, midHeight, 3 * (touchDown.position - liftOff.position) / (touchDown.time - liftOff.time)};
+        
         // std::cout << "liftOffLong.time = " << liftOff.time << std::endl;
         // std::cout << "touchDownLong.time = " << touchDown.time << std::endl;
 
