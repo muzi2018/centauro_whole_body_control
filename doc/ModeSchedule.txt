@@ -57,6 +57,51 @@ Leave the second of timeline: delete 1 element of 2th gaitSchedule
 
 
 
+=========================================================================================================
+Reach the end of timeline: Add 1 gaitSchedule
+---------------------------------------
+*       current time = 2.606         
+*       final time = 3.606 
+*      ------ | ----*** | ****** | ------ | ------ | ------  
+*           2      2.8      3.6      4.4       5.2
+*  mode: STANCE    RF     STANCE      RF     STANCE    STANCE
+---------------------------------------
 
+liftOffHeightSequence : 
+leg 0 :0 0 0 0 0 0 
+leg 1 :0 0 0 0 0 0 
+leg 2 :0 0 0 0 0 0 
+leg 3 :0 0 0 0 0 0 
+touchDownHeightSequence : 
+leg 0 :0 0 0 0 0 0 
+leg 1 :0 0 0 0 0 0 
+leg 2 :0 0 0 0 0 0 
+leg 3 :0 0 0 0 0 0 
 
+initMode = 11
+initModeLegContactFlags :
+1 0 1 1
+currentModelIndex = 1
+currentSwingLegId = 1
+CurrentSwingLeg ContactFlags: 1 0 1 0 1 1  
+startTimeIndex: 0
+finalTimeIndex: 1
+startTime: 2
+lastStanceLongPosition = 0.351258
+lastStanceLateralPosition = -0.350586
+targetEePosition : 
+leg 0 :0.352256 0.348318 -3.24644e-05 
+leg 1 :0.451258 -0.350586 0.0696543 
+leg 2 :-0.346586 0.348579 -0.000137902 
+leg 3 :-0.346845 -0.350966 -7.7913e-05 
+liftOffLongitudinalSequence :
+leg 0 0.352256  0.352256  0.352256  0.352256  0.352256  0.352256 
+leg 1 0.351258  0.351258  0.351258  0.351258  0.351258  0.351258 
+leg 2 -0.346586  -0.346586  -0.346586  -0.346586  -0.346586  -0.346586 
+leg 3 -0.346845  -0.346845  -0.346845  -0.346845  -0.346845  -0.346845 
 
+touchDownLongitudinalSequence :  
+leg 0 0.352256  0.352256  0.352256  0.352256  0.352256  0.352256 
+leg 1 0.351258  0.451258  0.351258  0.451258  0.351258  0.351258 
+leg 2 -0.346586  -0.346586  -0.346586  -0.346586  -0.346586  -0.346586 
+leg 3 -0.346845  -0.346845  -0.346845  -0.346845  -0.346845  -0.346845 

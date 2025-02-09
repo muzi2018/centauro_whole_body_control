@@ -24,7 +24,7 @@ model_settings
 ; #######################################
 swing_trajectory_config
 {
-  addPlanarConstraints          false   ; true for exact steps or false
+  addPlanarConstraints          true   ; true for exact steps or false
 
   liftOffVelocity               0.0
   touchDownVelocity             -0.0
