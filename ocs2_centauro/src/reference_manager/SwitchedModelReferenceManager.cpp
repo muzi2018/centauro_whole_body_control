@@ -74,30 +74,30 @@ void SwitchedModelReferenceManager::modifyReferences(scalar_t initTime, scalar_t
   const auto& modeSequence = modeSchedule.modeSequence;
   const auto& eventTimes = modeSchedule.eventTimes;
 
-  if (initTime >= 2.600 && initTime <= 2.610)
-  {
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
+  // if (initTime >= 2.600 && initTime <= 2.610)
+  // {
+  //   std::cout << std::endl;
+  //   std::cout << std::endl;
+  //   std::cout << std::endl;
 
-    std::cout << "=====================" << std::endl;
-    std::cout << "current time = " << initTime << std::endl;
-    std::cout << "final time = " << finalTime << std::endl;
-    std::cout << "=====================" << std::endl;
+  //   std::cout << "=====================" << std::endl;
+  //   std::cout << "current time = " << initTime << std::endl;
+  //   std::cout << "final time = " << finalTime << std::endl;
+  //   std::cout << "=====================" << std::endl;
 
-    std::cout << "modeSequence & eventTimes " << std::endl;
-    for (size_t i = 0; i < modeSequence.size(); i++)
-    {
-      std::cout << modeSequence[i] << " ";
-    }
-    std::cout << std::endl;
-    for (size_t i = 0; i < eventTimes.size(); i++)
-    {
-      std::cout << eventTimes[i] << " ";
-    }
-    std::cout << std::endl;
+  //   std::cout << "modeSequence & eventTimes " << std::endl;
+  //   for (size_t i = 0; i < modeSequence.size(); i++)
+  //   {
+  //     std::cout << modeSequence[i] << " ";
+  //   }
+  //   std::cout << std::endl;
+  //   for (size_t i = 0; i < eventTimes.size(); i++)
+  //   {
+  //     std::cout << eventTimes[i] << " ";
+  //   }
+  //   std::cout << std::endl;
 
-  }
+  // }
   
 
   const scalar_t terrainHeight = 0.00;
