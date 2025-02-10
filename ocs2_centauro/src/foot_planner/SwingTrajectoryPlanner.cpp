@@ -177,6 +177,17 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule, scalar_t i
   
   feet_array_t<scalar_array_t> targetEePosition = currentEePosition;
 
+  std::cout << " currentEePosition " << std::endl;
+  for (size_t i = 0; i < currentEePosition.size(); i++)
+  {
+    std::cout << "the leg" << i << " ";
+    for (size_t j = 0; j < currentEePosition[i].size(); j++)
+    {
+      std::cout << currentEePosition[i][j] << " " << std::endl;
+    }
+    std::cout << std::endl;
+  }
+  
 
 
   // Find mode at initTime
@@ -517,7 +528,7 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule,
         const CubicSpline::Node touchDown{swingFinalTime, touchDownHeightSequence[j][p], scaling * config_.touchDownVelocity};
         const scalar_t midHeight = std::min(liftOffHeightSequence[j][p], touchDownHeightSequence[j][p]) + scaling * config_.swingHeight;
         const CubicSpline::Node midSwingVertical{(liftOff.time + touchDown.time) / 2, midHeight, 3 * (touchDown.position - liftOff.position) / (touchDown.time - liftOff.time)};
-        
+
         // std::cout << "liftOffLong.time = " << liftOff.time << std::endl;
         // std::cout << "touchDownLong.time = " << touchDown.time << std::endl;
 
