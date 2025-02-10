@@ -129,12 +129,12 @@ void GaitSchedule::tileModeSequenceTemplate(scalar_t startTime, scalar_t finalTi
 
   templateModeSequence.push_back(ModeNumber::LF_LH_RH); // LF_LH_RF_RH
   templateModeSequence.push_back(ModeNumber::STANCE); // templateModeSequence: 
-  templateModeSequence.push_back(ModeNumber::RF_LH_RH);
-  templateModeSequence.push_back(ModeNumber::STANCE); // templateModeSequence: 
-  templateModeSequence.push_back(ModeNumber::LF_RF_LH);
-  templateModeSequence.push_back(ModeNumber::STANCE); // templateModeSequence: 
-  templateModeSequence.push_back(ModeNumber::LF_RF_RH);
-  templateModeSequence.push_back(ModeNumber::STANCE); // templateModeSequence: 
+  // templateModeSequence.push_back(ModeNumber::RF_LH_RH);
+  // templateModeSequence.push_back(ModeNumber::STANCE); // templateModeSequence: 
+  // templateModeSequence.push_back(ModeNumber::LF_RF_LH);
+  // templateModeSequence.push_back(ModeNumber::STANCE); // templateModeSequence: 
+  // templateModeSequence.push_back(ModeNumber::LF_RF_RH);
+  // templateModeSequence.push_back(ModeNumber::STANCE); // templateModeSequence: 
 
 
   if (!eventTimes.empty() && startTime <= eventTimes.back()) {

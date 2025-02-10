@@ -520,11 +520,13 @@ void SwingTrajectoryPlanner::update(const ModeSchedule& modeSchedule,
       for (int p = 0; p < modeSequence.size(); ++p) {    // loop over mode sequence of the end effector j, p is equal to mode 1
 
         if (!eesContactFlagStocks[j][p]) {  // if end effector is a swing leg at current mode, the leg 1 in mode 1
-          if (j == 0 && p == LF_LH_RH)
+          if ( j == 1 )
           {
             std::cout << "#### change the terrain height ####" << std::endl;
             terrain_height_cover = 0.05 ;
           }
+          // std::cout << "j = " << j << std::endl;
+          // std::cout << "p = " << p << std::endl;
           std::cout << " terrain_height_cover = " << terrain_height_cover << std::endl;
           const int swingStartIndex = startTimesIndices[j][p];
           const int swingFinalIndex = finalTimesIndices[j][p];
